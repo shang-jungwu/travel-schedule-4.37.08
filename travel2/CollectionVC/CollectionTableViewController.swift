@@ -11,7 +11,7 @@ import UniformTypeIdentifiers
 class CollectionTableViewController: UITableViewController {
 
     var cities = [String]()
-    var myCollections = [userSchedules]()
+    var myCollections = [userSchedule]()
     var userCollectionList = [Schedule]()
 
     override func viewDidLoad() {
@@ -20,8 +20,9 @@ class CollectionTableViewController: UITableViewController {
         tableView.dragDelegate = self
         tableView.dropDelegate = self
         fetchCharacter()
-
+        navigationItem.title = "我的收藏"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(dismissSelf))
+        navigationController?.navigationBar.backgroundColor = UIColor(red: 108/255, green: 168/255, blue: 156/255, alpha: 1)
 
         let customSchedule = storyboard?.instantiateViewController(withIdentifier: "addCustomScheduleVC") as! CustomSheetViewController
         customSchedule.collectionVC = self
@@ -49,8 +50,8 @@ class CollectionTableViewController: UITableViewController {
                         self.cities = try decoder.decode([String].self, from: data)
                         self.cities.shuffle()
 
-                        for i in 0...9 {
-                            myCollections.append(userSchedules(name: cities[i]))
+                        for i in 0...49 {
+                            myCollections.append(userSchedule(name: cities[i]))
                         }
                         userCollectionList.append(Schedule(schedule: myCollections))
 

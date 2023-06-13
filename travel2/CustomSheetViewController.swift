@@ -35,10 +35,10 @@ class CustomSheetViewController: UIViewController {
         if self.placeName.text! != "" {
             let alert = UIAlertController(title: nil, message: "是否同步新增至我的收藏？", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "是", style: .default) { [self] alertAction in
-                scheduleVC.schedules[buttonTag].schedule.append(userSchedules(name: placeName.text!))
+                scheduleVC.schedules[buttonTag].schedule.append(userSchedule(name: placeName.text!))
 //                let collectionController = storyboard?.instantiateViewController(withIdentifier: "CollectionSheetVC") as! CollectionTableViewController
 //                collectionController.myCollections.append(Monster(name: placeName.text!))
-                collectionVC.myCollections.append(userSchedules(name: placeName.text!))
+                collectionVC.myCollections.append(userSchedule(name: placeName.text!))
                 scheduleVC.tableView.reloadData()
                 collectionVC.tableView.reloadData()
                 print("collectionController.myCollections:", collectionVC.myCollections)
@@ -46,7 +46,7 @@ class CustomSheetViewController: UIViewController {
 
             }
             let noAction = UIAlertAction(title: "否", style: .destructive) { [self] action in
-                scheduleVC.schedules[buttonTag].schedule.append(userSchedules(name: placeName.text!))
+                scheduleVC.schedules[buttonTag].schedule.append(userSchedule(name: placeName.text!))
                 scheduleVC.tableView.reloadData()
                 self.dismiss(animated: true) // enter後收起頁面
 

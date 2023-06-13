@@ -9,15 +9,15 @@ import Foundation
 
 struct Schedule: Codable{
     var date: String // Date
-    var schedule:[userSchedules]
+    var schedule:[userSchedule]
 
-    init(date: String = Date.getYYYYMMDD(date: .now), schedule:[userSchedules] = [userSchedules]()){
+    init(date: String = Date.getYYYYMMDD(date: .now), schedule:[userSchedule] = [userSchedule]()){
         self.date = date
         self.schedule = schedule
     }
 }
 
-struct userSchedules: Codable {
+struct userSchedule: Codable {
     var name: String
     var time: String // Date
 

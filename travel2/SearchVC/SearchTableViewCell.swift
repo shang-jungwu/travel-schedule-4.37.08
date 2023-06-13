@@ -9,6 +9,13 @@ import UIKit
 
 class SearchTableViewCell: UITableViewCell {
 
+    
+    @IBOutlet weak var placeImageView: UIImageView!
+    @IBOutlet weak var placeNameLbl: UILabel!
+    @IBOutlet weak var placeAddressLbL: UILabel!
+    @IBOutlet weak var heartBtn: UIButton!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

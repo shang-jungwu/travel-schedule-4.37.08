@@ -1,13 +1,13 @@
 //
-//  SearchViewController.swift
+//  SearchStartViewController.swift
 //  travel2
 //
-//  Created by 吳宗祐 on 2023/5/31.
+//  Created by WuShangJung on 2023/6/13.
 //
 
 import UIKit
 
-class SearchViewController: UIViewController {
+class SearchStartViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
