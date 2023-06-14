@@ -99,8 +99,6 @@ class ScheduleTableViewController: UITableViewController {
     @IBAction func datePickerTapped(_ sender: UIDatePicker) {
 
             print("press date picker")
-        
-       
     }
     
     
