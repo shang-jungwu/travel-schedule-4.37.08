@@ -32,6 +32,7 @@
                                             <locale key="locale" localeIdentifier="zh_TW"/>
                                             <connections>
                                                 <action selector="dateChange:" destination="m15-VV-Vg5" eventType="valueChanged" id="vNm-C9-Y1Z"/>
+                                                <action selector="datePickerTapped:" destination="m15-VV-Vg5" eventType="touchUpInside" id="deC-Ih-3S3"/>
                                             </connections>
                                         </datePicker>
                                     </subviews>
@@ -94,21 +95,18 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="aRc-Zs-m9m"/>
-                    <connections>
-                        <segue destination="eyz-Fw-Q7j" kind="presentation" identifier="showCollectionSheet" destinationCreationSelector="showCollectionSheet:" id="Z3x-Bt-ZdP"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UxL-Xq-OTC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="jgE-3F-nP4"/>
             </objects>
-            <point key="canvasLocation" x="2671" y="-837"/>
+            <point key="canvasLocation" x="2324" y="-485"/>
         </scene>
         <!--Collection Table View Controller-->
         <scene sceneID="vOG-rG-gDd">
             <objects>
                 <tableViewController storyboardIdentifier="CollectionSheetVC" id="sko-9H-LzR" customClass="CollectionTableViewController" customModule="travel2" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="30" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" springLoaded="YES" id="VuD-8q-9vh">
-                        <rect key="frame" x="0.0" y="0.0" width="428" height="916"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
@@ -149,12 +147,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tTT-wj-J9b" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2313.0841121495328" y="-1529.1576673866091"/>
+            <point key="canvasLocation" x="2153" y="-1276"/>
         </scene>
         <!--自定義目的地-->
         <scene sceneID="ZEc-w1-ZKr">
             <objects>
-                <viewController storyboardIdentifier="addCustomScheduleVC" id="eua-Z9-CY6" customClass="CustomSheetViewController" customModule="travel2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CustomSheetViewController" id="eua-Z9-CY6" customClass="CustomSheetViewController" customModule="travel2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Mff-UE-8Ma">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -223,7 +221,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9ey-yk-hBl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3504.6728971962616" y="-1529.1576673866091"/>
+            <point key="canvasLocation" x="3137" y="-1276"/>
         </scene>
         <!--Collection-->
         <scene sceneID="wp2-vy-fn9">
@@ -233,7 +231,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="WZc-4z-LS8"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="izC-LU-cOx">
-                        <rect key="frame" x="0.0" y="0.0" width="428" height="56"/>
+                        <rect key="frame" x="0.0" y="47" width="428" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -243,7 +241,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G69-Zc-eKX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1529" y="-1529"/>
+            <point key="canvasLocation" x="1368" y="-1276"/>
         </scene>
         <!--Search Start View Controller-->
         <scene sceneID="rlI-49-s5d">
@@ -280,7 +278,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bg2-JB-szl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2864.0186915887848" y="-75.161987041036724"/>
+            <point key="canvasLocation" x="2357" y="249"/>
         </scene>
         <!--Search Table View Controller-->
         <scene sceneID="y6E-u0-CDX">
@@ -359,7 +357,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Oz2-Vd-AJE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3678.5046728971961" y="-75.161987041036724"/>
+            <point key="canvasLocation" x="3171" y="249"/>
         </scene>
         <!--Schedule-->
         <scene sceneID="pkg-kT-Jal">
@@ -378,7 +376,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SuR-KV-aml" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1922" y="-837"/>
+            <point key="canvasLocation" x="1576" y="-485"/>
         </scene>
         <!--Search-->
         <scene sceneID="lsi-lo-2Ve">
@@ -397,7 +395,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NfG-nM-rge" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1964.018691588785" y="-75.161987041036724"/>
+            <point key="canvasLocation" x="1457" y="249"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="uLM-jN-MM8">
@@ -420,9 +418,6 @@
             <point key="canvasLocation" x="631" y="-485"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="Z3x-Bt-ZdP"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <image name="bookmark" catalog="system" width="110" height="128"/>
         <image name="calendar.badge.plus" catalog="system" width="128" height="108"/>

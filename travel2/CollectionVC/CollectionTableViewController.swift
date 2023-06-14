@@ -24,7 +24,7 @@ class CollectionTableViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(dismissSelf))
         navigationController?.navigationBar.backgroundColor = UIColor(red: 108/255, green: 168/255, blue: 156/255, alpha: 1)
 
-        let customSchedule = storyboard?.instantiateViewController(withIdentifier: "addCustomScheduleVC") as! CustomSheetViewController
+        let customSchedule = storyboard?.instantiateViewController(withIdentifier: "CustomSheetViewController") as! CustomSheetViewController
         customSchedule.collectionVC = self
 
     }

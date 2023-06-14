@@ -15,9 +15,9 @@ class ScheduleTableViewController: UITableViewController {
     lazy var schedules = [Schedule]()
     var addScheduleButton: UIButton!
     var addButtonTag = 0
-    let datePicker = UIDatePicker()
+    let datePickerInAlertSheet = UIDatePicker()
     var sectionDatePickerTag = 0
-    
+    let formatter = DateFormatter()
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -40,17 +40,19 @@ class ScheduleTableViewController: UITableViewController {
         // Nav rightBarButton
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "calendar.badge.plus"), style: .plain, target: self, action: #selector(addDate))
         navigationItem.rightBarButtonItem?.tintColor = .white
+        
+       
     }
 
     @objc func addDate() {
-        datePicker.preferredDatePickerStyle = .compact
-        datePicker.datePickerMode = .date
+        datePickerInAlertSheet.preferredDatePickerStyle = .compact
+        datePickerInAlertSheet.datePickerMode = .date
         let alert = UIAlertController(title: "Choose a Date", message: nil, preferredStyle: .actionSheet)
-        alert.view.addSubview(datePicker)
-        datePicker.translatesAutoresizingMaskIntoConstraints = false
-        datePicker.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: 0).isActive = true
-        datePicker.bottomAnchor.constraint(equalTo: alert.view.bottomAnchor, constant: -100).isActive = true
-        datePicker.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor).isActive = true
+        alert.view.addSubview(datePickerInAlertSheet)
+        datePickerInAlertSheet.translatesAutoresizingMaskIntoConstraints = false
+        datePickerInAlertSheet.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: 0).isActive = true
+        datePickerInAlertSheet.bottomAnchor.constraint(equalTo: alert.view.bottomAnchor, constant: -100).isActive = true
+        datePickerInAlertSheet.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor).isActive = true
         
         let okAction = UIAlertAction(title: "Add", style: .default) { _ in
             self.selectDate()
@@ -65,18 +67,57 @@ class ScheduleTableViewController: UITableViewController {
         alert.view.addConstraint(height)
         // https://stackoverflow.com/questions/25780599/add-datepicker-in-uiactionsheet-using-swift
         
-        self.present(alert, animated: true)
+      
+    
+            self.present(alert, animated: true)
+
+        
+        
+        
     }
 
-    
+    //MARK: - 自訂函式
+    // 選擇日期
     func selectDate() {
-        let selectedDate = datePicker.date
-        let formatter = DateFormatter()
+        let selectedDate = datePickerInAlertSheet.date
+        //let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
         let date = formatter.string(from: selectedDate)
         schedules.append(Schedule(date: date))
         self.tableView.reloadData()
     }
+    
+    // 更改日期 value change
+    @IBAction func dateChange(_ sender: UIDatePicker) {
+        //let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        schedules[sender.tag].date = formatter.string(from: sender.date)
+        print(schedules[sender.tag])
+        self.tableView.reloadData()
+    }
+    
+    @IBAction func datePickerTapped(_ sender: UIDatePicker) {
+
+            print("press date picker")
+        
+       
+    }
+    
+    
+    
+    // 更改時間 value change
+    @IBAction func timeChange(_ sender: UIDatePicker) {
+        let point = sender.convert(CGPoint.zero, to: tableView)
+        let indexPath = tableView.indexPathForRow(at: point)!
+        print(sender.date)
+        //let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        schedules[indexPath.section].schedule[indexPath.row].time = formatter.string(from: sender.date)
+        print(schedules[indexPath.section].schedule[indexPath.row])
+        self.tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+
+
     
     func fetchCharacter() {
         let urlString =  "https://raw.githubusercontent.com/shang-jungwu/json/main/pokemon.json"
@@ -105,39 +146,36 @@ class ScheduleTableViewController: UITableViewController {
             }.resume()
         }
     }
-   
 
-    @IBSegueAction func showCollectionSheet(_ coder: NSCoder) -> UINavigationController? {
-        let controller = UINavigationController(coder: coder)
-        controller!.navigationBar.backgroundColor = .systemTeal
-        if let sheetPresentationController = controller?.sheetPresentationController{
+    // 呼叫 bottom sheet
+    func presentCollectionSheet() {
+        let collectionController = storyboard?.instantiateViewController(identifier: "CollectionSheetVC") as! CollectionTableViewController
+        let navController = UINavigationController(rootViewController: collectionController)
+        navController.modalPresentationStyle = .pageSheet
+        if let sheetPresentationController = navController.sheetPresentationController {
             sheetPresentationController.prefersGrabberVisible = true
             sheetPresentationController.largestUndimmedDetentIdentifier = .medium
+            sheetPresentationController.detents = [.medium(), .large()]
             sheetPresentationController .preferredCornerRadius = 25
-            sheetPresentationController.detents = [.medium()]
-        }
-        return controller
+            }
+        self.present(navController, animated: true, completion: nil)
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        
     }
-
-    @IBAction func timeChange(_ sender: UIDatePicker) {
-        let point = sender.convert(CGPoint.zero, to: tableView)
-        let indexPath = tableView.indexPathForRow(at: point)!
-        print(sender.date)
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        schedules[indexPath.section].schedule[indexPath.row].time = formatter.string(from: sender.date)
-        print(schedules[indexPath.section].schedule[indexPath.row])
-        self.tableView.reloadRows(at: [indexPath], with: .automatic)
-
+    
+    func presentCustomScheduleSheet() {
+        let customScheduleController = storyboard?.instantiateViewController(withIdentifier: "CustomSheetViewController") as! CustomSheetViewController
+        customScheduleController.scheduleVC = self
+        let navigationController = UINavigationController(rootViewController: customScheduleController)
+        let sheetPresentationController = navigationController.sheetPresentationController
+        sheetPresentationController?.detents = [.medium()]
+        sheetPresentationController?.largestUndimmedDetentIdentifier = .medium
+        sheetPresentationController?.prefersGrabberVisible = true
+        sheetPresentationController?.preferredCornerRadius = 25
+        self.present(navigationController, animated: true)
     }
-
-    @IBAction func dateChange(_ sender: UIDatePicker) {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyyMMdd"
-        schedules[sender.tag].date = formatter.string(from: sender.date)
-        print(schedules[sender.tag].date)
-        self.tableView.reloadData()
-    }
+    
+   
     
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -152,7 +190,7 @@ class ScheduleTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleTableViewCell", for: indexPath) as! ScheduleTableViewCell
         cell.scheduleLabel.text =  schedules[indexPath.section].schedule[indexPath.row].name
         cell.timePicker.datePickerMode = .time
-        let formatter = DateFormatter()
+        //let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
         cell.timePicker.date = formatter.date(from: schedules[indexPath.section].schedule[indexPath.row].time)!
         cell.backgroundColor = UIColor(red: 214/255, green: 231/255, blue: 242/255, alpha: 1)
@@ -172,7 +210,7 @@ class ScheduleTableViewController: UITableViewController {
         cell.datePicker.backgroundColor = UIColor(red: 232/255, green: 150/255, blue: 182/255, alpha: 1)
         cell.datePicker.tag = section
         cell.datePicker.becomeFirstResponder()
-        let formatter = DateFormatter()
+        //let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
         cell.datePicker.date = formatter.date(from: schedules[section].date)!
         cell.contentView.layer.cornerRadius = 10
@@ -184,24 +222,12 @@ class ScheduleTableViewController: UITableViewController {
         addScheduleButton.showsMenuAsPrimaryAction = true
         addScheduleButton.menu = UIMenu(children: [
             UIAction(title: "Collection", handler: { [self] action in
-                let collectionController = storyboard?.instantiateViewController(withIdentifier: "CollectionSheetVC") as! CollectionTableViewController
-                collectionController.tableView.reloadData()
-                
-                self.performSegue(withIdentifier: "showCollectionSheet", sender: nil)
+                presentCollectionSheet()
             }),
-            UIAction(title: "Cutsom Destination", handler: { action in
+            UIAction(title: "Cutsom Destination", handler: { [self] action in
                 self.addButtonTag = section
-                if let customController = self.storyboard?.instantiateViewController(withIdentifier: "addCustomScheduleVC") as? CustomSheetViewController {
-                    customController.scheduleVC = self
-                    customController.buttonTag = self.addButtonTag
-                    let navigationController = UINavigationController(rootViewController: customController)
-                    let sheetPresentationController = navigationController.sheetPresentationController
-                    sheetPresentationController?.detents = [.medium()]
-                    sheetPresentationController?.largestUndimmedDetentIdentifier = .medium
-                    sheetPresentationController?.prefersGrabberVisible = true
-                    sheetPresentationController?.preferredCornerRadius = 25
-                    self.present(navigationController, animated: true)
-                }
+                presentCustomScheduleSheet()
+
             }),
             UIAction(title: "Delete Date", handler: { [self] action in
                 let alert = UIAlertController(title: "確定刪除所選日期？", message: nil, preferredStyle: .alert)

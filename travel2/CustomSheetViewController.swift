@@ -11,7 +11,7 @@ class CustomSheetViewController: UIViewController {
 
     weak var scheduleVC: ScheduleTableViewController!
     weak var collectionVC: CollectionTableViewController!
-    var buttonTag = 0
+    //var buttonTag = 0
     
     @IBOutlet weak var placeName: UITextField!
     @IBOutlet weak var placeAddress: UITextField!
@@ -23,21 +23,18 @@ class CustomSheetViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(dismissSelf))
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        print("Will Appear", buttonTag)
-    }
 
     @objc func dismissSelf(){
         dismiss(animated: true)
+        //scheduleVC.navigationItem.rightBarButtonItem?.isEnabled = true
+        
     }
 
     @IBAction func addCustomSchedule(_ sender: Any) {
         if self.placeName.text! != "" {
             let alert = UIAlertController(title: nil, message: "是否同步新增至我的收藏？", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "是", style: .default) { [self] alertAction in
-                scheduleVC.schedules[buttonTag].schedule.append(userSchedule(name: placeName.text!))
-//                let collectionController = storyboard?.instantiateViewController(withIdentifier: "CollectionSheetVC") as! CollectionTableViewController
-//                collectionController.myCollections.append(Monster(name: placeName.text!))
+                scheduleVC.schedules[scheduleVC.addButtonTag].schedule.append(userSchedule(name: placeName.text!))
                 collectionVC.myCollections.append(userSchedule(name: placeName.text!))
                 scheduleVC.tableView.reloadData()
                 collectionVC.tableView.reloadData()
@@ -46,7 +43,7 @@ class CustomSheetViewController: UIViewController {
 
             }
             let noAction = UIAlertAction(title: "否", style: .destructive) { [self] action in
-                scheduleVC.schedules[buttonTag].schedule.append(userSchedule(name: placeName.text!))
+                scheduleVC.schedules[scheduleVC.addButtonTag].schedule.append(userSchedule(name: placeName.text!))
                 scheduleVC.tableView.reloadData()
                 self.dismiss(animated: true) // enter後收起頁面
 
