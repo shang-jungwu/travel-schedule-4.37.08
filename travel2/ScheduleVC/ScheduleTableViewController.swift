@@ -45,25 +45,26 @@ class ScheduleTableViewController: UITableViewController {
     }
 
     @objc func addDate() {
-        datePickerInAlertSheet.preferredDatePickerStyle = .compact
+        datePickerInAlertSheet.preferredDatePickerStyle = .inline
         datePickerInAlertSheet.datePickerMode = .date
+        //datePickerInAlertSheet.backgroundColor = .systemIndigo
         let alert = UIAlertController(title: "Choose a Date", message: nil, preferredStyle: .actionSheet)
         alert.view.addSubview(datePickerInAlertSheet)
+        // 定位
         datePickerInAlertSheet.translatesAutoresizingMaskIntoConstraints = false
-        datePickerInAlertSheet.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: 0).isActive = true
-        datePickerInAlertSheet.bottomAnchor.constraint(equalTo: alert.view.bottomAnchor, constant: -100).isActive = true
+        datePickerInAlertSheet.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: alert.view.frame.height * 0.05).isActive = true
         datePickerInAlertSheet.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor).isActive = true
-        
+        datePickerInAlertSheet.widthAnchor.constraint(equalToConstant: alert.view.frame.width * 0.85).isActive = true
+
         let okAction = UIAlertAction(title: "Add", style: .default) { _ in
             self.selectDate()
             self.tableView.reloadData()
-            print(self.schedules)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         alert.addAction(okAction)
         alert.addAction(cancelAction)
-        
-        let height: NSLayoutConstraint = NSLayoutConstraint(item: alert.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 220)
+
+        let height: NSLayoutConstraint = NSLayoutConstraint(item: alert.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: self.view.frame.height * 0.6)
         alert.view.addConstraint(height)
         // https://stackoverflow.com/questions/25780599/add-datepicker-in-uiactionsheet-using-swift
         
