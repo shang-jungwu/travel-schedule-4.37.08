@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchTableViewCell: UITableViewCell {
+class SearchResultTableViewCell: UITableViewCell {
 
     
     @IBOutlet weak var placeImageView: UIImageView!

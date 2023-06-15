@@ -7,50 +7,17 @@
 
 import UIKit
 
-class SearchTableViewController: UITableViewController {
+class SearchResultTableViewController: UITableViewController {
     
-    var cities = [String]()
     var searchResult = [userSchedule]()
-    
-    //MARK: -
-    func fetchCharacter() {
-        let urlString =  "https://raw.githubusercontent.com/shang-jungwu/json/main/pokemon.json"
-        if let url = URL(string: urlString){
-            URLSession.shared.dataTask(with: url) { [self] data, response, error in
-               
-                if let data = data{
-                    let decoder = JSONDecoder()
-                    do {
-                        self.cities = try decoder.decode([String].self, from: data)
-                        self.cities.shuffle()
-
-                        for i in 0...49 {
-                            searchResult.append(userSchedule(name: cities[i]))
-                        }
-                        
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                           
-                        }
-                    } catch  {
-                        print(error)
-                    }
- 
-                }
-            }.resume()
-        }
-    }
     
     //MARK: - View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchCharacter()
-       
+        navigationController?.navigationBar.isHidden = false
+
     }
 
-    
-    
-    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -65,7 +32,7 @@ class SearchTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchTableViewCell", for: indexPath) as! SearchTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultTableViewCell", for: indexPath) as! SearchResultTableViewCell
         cell.placeNameLbl.text = searchResult[indexPath.row].name
 
     

@@ -22,6 +22,7 @@ class ScheduleTableViewController: UITableViewController {
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // 代理人
         tableView.dragInteractionEnabled = true
         tableView.dragDelegate = self
@@ -30,7 +31,8 @@ class ScheduleTableViewController: UITableViewController {
         fetchCharacter()
         // Nav
         navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.backgroundColor = UIColor(red: 0/255, green: 49/255, blue: 83/255, alpha: 1)
+        navigationController?.navigationBar.backgroundColor = UIColor(red: 44/255, green: 54/255, blue: 57/255, alpha: 1)
+//        navigationController?.navigationBar.backgroundColor = UIColor(red: 87/255, green: 111/255, blue: 114/255, alpha: 1)
         // Nav title
         let titleLabel = UILabel()
         titleLabel.text = "我的行程"
@@ -64,17 +66,12 @@ class ScheduleTableViewController: UITableViewController {
         alert.addAction(okAction)
         alert.addAction(cancelAction)
 
-        let height: NSLayoutConstraint = NSLayoutConstraint(item: alert.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: self.view.frame.height * 0.6)
+        let height: NSLayoutConstraint = NSLayoutConstraint(item: alert.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: self.view.frame.height * 0.57)
         alert.view.addConstraint(height)
         // https://stackoverflow.com/questions/25780599/add-datepicker-in-uiactionsheet-using-swift
-        
-      
-    
-            self.present(alert, animated: true)
 
-        
-        
-        
+            self.present(alert, animated: true)
+   
     }
 
     //MARK: - 自訂函式
@@ -101,7 +98,6 @@ class ScheduleTableViewController: UITableViewController {
 
             print("press date picker")
     }
-    
     
     
     // 更改時間 value change
@@ -151,6 +147,7 @@ class ScheduleTableViewController: UITableViewController {
         let collectionController = storyboard?.instantiateViewController(identifier: "CollectionSheetVC") as! CollectionTableViewController
         let navController = UINavigationController(rootViewController: collectionController)
         navController.modalPresentationStyle = .pageSheet
+        navController.navigationItem.rightBarButtonItem?.isHidden = false
         if let sheetPresentationController = navController.sheetPresentationController {
             sheetPresentationController.prefersGrabberVisible = true
             sheetPresentationController.largestUndimmedDetentIdentifier = .medium
@@ -158,7 +155,6 @@ class ScheduleTableViewController: UITableViewController {
             sheetPresentationController .preferredCornerRadius = 25
             }
         self.present(navController, animated: true, completion: nil)
-        navigationItem.rightBarButtonItem?.isEnabled = false
         
     }
     
@@ -192,8 +188,9 @@ class ScheduleTableViewController: UITableViewController {
         //let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
         cell.timePicker.date = formatter.date(from: schedules[indexPath.section].schedule[indexPath.row].time)!
-        cell.backgroundColor = UIColor(red: 214/255, green: 231/255, blue: 242/255, alpha: 1)
-        cell.layer.cornerRadius = 5
+        //cell.backgroundColor = UIColor(red: 220/255, green: 215/255, blue: 201/255, alpha: 1)
+        cell.backgroundColor = UIColor(red: 240/255, green: 235/255, blue: 227/255, alpha: 1)
+
 
         return cell
     }
@@ -205,30 +202,34 @@ class ScheduleTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SectionHeaderTableViewCell") as! SectionHeaderTableViewCell
-        cell.contentView.backgroundColor = UIColor(red: 232/255, green: 150/255, blue: 182/255, alpha: 1)
-        cell.datePicker.backgroundColor = UIColor(red: 232/255, green: 150/255, blue: 182/255, alpha: 1)
+        cell.contentView.backgroundColor = UIColor(red: 63/255, green: 78/255, blue: 79/255, alpha: 1)
+//        cell.contentView.backgroundColor = UIColor(red: 125/255, green: 157/255, blue: 156/255, alpha: 1)
+        cell.datePicker.translatesAutoresizingMaskIntoConstraints = false
+        cell.datePicker.centerYAnchor.constraint(equalToSystemSpacingBelow: cell.contentView.centerYAnchor, multiplier: 1).isActive = true
+        cell.datePicker.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 10).isActive = true
+        cell.datePicker.overrideUserInterfaceStyle = .dark
         cell.datePicker.tag = section
-        cell.datePicker.becomeFirstResponder()
-        //let formatter = DateFormatter()
+
         formatter.dateFormat = "yyyyMMdd"
         cell.datePicker.date = formatter.date(from: schedules[section].date)!
-        cell.contentView.layer.cornerRadius = 10
+
         addScheduleButton = UIButton(type: .system)
         addScheduleButton.tag = section
-        addScheduleButton.frame = CGRect(x: cell.contentView.frame.maxX - 80, y: 0, width: 50, height: 50)
+        addScheduleButton.frame = CGRect(x: cell.contentView.frame.maxX - 60, y: 0, width: 50, height: 50)
+       
         addScheduleButton.setImage(UIImage(systemName: "line.horizontal.3"), for: .normal)
-        addScheduleButton.tintColor = .gray
+        addScheduleButton.tintColor = .white
         addScheduleButton.showsMenuAsPrimaryAction = true
         addScheduleButton.menu = UIMenu(children: [
-            UIAction(title: "Collection", handler: { [self] action in
+            UIAction(title: "我的收藏", handler: { [self] action in
                 presentCollectionSheet()
             }),
-            UIAction(title: "Cutsom Destination", handler: { [self] action in
+            UIAction(title: "新增自訂目的地", handler: { [self] action in
                 self.addButtonTag = section
                 presentCustomScheduleSheet()
 
             }),
-            UIAction(title: "Delete Date", handler: { [self] action in
+            UIAction(title: "刪除所選日期", handler: { [self] action in
                 let alert = UIAlertController(title: "確定刪除所選日期？", message: nil, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "取消", style: .cancel))
                 alert.addAction(UIAlertAction(title: "確定", style: .destructive, handler: { [self] action in
@@ -236,7 +237,6 @@ class ScheduleTableViewController: UITableViewController {
                     tableView.reloadData()
                 }))
                 self.present(alert, animated: true)
-                print("刪除date to do")
             })
         ])
         cell.contentView.addSubview(addScheduleButton)
@@ -247,10 +247,11 @@ class ScheduleTableViewController: UITableViewController {
     // footer
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = UIView()
-        footerView.backgroundColor = UIColor(red: 232/255, green: 150/255, blue: 182/255, alpha: 0.5)
-        footerView.layer.cornerRadius = 5
+        footerView.backgroundColor = UIColor(red: 240/255, green: 235/255, blue: 227/255, alpha: 1)
+        
         return footerView
     }
+    
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         20
     }

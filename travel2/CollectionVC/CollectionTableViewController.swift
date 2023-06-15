@@ -16,16 +16,18 @@ class CollectionTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dragInteractionEnabled = true
+               tableView.dragInteractionEnabled = true
         tableView.dragDelegate = self
         tableView.dropDelegate = self
         fetchCharacter()
-        navigationItem.title = "我的收藏"
+        navigationItem.title = "我的收藏 (\(myCollections.count))"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(dismissSelf))
-        navigationController?.navigationBar.backgroundColor = UIColor(red: 108/255, green: 168/255, blue: 156/255, alpha: 1)
+        navigationController?.navigationBar.backgroundColor = UIColor(red: 162/255, green: 123/255, blue: 92/255, alpha: 1)
+        navigationItem.rightBarButtonItem?.isHidden = true
 
         let customSchedule = storyboard?.instantiateViewController(withIdentifier: "CustomSheetViewController") as! CustomSheetViewController
         customSchedule.collectionVC = self
+        
 
     }
     
@@ -34,7 +36,7 @@ class CollectionTableViewController: UITableViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        print("myCollections:",myCollections)
+        print("myCollections:", myCollections)
 
         self.tableView.reloadData()
     }
@@ -43,26 +45,24 @@ class CollectionTableViewController: UITableViewController {
         let urlString =  "https://raw.githubusercontent.com/shang-jungwu/json/main/pokemon.json"
         if let url = URL(string: urlString){
             URLSession.shared.dataTask(with: url) { [self] data, response, error in
-               
                 if let data = data{
                     let decoder = JSONDecoder()
                     do {
                         self.cities = try decoder.decode([String].self, from: data)
                         self.cities.shuffle()
 
-                        for i in 0...49 {
+                        for i in 0...(cities.count - 1) {
                             myCollections.append(userSchedule(name: cities[i]))
                         }
                         userCollectionList.append(Schedule(schedule: myCollections))
 
-                        DispatchQueue.main.async {
+                        DispatchQueue.main.async { [self] in
+                            self.navigationItem.title = "我的收藏 (\(myCollections.count))"
                             self.tableView.reloadData()
-                           
                         }
                     } catch  {
                         print(error)
                     }
- 
                 }
             }.resume()
         }
@@ -83,9 +83,20 @@ class CollectionTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CollectionTableViewCell", for: indexPath) as! CollectionTableViewCell
         cell.collectionLbl.text = myCollections[indexPath.row].name
+        cell.backgroundColor = .white
         return cell
     }
     
+    // 滑動刪除
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        myCollections.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+        "刪除"
+    }
+
 
     /*
     // Override to support conditional editing of the table view.

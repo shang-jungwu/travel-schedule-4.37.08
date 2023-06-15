@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hfQ-lU-HdG">
     <device id="retina6_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -24,11 +23,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="428" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="1Ro-wg-Ib9">
-                                            <rect key="frame" x="0.0" y="0.0" width="200" height="50"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="200" id="2Dy-WM-uyv"/>
-                                            </constraints>
+                                        <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="1Ro-wg-Ib9">
+                                            <rect key="frame" x="0.0" y="15.666666666666668" width="200" height="34.333333333333329"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <locale key="locale" localeIdentifier="zh_TW"/>
                                             <connections>
                                                 <action selector="dateChange:" destination="m15-VV-Vg5" eventType="valueChanged" id="vNm-C9-Y1Z"/>
@@ -36,11 +33,6 @@
                                             </connections>
                                         </datePicker>
                                     </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="1Ro-wg-Ib9" secondAttribute="bottom" id="F3d-9Q-ld1"/>
-                                        <constraint firstItem="1Ro-wg-Ib9" firstAttribute="leading" secondItem="zIJ-1h-DU1" secondAttribute="leading" id="J0t-F3-km2"/>
-                                        <constraint firstItem="1Ro-wg-Ib9" firstAttribute="top" secondItem="zIJ-1h-DU1" secondAttribute="top" id="iHs-ky-nOC"/>
-                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="datePicker" destination="1Ro-wg-Ib9" id="2Ee-dI-okk"/>
@@ -99,7 +91,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UxL-Xq-OTC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="jgE-3F-nP4"/>
             </objects>
-            <point key="canvasLocation" x="2324" y="-485"/>
+            <point key="canvasLocation" x="2452" y="-485"/>
         </scene>
         <!--Collection Table View Controller-->
         <scene sceneID="vOG-rG-gDd">
@@ -251,45 +243,144 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sun.haze" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="kSp-3y-JB8">
-                                <rect key="frame" x="94" y="86.333333333333258" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AWR-WZ-qBG">
-                                <rect key="frame" x="0.0" y="243" width="428" height="162"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            </pickerView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Scw-sl-CLV">
-                                <rect key="frame" x="94" y="689" width="193" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="gray" image="calendar.badge.plus" catalog="system" title="Search">
-                                    <fontDescription key="titleFontDescription" type="system" pointSize="30"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <segue destination="B1i-SA-AdW" kind="presentation" id="bPe-LA-9SM"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Jws-6e-Mj9" userLabel="按鈕">
+                                <rect key="frame" x="98.333333333333329" y="445.66666666666669" width="231.33333333333337" height="38"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r59-CQ-pzI">
+                                        <rect key="frame" x="0.0" y="0.0" width="105.66666666666667" height="38"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="gray" title="全部瀏覽">
+                                            <fontDescription key="titleFontDescription" type="system" pointSize="20"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="viewAllButton:" destination="YEg-EI-6sZ" eventType="touchUpInside" id="emk-XG-0Id"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Scw-sl-CLV">
+                                        <rect key="frame" x="125.66666666666666" y="0.0" width="105.66666666666666" height="38"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="gray" title="區域搜尋">
+                                            <fontDescription key="titleFontDescription" type="system" pointSize="20"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="keyWordSearchButton:" destination="YEg-EI-6sZ" eventType="touchUpInside" id="JUg-yF-IsD"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="44" translatesAutoresizingMaskIntoConstraints="NO" id="Xjp-sN-ODA" userLabel="搜尋欄位">
+                                <rect key="frame" x="32" y="191" width="364" height="184.66666666666663"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="JBT-ZF-rXE" userLabel="區域搜尋">
+                                        <rect key="frame" x="0.0" y="0.0" width="364" height="70.333333333333329"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="區域搜尋" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wKq-mY-r7x">
+                                                <rect key="frame" x="0.0" y="0.0" width="364" height="26.333333333333332"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="-45" translatesAutoresizingMaskIntoConstraints="NO" id="rRz-NQ-iUL">
+                                                <rect key="frame" x="0.0" y="34.333333333333343" width="364" height="36"/>
+                                                <subviews>
+                                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="點按選擇行政區" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VOY-Tb-KSG">
+                                                        <rect key="frame" x="0.0" y="0.0" width="359.33333333333331" height="36"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="didEndOnExit:" destination="YEg-EI-6sZ" eventType="editingDidEnd" id="cmq-4e-dRX"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gOZ-kz-Edq">
+                                                        <rect key="frame" x="314.33333333333331" y="0.0" width="49.666666666666686" height="36"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="plain" image="xmark.circle" catalog="system"/>
+                                                        <connections>
+                                                            <action selector="deleteButton:" destination="YEg-EI-6sZ" eventType="touchUpInside" id="bHi-mD-yHl"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ZKJ-O5-Die" userLabel="關鍵字搜尋">
+                                        <rect key="frame" x="0.0" y="114.33333333333331" width="364" height="70.333333333333314"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="關鍵字搜尋" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Q2-z2-hsW">
+                                                <rect key="frame" x="0.0" y="0.0" width="364" height="26.333333333333332"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="-45" translatesAutoresizingMaskIntoConstraints="NO" id="MbC-dr-RqX">
+                                                <rect key="frame" x="0.0" y="34.333333333333371" width="364" height="36"/>
+                                                <subviews>
+                                                    <textField opaque="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="直接輸入關鍵字" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2yT-tb-Sqp">
+                                                        <rect key="frame" x="0.0" y="0.0" width="359.33333333333331" height="36"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" smartInsertDeleteType="no"/>
+                                                        <connections>
+                                                            <action selector="didEndOnExit:" destination="YEg-EI-6sZ" eventType="editingDidEnd" id="WGp-NZ-fjX"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GQR-TP-rlm">
+                                                        <rect key="frame" x="314.33333333333331" y="0.0" width="49.666666666666686" height="36"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="plain" image="xmark.circle" catalog="system"/>
+                                                        <connections>
+                                                            <action selector="deleteButton:" destination="YEg-EI-6sZ" eventType="touchUpInside" id="TuG-0J-hO3"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="JBT-ZF-rXE" firstAttribute="width" secondItem="Xjp-sN-ODA" secondAttribute="width" id="7Nx-iI-8cQ"/>
+                                    <constraint firstItem="ZKJ-O5-Die" firstAttribute="width" secondItem="Xjp-sN-ODA" secondAttribute="width" id="dxl-zF-a9b"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="kKb-1q-GSi"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="Jws-6e-Mj9" firstAttribute="centerX" secondItem="p81-wp-QVc" secondAttribute="centerX" id="MDl-2S-tx4"/>
+                            <constraint firstItem="Jws-6e-Mj9" firstAttribute="top" secondItem="Xjp-sN-ODA" secondAttribute="bottom" constant="70" id="WST-T3-1TE"/>
+                            <constraint firstItem="Xjp-sN-ODA" firstAttribute="centerX" secondItem="p81-wp-QVc" secondAttribute="centerX" id="eEL-VW-tId"/>
+                            <constraint firstItem="Xjp-sN-ODA" firstAttribute="top" secondItem="kKb-1q-GSi" secondAttribute="top" constant="100" id="h2I-YQ-wvH"/>
+                            <constraint firstItem="Xjp-sN-ODA" firstAttribute="width" secondItem="kKb-1q-GSi" secondAttribute="width" multiplier="0.85" id="x5v-W5-CA3"/>
+                        </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="dz7-yz-dqm" appends="YES" id="QTa-wd-1Te"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="f60-Uj-KjQ"/>
+                    <connections>
+                        <outlet property="txtDistrict" destination="VOY-Tb-KSG" id="Amk-gP-zLO"/>
+                        <outlet property="txtKeyWord" destination="2yT-tb-Sqp" id="Fk2-Hz-t21"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bg2-JB-szl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="dz7-yz-dqm">
+                    <connections>
+                        <action selector="viewClick:" destination="YEg-EI-6sZ" id="dPZ-dg-UL5"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2357" y="249"/>
+            <point key="canvasLocation" x="2356.5420560747662" y="248.81209503239742"/>
         </scene>
-        <!--Search Table View Controller-->
+        <!--Search Result Table View Controller-->
         <scene sceneID="y6E-u0-CDX">
             <objects>
-                <tableViewController id="B1i-SA-AdW" customClass="SearchTableViewController" customModule="travel2" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SearchResultTableViewController" id="B1i-SA-AdW" customClass="SearchResultTableViewController" customModule="travel2" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="150" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="RHE-rM-5vS">
-                        <rect key="frame" x="0.0" y="0.0" width="428" height="916"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchTableViewCell" rowHeight="141" id="sPj-E8-irx" customClass="SearchTableViewCell" customModule="travel2" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchResultTableViewCell" rowHeight="141" id="sPj-E8-irx" customClass="SearchResultTableViewCell" customModule="travel2" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="50" width="428" height="141"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sPj-E8-irx" id="rs3-D6-FNE">
@@ -354,6 +445,7 @@
                             <outlet property="delegate" destination="B1i-SA-AdW" id="MBQ-EJ-HUL"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="t3C-Le-wsK"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Oz2-Vd-AJE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -376,7 +468,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SuR-KV-aml" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1576" y="-485"/>
+            <point key="canvasLocation" x="1609" y="-485"/>
         </scene>
         <!--Search-->
         <scene sceneID="lsi-lo-2Ve">
@@ -420,11 +512,10 @@
     </scenes>
     <resources>
         <image name="bookmark" catalog="system" width="110" height="128"/>
-        <image name="calendar.badge.plus" catalog="system" width="128" height="108"/>
         <image name="heart" catalog="system" width="128" height="107"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="square.and.pencil" catalog="system" width="128" height="113"/>
-        <image name="sun.haze" catalog="system" width="128" height="118"/>
+        <image name="xmark.circle" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
