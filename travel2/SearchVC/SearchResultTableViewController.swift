@@ -9,7 +9,24 @@ import UIKit
 
 class SearchResultTableViewController: UITableViewController {
     
-    var searchResult = [userSchedule]()
+    var searchResultCulturalCenter = [CulturalCenterAndRestaurant]()
+    var searchResultHotel = [Hotel]()
+    var searchRestaurant = [CulturalCenterAndRestaurant]()
+    
+    //MARK: - Target Action
+    
+    @IBAction func categorySeg(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            ""
+        case 1:
+            ""
+        case 2:
+            ""
+        default:
+            break
+        }
+    }
     
     //MARK: - View LifeCycle
     override func viewDidLoad() {
@@ -27,13 +44,13 @@ class SearchResultTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
       
-        return searchResult.count
+        return 0//searchResult.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultTableViewCell", for: indexPath) as! SearchResultTableViewCell
-        cell.placeNameLbl.text = searchResult[indexPath.row].name
+       // cell.placeNameLbl.text = searchResult[indexPath.row].name
 
     
         return cell

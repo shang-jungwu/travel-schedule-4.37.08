@@ -243,48 +243,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Jws-6e-Mj9" userLabel="按鈕">
-                                <rect key="frame" x="98.333333333333329" y="445.66666666666669" width="231.33333333333337" height="38"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="lgt-QB-51w">
+                                <rect key="frame" x="75" y="120.99999999999999" width="278" height="136.66666666666663"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r59-CQ-pzI">
-                                        <rect key="frame" x="0.0" y="0.0" width="105.66666666666667" height="38"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="gray" title="全部瀏覽">
-                                            <fontDescription key="titleFontDescription" type="system" pointSize="20"/>
-                                        </buttonConfiguration>
-                                        <connections>
-                                            <action selector="viewAllButton:" destination="YEg-EI-6sZ" eventType="touchUpInside" id="emk-XG-0Id"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Scw-sl-CLV">
-                                        <rect key="frame" x="125.66666666666666" y="0.0" width="105.66666666666666" height="38"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="gray" title="區域搜尋">
-                                            <fontDescription key="titleFontDescription" type="system" pointSize="20"/>
-                                        </buttonConfiguration>
-                                        <connections>
-                                            <action selector="keyWordSearchButton:" destination="YEg-EI-6sZ" eventType="touchUpInside" id="JUg-yF-IsD"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="44" translatesAutoresizingMaskIntoConstraints="NO" id="Xjp-sN-ODA" userLabel="搜尋欄位">
-                                <rect key="frame" x="32" y="191" width="364" height="184.66666666666663"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="JBT-ZF-rXE" userLabel="區域搜尋">
-                                        <rect key="frame" x="0.0" y="0.0" width="364" height="70.333333333333329"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="JBT-ZF-rXE" userLabel="區域搜尋">
+                                        <rect key="frame" x="0.0" y="0.0" width="278" height="82.333333333333329"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="區域搜尋" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wKq-mY-r7x">
-                                                <rect key="frame" x="0.0" y="0.0" width="364" height="26.333333333333332"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分區檢索" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wKq-mY-r7x">
+                                                <rect key="frame" x="0.0" y="0.0" width="278" height="26.333333333333332"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="-45" translatesAutoresizingMaskIntoConstraints="NO" id="rRz-NQ-iUL">
-                                                <rect key="frame" x="0.0" y="34.333333333333343" width="364" height="36"/>
+                                                <rect key="frame" x="0.0" y="46.333333333333343" width="278" height="36"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="點按選擇行政區" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VOY-Tb-KSG">
-                                                        <rect key="frame" x="0.0" y="0.0" width="359.33333333333331" height="36"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="273.33333333333331" height="36"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
@@ -292,7 +267,8 @@
                                                         </connections>
                                                     </textField>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gOZ-kz-Edq">
-                                                        <rect key="frame" x="314.33333333333331" y="0.0" width="49.666666666666686" height="36"/>
+                                                        <rect key="frame" x="228.33333333333331" y="0.0" width="49.666666666666686" height="36"/>
+                                                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="plain" image="xmark.circle" catalog="system"/>
                                                         <connections>
@@ -303,20 +279,33 @@
                                             </stackView>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ZKJ-O5-Die" userLabel="關鍵字搜尋">
-                                        <rect key="frame" x="0.0" y="114.33333333333331" width="364" height="70.333333333333314"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Scw-sl-CLV">
+                                        <rect key="frame" x="114.33333333333336" y="102.33333333333334" width="49.666666666666671" height="34.333333333333343"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="gray" image="magnifyingglass" catalog="system" title=""/>
+                                        <connections>
+                                            <action selector="districtSearch:" destination="YEg-EI-6sZ" eventType="touchUpInside" id="M8F-0x-0PF"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="ujf-Qw-Gno">
+                                <rect key="frame" x="75" y="317.66666666666669" width="278" height="136.66666666666669"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="ZKJ-O5-Die" userLabel="關鍵字搜尋">
+                                        <rect key="frame" x="0.0" y="0.0" width="278" height="82.333333333333329"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="關鍵字搜尋" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Q2-z2-hsW">
-                                                <rect key="frame" x="0.0" y="0.0" width="364" height="26.333333333333332"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="278" height="26.333333333333332"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="-45" translatesAutoresizingMaskIntoConstraints="NO" id="MbC-dr-RqX">
-                                                <rect key="frame" x="0.0" y="34.333333333333371" width="364" height="36"/>
+                                                <rect key="frame" x="0.0" y="46.333333333333314" width="278" height="36"/>
                                                 <subviews>
                                                     <textField opaque="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="直接輸入關鍵字" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2yT-tb-Sqp">
-                                                        <rect key="frame" x="0.0" y="0.0" width="359.33333333333331" height="36"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="273.33333333333331" height="36"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" smartInsertDeleteType="no"/>
                                                         <connections>
@@ -324,7 +313,8 @@
                                                         </connections>
                                                     </textField>
                                                     <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GQR-TP-rlm">
-                                                        <rect key="frame" x="314.33333333333331" y="0.0" width="49.666666666666686" height="36"/>
+                                                        <rect key="frame" x="228.33333333333331" y="0.0" width="49.666666666666686" height="36"/>
+                                                        <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="plain" image="xmark.circle" catalog="system"/>
                                                         <connections>
@@ -335,22 +325,39 @@
                                             </stackView>
                                         </subviews>
                                     </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KDE-3U-mjN">
+                                        <rect key="frame" x="114.33333333333336" y="102.33333333333331" width="49.666666666666671" height="34.333333333333343"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="gray" image="magnifyingglass" catalog="system"/>
+                                        <connections>
+                                            <action selector="keyWordSearchButton:" destination="YEg-EI-6sZ" eventType="touchUpInside" id="bzX-PS-83m"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="JBT-ZF-rXE" firstAttribute="width" secondItem="Xjp-sN-ODA" secondAttribute="width" id="7Nx-iI-8cQ"/>
-                                    <constraint firstItem="ZKJ-O5-Die" firstAttribute="width" secondItem="Xjp-sN-ODA" secondAttribute="width" id="dxl-zF-a9b"/>
-                                </constraints>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GTz-ER-CL1">
+                                <rect key="frame" x="161.33333333333334" y="514.33333333333337" width="105.66666666666666" height="38"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="gray" title="全部瀏覽">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="20"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="viewAllButton:" destination="YEg-EI-6sZ" eventType="touchUpInside" id="JOb-xw-1dV"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="kKb-1q-GSi"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="Jws-6e-Mj9" firstAttribute="centerX" secondItem="p81-wp-QVc" secondAttribute="centerX" id="MDl-2S-tx4"/>
-                            <constraint firstItem="Jws-6e-Mj9" firstAttribute="top" secondItem="Xjp-sN-ODA" secondAttribute="bottom" constant="70" id="WST-T3-1TE"/>
-                            <constraint firstItem="Xjp-sN-ODA" firstAttribute="centerX" secondItem="p81-wp-QVc" secondAttribute="centerX" id="eEL-VW-tId"/>
-                            <constraint firstItem="Xjp-sN-ODA" firstAttribute="top" secondItem="kKb-1q-GSi" secondAttribute="top" constant="100" id="h2I-YQ-wvH"/>
-                            <constraint firstItem="Xjp-sN-ODA" firstAttribute="width" secondItem="kKb-1q-GSi" secondAttribute="width" multiplier="0.85" id="x5v-W5-CA3"/>
+                            <constraint firstItem="JBT-ZF-rXE" firstAttribute="width" secondItem="kKb-1q-GSi" secondAttribute="width" multiplier="0.65" id="1NE-ee-r5H"/>
+                            <constraint firstItem="ujf-Qw-Gno" firstAttribute="top" secondItem="lgt-QB-51w" secondAttribute="bottom" constant="60" id="8ms-Ff-gDW"/>
+                            <constraint firstItem="lgt-QB-51w" firstAttribute="top" secondItem="kKb-1q-GSi" secondAttribute="top" constant="30" id="Nvw-NG-v8Q"/>
+                            <constraint firstItem="ZKJ-O5-Die" firstAttribute="width" secondItem="kKb-1q-GSi" secondAttribute="width" multiplier="0.65" id="OpM-mg-aPx"/>
+                            <constraint firstItem="GTz-ER-CL1" firstAttribute="centerX" secondItem="p81-wp-QVc" secondAttribute="centerX" id="SKj-IQ-Bhr"/>
+                            <constraint firstItem="ujf-Qw-Gno" firstAttribute="centerX" secondItem="p81-wp-QVc" secondAttribute="centerX" id="agk-i1-a2b"/>
+                            <constraint firstItem="GTz-ER-CL1" firstAttribute="top" secondItem="ujf-Qw-Gno" secondAttribute="bottom" constant="60" id="ijP-xQ-YYV"/>
+                            <constraint firstItem="lgt-QB-51w" firstAttribute="centerX" secondItem="p81-wp-QVc" secondAttribute="centerX" id="saV-cA-Dnr"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="dz7-yz-dqm" appends="YES" id="QTa-wd-1Te"/>
@@ -379,9 +386,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <segmentedControl key="tableHeaderView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="LuL-rk-BC3">
+                            <rect key="frame" x="0.0" y="0.0" width="428" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="景點"/>
+                                <segment title="住宿"/>
+                                <segment title="餐廳"/>
+                            </segments>
+                            <connections>
+                                <action selector="categorySeg:" destination="B1i-SA-AdW" eventType="valueChanged" id="xNK-NM-Jex"/>
+                            </connections>
+                        </segmentedControl>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchResultTableViewCell" rowHeight="141" id="sPj-E8-irx" customClass="SearchResultTableViewCell" customModule="travel2" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="50" width="428" height="141"/>
+                                <rect key="frame" x="0.0" y="82" width="428" height="141"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sPj-E8-irx" id="rs3-D6-FNE">
                                     <rect key="frame" x="0.0" y="0.0" width="428" height="141"/>

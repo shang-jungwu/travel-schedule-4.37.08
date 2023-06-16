@@ -21,7 +21,10 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
     ]
 
 
-    var allCulturalCenters = [CulturalCenter]()
+    var allCulturalCenters = [CulturalCenterAndRestaurant]()
+    var allRestaurants = [CulturalCenterAndRestaurant]()
+    var allHostels = [Hotel]()
+    
     
     //MARK: - Target Action
     @IBAction func viewClick(_ sender: UITapGestureRecognizer) {
@@ -33,10 +36,22 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
         // 只要拉好事件，不需執行任何程式、不用引入代理就可收起鍵盤
     }
     
-    @IBAction func viewAllButton(_ sender: UIButton) {
+
+    @IBAction func districtSearch(_ sender: UIButton) {
+        let resultController = storyboard?.instantiateViewController(withIdentifier: "SearchResultTableViewController") as! SearchResultTableViewController
+        resultController.searchResultCulturalCenter = allRestaurants.filter { $0.district == txtDistrict.text! }
+        
+        resultController.searchResultHotel = allHostels.filter { $0.district == txtDistrict.text! }
+        
+        resultController.searchRestaurant = allRestaurants.filter { $0.district == txtDistrict.text! }
+       
     }
     
     @IBAction func keyWordSearchButton(_ sender: UIButton) {
+    }
+    
+    
+    @IBAction func viewAllButton(_ sender: UIButton) {
     }
     
     @IBAction func deleteButton(_ sender: UIButton) {
@@ -60,7 +75,7 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
                 if let data = data{
                     let decoder = JSONDecoder()
                     do {
-                        self.allCulturalCenters = try decoder.decode([CulturalCenter].self, from: data)
+                        self.allCulturalCenters = try decoder.decode([CulturalCenterAndRestaurant].self, from: data)
                         DispatchQueue.main.async {
                             for i in 0..<self.allCulturalCenters.count {
                                // print(self.allCulturalCenters[i].name)
@@ -75,13 +90,64 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
 
     }
     
+    
+    func fetchRestaurants() {
+        let urlStr = "https://raw.githubusercontent.com/shang-jungwu/json/main/tainan_dining"
+        if let url = URL(string: urlStr) {
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data = data{
+                    let decoder = JSONDecoder()
+                    do {
+                        self.allRestaurants = try decoder.decode([CulturalCenterAndRestaurant].self, from: data)
+                        DispatchQueue.main.async {
+                            for i in 0..<self.allRestaurants.count {
+
+                                //print(self.allRestaurants[i].name)
+                            }
+                        }
+                    } catch  {
+                        print(error)
+                    }
+                }
+            }.resume()
+        }
+    }
+    
+    func fetchHotels() {
+        let urlStr = "https://raw.githubusercontent.com/shang-jungwu/json/main/tainan_hotel"
+        if let url = URL(string: urlStr) {
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data = data{
+                    let decoder = JSONDecoder()
+                    do {
+                        self.allHostels = try decoder.decode([Hotel].self, from: data)
+                        DispatchQueue.main.async {
+                            for i in 0..<self.allHostels.count {
+
+                                //print(self.allHostels[i].name)
+                            }
+                        }
+                    } catch  {
+                        print(error)
+                    }
+                }
+            }.resume()
+        }
+
+    }
+
+    
     //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.backgroundColor = UIColor(red: 87/255, green: 111/255, blue: 114/255, alpha: 1)
         navigationItem.title = "搜尋"
         navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.foregroundColor: UIColor.white]
+        
+        
         fetchPlaces()
+        fetchHotels()
+        fetchRestaurants()
         
         txtDistrict.delegate = self
         
