@@ -11,23 +11,20 @@ class CustomSheetViewController: UIViewController {
 
     weak var scheduleVC: ScheduleTableViewController!
     weak var collectionVC: CollectionTableViewController!
-    //var buttonTag = 0
-    
+       
     @IBOutlet weak var placeName: UITextField!
     @IBOutlet weak var placeAddress: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.backgroundColor = .systemYellow
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(dismissSelf))
+        navigationController?.navigationBar.backgroundColor = UIColor(red: 249/255, green: 197/255, blue: 85/255, alpha: 1)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(dismissVC))
     }
 
 
-    @objc func dismissSelf(){
+    @objc func dismissVC() {
         dismiss(animated: true)
-        //scheduleVC.navigationItem.rightBarButtonItem?.isEnabled = true
-        
     }
 
     @IBAction func addCustomSchedule(_ sender: Any) {

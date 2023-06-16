@@ -10,18 +10,30 @@ import UniformTypeIdentifiers
 
 class CollectionTableViewController: UITableViewController {
 
-    var cities = [String]()
+    @IBOutlet weak var segmentedController: UISegmentedControl!
+    
+    //var cities = [String]()
     var myCollections = [userSchedule]()
     var userCollectionList = [Schedule]()
 
+    var collPlace = [CulturalCenterAndRestaurant]()
+    var collHotel = [Hotel]()
+    var collRestaurant = [CulturalCenterAndRestaurant]()
+    var customPlace = [CulturalCenterAndRestaurant]()
+    
+    
+    @IBAction func categorySeg(_ sender: UISegmentedControl) {
+        self.tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
                tableView.dragInteractionEnabled = true
-        tableView.dragDelegate = self
-        tableView.dropDelegate = self
-        fetchCharacter()
+//        tableView.dragDelegate = self
+//        tableView.dropDelegate = self
+        // fetchCharacter()
         navigationItem.title = "我的收藏 (\(myCollections.count))"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(dismissSelf))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(dismissVC))
         navigationController?.navigationBar.backgroundColor = UIColor(red: 162/255, green: 123/255, blue: 92/255, alpha: 1)
         navigationItem.rightBarButtonItem?.isHidden = true
 
@@ -31,7 +43,7 @@ class CollectionTableViewController: UITableViewController {
 
     }
     
-    @objc func dismissSelf(){
+    @objc func dismissVC(){
         dismiss(animated: true)
     }
 
@@ -41,48 +53,60 @@ class CollectionTableViewController: UITableViewController {
         self.tableView.reloadData()
     }
 
-    func fetchCharacter() {
-        let urlString =  "https://raw.githubusercontent.com/shang-jungwu/json/main/pokemon.json"
-        if let url = URL(string: urlString){
-            URLSession.shared.dataTask(with: url) { [self] data, response, error in
-                if let data = data{
-                    let decoder = JSONDecoder()
-                    do {
-                        self.cities = try decoder.decode([String].self, from: data)
-                        self.cities.shuffle()
-
-                        for i in 0...(cities.count - 1) {
-                            myCollections.append(userSchedule(name: cities[i]))
-                        }
-                        userCollectionList.append(Schedule(schedule: myCollections))
-
-                        DispatchQueue.main.async { [self] in
-                            self.navigationItem.title = "我的收藏 (\(myCollections.count))"
-                            self.tableView.reloadData()
-                        }
-                    } catch  {
-                        print(error)
-                    }
-                }
-            }.resume()
-        }
-    }
+//    func fetchCharacter() {
+//        let urlString =  "https://raw.githubusercontent.com/shang-jungwu/json/main/pokemon.json"
+//        if let url = URL(string: urlString){
+//            URLSession.shared.dataTask(with: url) { [self] data, response, error in
+//                if let data = data{
+//                    let decoder = JSONDecoder()
+//                    do {
+//                        self.cities = try decoder.decode([String].self, from: data)
+//                        self.cities.shuffle()
+//
+//                        for i in 0...(cities.count - 1) {
+//                            myCollections.append(userSchedule(name: cities[i]))
+//                        }
+//                        userCollectionList.append(Schedule(schedule: myCollections))
+//
+//                        DispatchQueue.main.async { [self] in
+//                            self.navigationItem.title = "我的收藏 (\(myCollections.count))"
+//                            self.tableView.reloadData()
+//                        }
+//                    } catch  {
+//                        print(error)
+//                    }
+//                }
+//            }.resume()
+//        }
+//    }
     
     
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return userCollectionList.count
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return myCollections.count
+        switch segmentedController.selectedSegmentIndex {
+            case 0:
+                return collPlace.count
+            case 1:
+                return collHotel.count
+            case 2:
+                return collRestaurant.count
+            case 3:
+                return customPlace.count
+            default:
+                return 0
+        }
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "CollectionTableViewCell", for: indexPath) as! CollectionTableViewCell
-        cell.collectionLbl.text = myCollections[indexPath.row].name
+        cell.collectionLbl.text = collPlace[indexPath.row].name
         cell.backgroundColor = .white
         return cell
     }
@@ -145,67 +169,67 @@ class CollectionTableViewController: UITableViewController {
 
 }
 
-extension CollectionTableViewController: UITableViewDragDelegate, UITableViewDropDelegate{
-    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        let city = cities[indexPath.row]
-        let data = city.data(using: .utf8)
-        let itemProvider = NSItemProvider(item: NSData(data: data!), typeIdentifier: UTType.plainText.identifier)
-        let dragItem = UIDragItem(itemProvider: itemProvider)
-        session.localContext = (city, indexPath, tableView)
-        
-        return [dragItem]
-        
-    }
-    
-    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
-        if coordinator.session.hasItemsConforming(toTypeIdentifiers: [UTType.plainText.identifier as String]){
-            coordinator.session.loadObjects(ofClass: NSString.self) { (items) in
-                guard let string = items.first as? String else{ return }
-                var updatedIndexPaths = [IndexPath]()
-                switch (coordinator.items.first?.sourceIndexPath, coordinator.destinationIndexPath) {
-                case (.some(let sourceIndexPath), .some(let destinationIndexPath)):
-                    // Same Table View
-                    if sourceIndexPath.row < destinationIndexPath.row {
-                        updatedIndexPaths =  (sourceIndexPath.row...destinationIndexPath.row).map { IndexPath(row: $0, section: 0) }
-                    } else if sourceIndexPath.row > destinationIndexPath.row {
-                        updatedIndexPaths =  (destinationIndexPath.row...sourceIndexPath.row).map { IndexPath(row: $0, section: 0) }
-                    }
-                    self.tableView.beginUpdates()
-                    self.cities.remove(at: sourceIndexPath.row)
-                    self.cities.insert(string, at: destinationIndexPath.row)
-                    self.tableView.reloadRows(at: updatedIndexPaths, with: .automatic)
-                    self.tableView.endUpdates()
-                    break
-                    
-                case (nil, .some(let destinationIndexPath)):
-                    // Move data from a table to another table
-                   // self.removeSourceTableData(localContext: coordinator.session.localDragSession?.localContext)
-                    self.tableView.beginUpdates()
-                    self.cities.insert(string, at: destinationIndexPath.row)
-                    self.tableView.insertRows(at: [destinationIndexPath], with: .automatic)
-                    self.tableView.endUpdates()
-                    break
-                    
-                    
-                case (nil, nil):
-                    // Insert data from a table to another table
-                    //self.removeSourceTableData(localContext: coordinator.session.localDragSession?.localContext)
-                    self.tableView.beginUpdates()
-                    self.cities.append(string)
-                    self.tableView.insertRows(at: [IndexPath(row: self.cities.count - 1 , section: 0)], with: .automatic)
-                    self.tableView.endUpdates()
-                    break
-                    
-                default: break
-                    
-                }
-
-            }
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
-        return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
-    }
-    
-}
+//extension CollectionTableViewController: UITableViewDragDelegate, UITableViewDropDelegate{
+//    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+//        let city = cities[indexPath.row]
+//        let data = city.data(using: .utf8)
+//        let itemProvider = NSItemProvider(item: NSData(data: data!), typeIdentifier: UTType.plainText.identifier)
+//        let dragItem = UIDragItem(itemProvider: itemProvider)
+//        session.localContext = (city, indexPath, tableView)
+//
+//        return [dragItem]
+//
+//    }
+//
+//    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+//        if coordinator.session.hasItemsConforming(toTypeIdentifiers: [UTType.plainText.identifier as String]){
+//            coordinator.session.loadObjects(ofClass: NSString.self) { (items) in
+//                guard let string = items.first as? String else{ return }
+//                var updatedIndexPaths = [IndexPath]()
+//                switch (coordinator.items.first?.sourceIndexPath, coordinator.destinationIndexPath) {
+//                case (.some(let sourceIndexPath), .some(let destinationIndexPath)):
+//                    // Same Table View
+//                    if sourceIndexPath.row < destinationIndexPath.row {
+//                        updatedIndexPaths =  (sourceIndexPath.row...destinationIndexPath.row).map { IndexPath(row: $0, section: 0) }
+//                    } else if sourceIndexPath.row > destinationIndexPath.row {
+//                        updatedIndexPaths =  (destinationIndexPath.row...sourceIndexPath.row).map { IndexPath(row: $0, section: 0) }
+//                    }
+//                    self.tableView.beginUpdates()
+//                    self.cities.remove(at: sourceIndexPath.row)
+//                    self.cities.insert(string, at: destinationIndexPath.row)
+//                    self.tableView.reloadRows(at: updatedIndexPaths, with: .automatic)
+//                    self.tableView.endUpdates()
+//                    break
+//
+//                case (nil, .some(let destinationIndexPath)):
+//                    // Move data from a table to another table
+//                   // self.removeSourceTableData(localContext: coordinator.session.localDragSession?.localContext)
+//                    self.tableView.beginUpdates()
+//                    self.cities.insert(string, at: destinationIndexPath.row)
+//                    self.tableView.insertRows(at: [destinationIndexPath], with: .automatic)
+//                    self.tableView.endUpdates()
+//                    break
+//
+//
+//                case (nil, nil):
+//                    // Insert data from a table to another table
+//                    //self.removeSourceTableData(localContext: coordinator.session.localDragSession?.localContext)
+//                    self.tableView.beginUpdates()
+//                    self.cities.append(string)
+//                    self.tableView.insertRows(at: [IndexPath(row: self.cities.count - 1 , section: 0)], with: .automatic)
+//                    self.tableView.endUpdates()
+//                    break
+//
+//                default: break
+//
+//                }
+//
+//            }
+//        }
+//    }
+//
+//    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
+//        return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+//    }
+//
+//}

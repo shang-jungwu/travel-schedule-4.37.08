@@ -13,6 +13,7 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var txtKeyWord: UITextField!
     
+    var resultVC: SearchResultTableViewController!
     
     var districtButton: UIButton!
     let region = ["台南"]
@@ -36,22 +37,49 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
         // 只要拉好事件，不需執行任何程式、不用引入代理就可收起鍵盤
     }
     
-
     @IBAction func districtSearch(_ sender: UIButton) {
-        let resultController = storyboard?.instantiateViewController(withIdentifier: "SearchResultTableViewController") as! SearchResultTableViewController
-        resultController.searchResultCulturalCenter = allRestaurants.filter { $0.district == txtDistrict.text! }
-        
-        resultController.searchResultHotel = allHostels.filter { $0.district == txtDistrict.text! }
-        
-        resultController.searchRestaurant = allRestaurants.filter { $0.district == txtDistrict.text! }
-       
+        if txtDistrict.text != "" {
+            let controller = storyboard?.instantiateViewController(withIdentifier: "SearchResultTableViewController") as! SearchResultTableViewController
+            //let nav = UINavigationController(rootViewController: controller)
+   
+            controller.searchResultCulturalCenter = allCulturalCenters.filter { $0.district.contains(txtDistrict.text!)
+            }
+            controller.searchResultHotel = allHostels.filter {  $0.address.contains(txtDistrict.text!)
+            }
+            controller.searchRestaurant = allRestaurants.filter { $0.district.contains(txtDistrict.text!)
+            }
+            show(controller, sender: nil)
+        }
     }
     
+
     @IBAction func keyWordSearchButton(_ sender: UIButton) {
+        if txtKeyWord.text != "" {
+            let controller = storyboard?.instantiateViewController(withIdentifier: "SearchResultTableViewController") as! SearchResultTableViewController
+               
+            controller.searchResultCulturalCenter = allCulturalCenters.filter {
+                $0.name.contains(txtKeyWord.text!) ||
+                $0.address.contains(txtKeyWord.text!)
+            }
+            controller.searchResultHotel = allHostels.filter {  $0.name.contains(txtKeyWord.text!) ||
+                $0.address.contains(txtKeyWord.text!)
+                
+            }
+            controller.searchRestaurant = allRestaurants.filter {  $0.name.contains(txtKeyWord.text!) ||
+                $0.address.contains(txtKeyWord.text!)
+            }
+
+            show(controller, sender: nil)
+        }
     }
     
     
     @IBAction func viewAllButton(_ sender: UIButton) {
+        let controller = storyboard?.instantiateViewController(withIdentifier: "SearchResultTableViewController") as! SearchResultTableViewController
+        controller.searchResultCulturalCenter = allCulturalCenters
+        controller.searchResultHotel = allHostels
+        controller.searchRestaurant = allRestaurants
+        show(controller, sender: nil)
     }
     
     @IBAction func deleteButton(_ sender: UIButton) {
@@ -66,7 +94,6 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    
     //MARK: - 自訂函式
     func fetchPlaces() {
         let urlStr = "https://raw.githubusercontent.com/shang-jungwu/json/main/tainan"
@@ -75,11 +102,10 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
                 if let data = data{
                     let decoder = JSONDecoder()
                     do {
-                        self.allCulturalCenters = try decoder.decode([CulturalCenterAndRestaurant].self, from: data)
-                        DispatchQueue.main.async {
-                            for i in 0..<self.allCulturalCenters.count {
-                               // print(self.allCulturalCenters[i].name)
-                            }
+                        let decodeResult = try decoder.decode([CulturalCenterAndRestaurant].self, from: data)
+                        DispatchQueue.main.async { [self] in
+                            allCulturalCenters = decodeResult
+                           
                         }
                     } catch  {
                         print(error)
@@ -87,9 +113,7 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
                 }
             }.resume()
         }
-
     }
-    
     
     func fetchRestaurants() {
         let urlStr = "https://raw.githubusercontent.com/shang-jungwu/json/main/tainan_dining"
@@ -98,12 +122,9 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
                 if let data = data{
                     let decoder = JSONDecoder()
                     do {
-                        self.allRestaurants = try decoder.decode([CulturalCenterAndRestaurant].self, from: data)
-                        DispatchQueue.main.async {
-                            for i in 0..<self.allRestaurants.count {
-
-                                //print(self.allRestaurants[i].name)
-                            }
+                        let decodeResult = try decoder.decode([CulturalCenterAndRestaurant].self, from: data)
+                        DispatchQueue.main.async { [self] in
+                           allRestaurants = decodeResult
                         }
                     } catch  {
                         print(error)
@@ -120,12 +141,9 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
                 if let data = data{
                     let decoder = JSONDecoder()
                     do {
-                        self.allHostels = try decoder.decode([Hotel].self, from: data)
-                        DispatchQueue.main.async {
-                            for i in 0..<self.allHostels.count {
-
-                                //print(self.allHostels[i].name)
-                            }
+                        let decodeResult = try decoder.decode([Hotel].self, from: data)
+                        DispatchQueue.main.async { [self] in
+                            allHostels = decodeResult
                         }
                     } catch  {
                         print(error)
@@ -175,6 +193,7 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
     @objc func submit() {
         let selectedRow = pkvDistrict.selectedRow(inComponent: 1)
         txtDistrict.text = districtsTainan[selectedRow]
+        
         self.txtDistrict.resignFirstResponder()
     }
 

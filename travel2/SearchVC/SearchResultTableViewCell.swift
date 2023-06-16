@@ -13,8 +13,7 @@ class SearchResultTableViewCell: UITableViewCell {
     @IBOutlet weak var placeImageView: UIImageView!
     @IBOutlet weak var placeNameLbl: UILabel!
     @IBOutlet weak var placeAddressLbL: UILabel!
-    @IBOutlet weak var heartBtn: UIButton!
-    
+    @IBOutlet weak var heart: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
