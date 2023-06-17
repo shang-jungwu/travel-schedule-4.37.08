@@ -94,7 +94,7 @@
             </objects>
             <point key="canvasLocation" x="2452" y="-485"/>
         </scene>
-        <!--Collection-->
+        <!--Collection Table View Controller-->
         <scene sceneID="vOG-rG-gDd">
             <objects>
                 <tableViewController storyboardIdentifier="CollectionSheetVC" id="sko-9H-LzR" customClass="CollectionTableViewController" customModule="travel2" customModuleProvider="target" sceneMemberID="viewController">
@@ -136,13 +136,13 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="6kP-9B-G1R">
                                                     <rect key="frame" x="85" y="14.000000000000004" width="253" height="52.333333333333343"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="PlaceName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mst-V2-zXx">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PlaceName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mst-V2-zXx">
                                                             <rect key="frame" x="0.0" y="0.0" width="106.66666666666667" height="24"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eyI-Go-5bo">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eyI-Go-5bo">
                                                             <rect key="frame" x="0.0" y="32" width="62.666666666666664" height="20.333333333333329"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
@@ -161,7 +161,9 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.31055897100000002" green="0.69147138779999995" blue="1" alpha="0.13" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
-                                    <outlet property="collectionLbl" destination="Mst-V2-zXx" id="XjA-aU-fN2"/>
+                                    <outlet property="collectionPlaceAddressLbl" destination="eyI-Go-5bo" id="0tL-Vb-bFc"/>
+                                    <outlet property="collectionPlaceImg" destination="xck-nL-mRW" id="VMK-Ho-B1a"/>
+                                    <outlet property="collectionPlaceNameLbl" destination="Mst-V2-zXx" id="XjA-aU-fN2"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -170,7 +172,6 @@
                             <outlet property="delegate" destination="sko-9H-LzR" id="VCH-0C-6m4"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Collection" image="bookmark" catalog="system" id="9Js-OE-V17"/>
                     <navigationItem key="navigationItem" id="QXe-Hc-hsj">
                         <nil key="title"/>
                     </navigationItem>
@@ -180,7 +181,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tTT-wj-J9b" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1457" y="-1291"/>
+            <point key="canvasLocation" x="2356.5420560747662" y="-1291.3606911447084"/>
         </scene>
         <!--自定義目的地-->
         <scene sceneID="ZEc-w1-ZKr">
@@ -248,13 +249,13 @@
                     </view>
                     <navigationItem key="navigationItem" title="自定義目的地" id="3yN-MW-vgY"/>
                     <connections>
-                        <outlet property="placeAddress" destination="Wq3-Xe-WdK" id="OJE-Pw-Tb5"/>
-                        <outlet property="placeName" destination="UWm-pa-LcT" id="JJk-ff-chf"/>
+                        <outlet property="placeAddressTxt" destination="Wq3-Xe-WdK" id="OJE-Pw-Tb5"/>
+                        <outlet property="placeNameTxt" destination="UWm-pa-LcT" id="JJk-ff-chf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9ey-yk-hBl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3137" y="-1276"/>
+            <point key="canvasLocation" x="4035.9813084112147" y="-1276.4578833693306"/>
         </scene>
         <!--Search Start View Controller-->
         <scene sceneID="rlI-49-s5d">
@@ -533,7 +534,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Oz2-Vd-AJE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2326" y="-1291"/>
+            <point key="canvasLocation" x="3225.700934579439" y="-1291.3606911447084"/>
         </scene>
         <!--Schedule-->
         <scene sceneID="pkg-kT-Jal">
@@ -573,10 +574,10 @@
             </objects>
             <point key="canvasLocation" x="1457" y="249"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Tab-->
         <scene sceneID="uLM-jN-MM8">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="hfQ-lU-HdG" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="hfQ-lU-HdG" customClass="tab" customModule="travel2" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="JXE-69-P46">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -586,12 +587,31 @@
                     <connections>
                         <segue destination="7oV-At-gSx" kind="relationship" relationship="viewControllers" id="8C7-F1-Jaa"/>
                         <segue destination="SG4-ut-mB3" kind="relationship" relationship="viewControllers" id="JOz-95-IP5"/>
-                        <segue destination="sko-9H-LzR" kind="relationship" relationship="viewControllers" id="xKD-iu-vBV"/>
+                        <segue destination="LNI-bt-2Dc" kind="relationship" relationship="viewControllers" id="xKD-iu-vBV"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="atw-X1-sch" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="631" y="-485"/>
+        </scene>
+        <!--Collection-->
+        <scene sceneID="zAz-3t-Eaw">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="LNI-bt-2Dc" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Collection" image="bookmark" catalog="system" id="9Js-OE-V17"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Pz7-Y1-gpa">
+                        <rect key="frame" x="0.0" y="47" width="428" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="sko-9H-LzR" kind="relationship" relationship="rootViewController" id="w7Z-Yu-hbi"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Noh-jj-ObZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1405" y="-1291"/>
         </scene>
     </scenes>
     <resources>

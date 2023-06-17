@@ -8,24 +8,18 @@
 import UIKit
 
 class SearchStartViewController: UIViewController, UITextFieldDelegate {
+    
     @IBOutlet weak var txtDistrict: UITextField!
-    var pkvDistrict: UIPickerView!
-    
     @IBOutlet weak var txtKeyWord: UITextField!
-    
-    var resultVC: SearchResultTableViewController!
-    
-    var districtButton: UIButton!
+
+    // 滾輪資料
+    var pkvDistrict: UIPickerView!
     let region = ["台南"]
     let districtsTainan = [
         "新營","鹽水","白河","柳營","後壁","東山","麻豆","下營","六甲","官田","大內","佳里","學甲","西港","七股","將軍","北門","新化","新市","善化","安定","山上","玉井","楠西","南化","左鎮","仁德","歸仁","關廟","龍崎","永康","東區","南區","中西區","北區","安南","安平"
     ]
-
-
-    var allCulturalCenters = [CulturalCenterAndRestaurant]()
-    var allRestaurants = [CulturalCenterAndRestaurant]()
-    var allHostels = [Hotel]()
-    
+    // Data
+    var allDataTainan:[allData] = [allData(touristSpots: [TainanPlaces](), hotels: [TainanPlaces](), restaurants: [TainanPlaces](), customPlaces: [TainanPlaces]())]
     
     //MARK: - Target Action
     @IBAction func viewClick(_ sender: UITapGestureRecognizer) {
@@ -40,14 +34,14 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
     @IBAction func districtSearch(_ sender: UIButton) {
         if txtDistrict.text != "" {
             let controller = storyboard?.instantiateViewController(withIdentifier: "SearchResultTableViewController") as! SearchResultTableViewController
-            //let nav = UINavigationController(rootViewController: controller)
-   
-            controller.searchResultCulturalCenter = allCulturalCenters.filter { $0.district.contains(txtDistrict.text!)
+
+            controller.userSearchResults[0].touristSpots = allDataTainan[0].touristSpots.filter { $0.district!.contains(txtDistrict.text!)
             }
-            controller.searchResultHotel = allHostels.filter {  $0.address.contains(txtDistrict.text!)
+            controller.userSearchResults[0].hotels = allDataTainan[0].hotels.filter { $0.address.contains(txtDistrict.text!)
             }
-            controller.searchRestaurant = allRestaurants.filter { $0.district.contains(txtDistrict.text!)
+            controller.userSearchResults[0].restaurants = allDataTainan[0].restaurants.filter { $0.district!.contains(txtDistrict.text!)
             }
+
             show(controller, sender: nil)
         }
     }
@@ -56,29 +50,29 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
     @IBAction func keyWordSearchButton(_ sender: UIButton) {
         if txtKeyWord.text != "" {
             let controller = storyboard?.instantiateViewController(withIdentifier: "SearchResultTableViewController") as! SearchResultTableViewController
-               
-            controller.searchResultCulturalCenter = allCulturalCenters.filter {
-                $0.name.contains(txtKeyWord.text!) ||
-                $0.address.contains(txtKeyWord.text!)
-            }
-            controller.searchResultHotel = allHostels.filter {  $0.name.contains(txtKeyWord.text!) ||
-                $0.address.contains(txtKeyWord.text!)
+            
+            let touristSpotsRes = allDataTainan[0].touristSpots.filter { $0.name.contains(txtKeyWord.text!) || $0.address.contains(txtKeyWord.text!) }
+            let hotelsRes = allDataTainan[0].hotels.filter { $0.name.contains(txtKeyWord.text!) || $0.address.contains(txtKeyWord.text!) }
+            let restaurantsRes = allDataTainan[0].restaurants.filter { $0.name.contains(txtKeyWord.text!) || $0.address.contains(txtKeyWord.text!) }
+            
+            if touristSpotsRes.count + hotelsRes.count + restaurantsRes.count == 0 {
+                let alert = UIAlertController(title: "查無結果", message: nil, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+                present(alert, animated: true)
+            } else {
+                controller.userSearchResults[0].touristSpots = touristSpotsRes
+                controller.userSearchResults[0].hotels = hotelsRes
+                controller.userSearchResults[0].restaurants = restaurantsRes
                 
-            }
-            controller.searchRestaurant = allRestaurants.filter {  $0.name.contains(txtKeyWord.text!) ||
-                $0.address.contains(txtKeyWord.text!)
-            }
-
-            show(controller, sender: nil)
+                show(controller, sender: nil)
+            } 
         }
     }
     
     
     @IBAction func viewAllButton(_ sender: UIButton) {
         let controller = storyboard?.instantiateViewController(withIdentifier: "SearchResultTableViewController") as! SearchResultTableViewController
-        controller.searchResultCulturalCenter = allCulturalCenters
-        controller.searchResultHotel = allHostels
-        controller.searchRestaurant = allRestaurants
+        controller.userSearchResults = allDataTainan
         show(controller, sender: nil)
     }
     
@@ -95,17 +89,34 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
     }
     
     //MARK: - 自訂函式
-    func fetchPlaces() {
-        let urlStr = "https://raw.githubusercontent.com/shang-jungwu/json/main/tainan"
-        if let url = URL(string: urlStr) {
+    func fetchTouristSpots(urlRawJson: String) {
+        if let url = URL(string: urlRawJson) {
             URLSession.shared.dataTask(with: url) { data, response, error in
                 if let data = data{
                     let decoder = JSONDecoder()
                     do {
-                        let decodeResult = try decoder.decode([CulturalCenterAndRestaurant].self, from: data)
+                        let decodeData = try decoder.decode([TainanPlaces].self, from: data)
                         DispatchQueue.main.async { [self] in
-                            allCulturalCenters = decodeResult
-                           
+                            allDataTainan[0].touristSpots = decodeData
+                            print("tourist spots:",allDataTainan[0].touristSpots.count)
+                        }
+                    } catch  {
+                        print(error)
+                    }
+                }
+            }.resume()
+        }
+    }
+    func fetchHotels(urlRawJson: String) {
+        if let url = URL(string: urlRawJson) {
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data = data{
+                    let decoder = JSONDecoder()
+                    do {
+                        let decodeData = try decoder.decode([TainanPlaces].self, from: data)
+                        DispatchQueue.main.async { [self] in
+                            allDataTainan[0].hotels = decodeData
+                            print("hotels:",allDataTainan[0].hotels.count)
                         }
                     } catch  {
                         print(error)
@@ -115,16 +126,16 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func fetchRestaurants() {
-        let urlStr = "https://raw.githubusercontent.com/shang-jungwu/json/main/tainan_dining"
-        if let url = URL(string: urlStr) {
+    func fetchRestaurants(urlRawJson: String) {
+        if let url = URL(string: urlRawJson) {
             URLSession.shared.dataTask(with: url) { data, response, error in
                 if let data = data{
                     let decoder = JSONDecoder()
                     do {
-                        let decodeResult = try decoder.decode([CulturalCenterAndRestaurant].self, from: data)
+                        let decodeData = try decoder.decode([TainanPlaces].self, from: data)
                         DispatchQueue.main.async { [self] in
-                           allRestaurants = decodeResult
+                            allDataTainan[0].restaurants = decodeData
+                            print("restaurants:",allDataTainan[0].restaurants.count)
                         }
                     } catch  {
                         print(error)
@@ -132,26 +143,6 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
                 }
             }.resume()
         }
-    }
-    
-    func fetchHotels() {
-        let urlStr = "https://raw.githubusercontent.com/shang-jungwu/json/main/tainan_hotel"
-        if let url = URL(string: urlStr) {
-            URLSession.shared.dataTask(with: url) { data, response, error in
-                if let data = data{
-                    let decoder = JSONDecoder()
-                    do {
-                        let decodeResult = try decoder.decode([Hotel].self, from: data)
-                        DispatchQueue.main.async { [self] in
-                            allHostels = decodeResult
-                        }
-                    } catch  {
-                        print(error)
-                    }
-                }
-            }.resume()
-        }
-
     }
 
     
@@ -162,10 +153,9 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
         navigationItem.title = "搜尋"
         navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.foregroundColor: UIColor.white]
         
-        
-        fetchPlaces()
-        fetchHotels()
-        fetchRestaurants()
+        fetchTouristSpots(urlRawJson: "https://raw.githubusercontent.com/shang-jungwu/json/main/tainan")
+        fetchHotels(urlRawJson: "https://raw.githubusercontent.com/shang-jungwu/json/main/tainan_hotels")
+        fetchRestaurants(urlRawJson: "https://raw.githubusercontent.com/shang-jungwu/json/main/tainan_dining")
         
         txtDistrict.delegate = self
         

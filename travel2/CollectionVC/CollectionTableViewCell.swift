@@ -9,9 +9,10 @@ import UIKit
 
 class CollectionTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var collectionLbl: UILabel!
-
-
+    @IBOutlet weak var collectionPlaceNameLbl: UILabel!
+    @IBOutlet weak var collectionPlaceAddressLbl: UILabel!
+    @IBOutlet weak var collectionPlaceImg: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

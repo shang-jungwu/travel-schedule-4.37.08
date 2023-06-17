@@ -18,16 +18,25 @@ struct Schedule: Codable{
 }
 
 struct userSchedule: Codable {
-    var name: String
+    var placeName: TainanPlaces
     var time: String // Date
 
-    init(name: String = "", time: String = Date.getHHmm(date: Date(timeIntervalSince1970: -288000))) {
-        self.name = name
+    init(placeName: TainanPlaces = TainanPlaces(name: "", openTime: nil, district: nil, address: "", tel: nil, lat: nil, long: nil), time: String = Date.getHHmm(date: Date(timeIntervalSince1970: -288000))) {
+        self.placeName = placeName
         self.time = time
     }
 }
 
-
+//struct userSchedule: Codable {
+//    var name: String
+//    var time: String // Date
+//
+//    init(name: String = "", time: String = Date.getHHmm(date: Date(timeIntervalSince1970: -288000))) {
+//        self.name = name
+//        self.time = time
+//    }
+//}
+//
 
 
 

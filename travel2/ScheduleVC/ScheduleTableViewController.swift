@@ -10,9 +10,10 @@ import UniformTypeIdentifiers
 
 class ScheduleTableViewController: UITableViewController {
     
-    lazy var names = [String]()
-    lazy var monsters = [userSchedule]()
-    lazy var schedules = [Schedule]()
+    lazy var schedules = [Schedule]() // 大ㄉ
+    lazy var userSchedules = [userSchedule]() // 小ㄉ
+    
+    
     var addScheduleButton: UIButton!
     var addButtonTag = 0
     let datePickerInAlertSheet = UIDatePicker()
@@ -27,12 +28,11 @@ class ScheduleTableViewController: UITableViewController {
         tableView.dragInteractionEnabled = true
         tableView.dragDelegate = self
         tableView.dropDelegate = self
-        // 資料
-        fetchCharacter()
+      
         // Nav
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.backgroundColor = UIColor(red: 44/255, green: 54/255, blue: 57/255, alpha: 1)
-//        navigationController?.navigationBar.backgroundColor = UIColor(red: 87/255, green: 111/255, blue: 114/255, alpha: 1)
+
         // Nav title
         let titleLabel = UILabel()
         titleLabel.text = "我的行程"
@@ -49,9 +49,9 @@ class ScheduleTableViewController: UITableViewController {
     @objc func addDate() {
         datePickerInAlertSheet.preferredDatePickerStyle = .inline
         datePickerInAlertSheet.datePickerMode = .date
-        //datePickerInAlertSheet.backgroundColor = .systemIndigo
         let alert = UIAlertController(title: "Choose a Date", message: nil, preferredStyle: .actionSheet)
         alert.view.addSubview(datePickerInAlertSheet)
+        
         // 定位
         datePickerInAlertSheet.translatesAutoresizingMaskIntoConstraints = false
         datePickerInAlertSheet.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: alert.view.frame.height * 0.05).isActive = true
@@ -105,7 +105,6 @@ class ScheduleTableViewController: UITableViewController {
         let point = sender.convert(CGPoint.zero, to: tableView)
         let indexPath = tableView.indexPathForRow(at: point)!
         print(sender.date)
-        //let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
         schedules[indexPath.section].schedule[indexPath.row].time = formatter.string(from: sender.date)
         print(schedules[indexPath.section].schedule[indexPath.row])
@@ -113,41 +112,11 @@ class ScheduleTableViewController: UITableViewController {
     }
 
 
-    
-    func fetchCharacter() {
-        let urlString =  "https://raw.githubusercontent.com/shang-jungwu/json/main/pokemon.json"
-        if let url = URL(string: urlString){
-            URLSession.shared.dataTask(with: url) { data, response, error in
-                if let data = data{
-                    let decoder = JSONDecoder()
-                    do {
-
-                        self.names = try decoder.decode([String].self, from: data)
-                        self.names.shuffle()
-
-                        for i in 0...9{
-                            self.monsters.append(userSchedule(name:self.names[i]))
-                        }
-                        self.schedules.append(Schedule(schedule: self.monsters))
-
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                            print(self.schedules)
-                        }
-                    } catch {
-                        print(error)
-                    }
-                }
-            }.resume()
-        }
-    }
 
     // 呼叫 bottom sheet
     func presentCollectionSheet() {
         let collectionController = storyboard?.instantiateViewController(identifier: "CollectionSheetVC") as! CollectionTableViewController
         let navController = UINavigationController(rootViewController: collectionController)
-        navController.modalPresentationStyle = .pageSheet
-        navController.navigationItem.rightBarButtonItem?.isHidden = false
         if let sheetPresentationController = navController.sheetPresentationController {
             sheetPresentationController.prefersGrabberVisible = true
             sheetPresentationController.largestUndimmedDetentIdentifier = .medium
@@ -158,6 +127,7 @@ class ScheduleTableViewController: UITableViewController {
         
     }
     
+
     func presentCustomScheduleSheet() {
         let customScheduleController = storyboard?.instantiateViewController(withIdentifier: "CustomSheetViewController") as! CustomSheetViewController
         customScheduleController.scheduleVC = self
@@ -183,12 +153,11 @@ class ScheduleTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleTableViewCell", for: indexPath) as! ScheduleTableViewCell
-        cell.scheduleLabel.text =  schedules[indexPath.section].schedule[indexPath.row].name
+        cell.scheduleLabel.text = schedules[indexPath.section].schedule[indexPath.row].placeName.name
         cell.timePicker.datePickerMode = .time
-        //let formatter = DateFormatter()
+
         formatter.dateFormat = "HH:mm"
         cell.timePicker.date = formatter.date(from: schedules[indexPath.section].schedule[indexPath.row].time)!
-        //cell.backgroundColor = UIColor(red: 220/255, green: 215/255, blue: 201/255, alpha: 1)
         cell.backgroundColor = UIColor(red: 240/255, green: 235/255, blue: 227/255, alpha: 1)
 
 
@@ -203,7 +172,6 @@ class ScheduleTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SectionHeaderTableViewCell") as! SectionHeaderTableViewCell
         cell.contentView.backgroundColor = UIColor(red: 63/255, green: 78/255, blue: 79/255, alpha: 1)
-//        cell.contentView.backgroundColor = UIColor(red: 125/255, green: 157/255, blue: 156/255, alpha: 1)
         cell.datePicker.translatesAutoresizingMaskIntoConstraints = false
         cell.datePicker.centerYAnchor.constraint(equalToSystemSpacingBelow: cell.contentView.centerYAnchor, multiplier: 1).isActive = true
         cell.datePicker.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 10).isActive = true
@@ -273,8 +241,8 @@ extension ScheduleTableViewController: UITableViewDragDelegate, UITableViewDropD
 
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
 
-        let scheduleItem = schedules[indexPath.section].schedule[indexPath.row]
-        let data = scheduleItem.name.data(using: .utf8)
+        let scheduleItem = schedules[indexPath.section].schedule[indexPath.row].placeName
+        let data = scheduleItem.name.data(using: .utf8)//scheduleItem.name.data(using: .utf8)
         let itemProvider = NSItemProvider(item: NSData(data: data!), typeIdentifier: UTType.plainText.identifier)
         let dragItem = UIDragItem(itemProvider: itemProvider)
         session.localContext = (scheduleItem, indexPath, tableView)
@@ -284,7 +252,8 @@ extension ScheduleTableViewController: UITableViewDragDelegate, UITableViewDropD
     
     func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
         if coordinator.session.hasItemsConforming(toTypeIdentifiers: [UTType.plainText.identifier as String]){
-            coordinator.session.loadObjects(ofClass: NSString.self) { (items) in
+            coordinator.session.loadObjects(ofClass: NSString.self) { items in
+                
                 guard let string = items.first as? String else{ return }
 
                 switch (coordinator.items.first?.sourceIndexPath, coordinator.destinationIndexPath) {
@@ -294,7 +263,6 @@ extension ScheduleTableViewController: UITableViewDragDelegate, UITableViewDropD
                         let tmp = self.schedules[sourceIndexPath.section].schedule.remove(at: sourceIndexPath.row)
                         self.schedules[sourceIndexPath.section].schedule.insert(tmp, at: destinationIndexPath.row)
                         print(tmp)
-                        //print(string)
                         self.tableView.reloadData()
                     } else {
                         let tmp = self.schedules[sourceIndexPath.section].schedule.remove(at: sourceIndexPath.row)
@@ -306,13 +274,13 @@ extension ScheduleTableViewController: UITableViewDragDelegate, UITableViewDropD
                     break
                     
                 //－－－－－－從sheet移動項目到底面表格－－－－－－
-                case (nil, .some(let destinationIndexPath)):
-                    self.schedules[destinationIndexPath.section].schedule.insert(userSchedule(name: string), at: destinationIndexPath.row)
-                    self.tableView.insertRows(at: [destinationIndexPath], with: .automatic)
-                    self.tableView.performBatchUpdates(nil)
-                    print("case2",self.schedules)
-                    break
-                    
+//                case (nil, .some(let destinationIndexPath)):
+//                    self.schedules[destinationIndexPath.section].schedule.insert(userSchedule(placeName: string), at: destinationIndexPath.row)
+//                    self.tableView.insertRows(at: [destinationIndexPath], with: .automatic)
+//                    self.tableView.performBatchUpdates(nil)
+//                    print("case2",self.schedules)
+//                    break
+//                    
                 default: break
                     
                 }

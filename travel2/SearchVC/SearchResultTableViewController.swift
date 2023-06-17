@@ -9,19 +9,16 @@ import UIKit
 
 class SearchResultTableViewController: UITableViewController {
     
-    
     @IBOutlet weak var segmentedController: UISegmentedControl!
-    var searchResultCulturalCenter = [CulturalCenterAndRestaurant]()
-    var searchResultHotel = [Hotel]()
-    var searchRestaurant = [CulturalCenterAndRestaurant]()
+
     var filterBtnTapped = false
-    var savedPlace = [CulturalCenterAndRestaurant]()
-    var savedRestaurant = [CulturalCenterAndRestaurant]()
-    var savedHotel = [Hotel]()
+   
+    var userSearchResults:[allData] = [allData(touristSpots: [TainanPlaces](), hotels: [TainanPlaces](), restaurants: [TainanPlaces](), customPlaces: [TainanPlaces]())]
+    
+    var userSavedPlaces:[allData] = [allData(touristSpots: [TainanPlaces](), hotels: [TainanPlaces](), restaurants: [TainanPlaces](), customPlaces: [TainanPlaces]())]
     
     @IBOutlet weak var heart: UIButton!
-    
-    
+       
     
     //MARK: - Target Action
     
@@ -32,28 +29,79 @@ class SearchResultTableViewController: UITableViewController {
     @IBAction func heartButtonTapped(_ sender: UIButton) {
         let point = sender.convert(CGPoint.zero, to: tableView)
         let indexPath = tableView.indexPathForRow(at: point)
-        if let indexPath {
-            let place = searchResultCulturalCenter[indexPath.row]
-            let hotel = searchResultHotel[indexPath.row]
-            let restaurant = searchRestaurant[indexPath.row]
-            
-            if sender.isSelected {
-                let index = savedPlace.firstIndex {
-                    $0.name == place.name
+        
+        switch segmentedController.selectedSegmentIndex {
+        case 0:
+            if let indexPath {
+                let place = userSearchResults[0].touristSpots[indexPath.row]
+                if sender.isSelected {
+                    let index = userSavedPlaces[0].touristSpots.firstIndex {
+                        $0.name == place.name
+                    }
+                    if let index {
+                        userSavedPlaces[0].touristSpots.remove(at: index)
+                    }
+                } else {
+                    userSavedPlaces[0].touristSpots.append(place)
                 }
-                if let index {
-                    savedPlace.remove(at: index)
+                let data = try? JSONEncoder().encode(userSavedPlaces[0].touristSpots)
+                if let data {
+                    UserDefaults.standard.setValue(data, forKey: "touristSpots")
                 }
-            } else {
-                savedPlace.append(place)
-                
+                tableView.reloadRows(at: [indexPath], with: .automatic)
             }
             
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-        
+
+        case 1:
+            if let indexPath {
+                let hotel = userSearchResults[0].hotels[indexPath.row]
+                if sender.isSelected {
+                    let index = userSavedPlaces[0].hotels.firstIndex {
+                        $0.name == hotel.name
+                    }
+                    if let index {
+                        userSavedPlaces[0].hotels.remove(at: index)
+                    }
+                } else {
+                    userSavedPlaces[0].hotels.append(hotel)
+                }
+                let data = try? JSONEncoder().encode(userSavedPlaces[0].hotels)
+                if let data {
+                    UserDefaults.standard.setValue(data, forKey: "hotels")
+                }
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+            
+
+        case 2:
+            if let indexPath {
+                let restaurant = userSearchResults[0].restaurants[indexPath.row]
+                if sender.isSelected {
+                    let index = userSavedPlaces[0].restaurants.firstIndex {
+                        $0.name == restaurant.name
+                    }
+                    if let index {
+                        userSavedPlaces[0].restaurants.remove(at: index)
+                    }
+                } else {
+                    userSavedPlaces[0].restaurants.append(restaurant)
+                }
+                let data = try? JSONEncoder().encode(userSavedPlaces[0].restaurants)
+                if let data {
+                    UserDefaults.standard.setValue(data, forKey: "restaurants")
+                }
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+            
+        default:
+            break
         }
-        print(savedPlace)
+        
+        //print(userSavedPlaces[0].touristSpots.map({ $0.name }),userSavedPlaces[0].hotels.map({ $0.name }),userSavedPlaces[0].restaurants.map({ $0.name }) )
     }
+    
+
+    
     
     
     //MARK: - View LifeCycle
@@ -65,20 +113,34 @@ class SearchResultTableViewController: UITableViewController {
         navigationController?.navigationBar.tintColor = UIColor.white
         navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal.decrease"), style: .plain, target: self, action: #selector(filterIncrease)),UIBarButtonItem(image: UIImage(systemName: "shuffle"), style: .plain, target: self, action: #selector(itemShuffle))]
         
-       
         self.tableView.reloadData()
     }
+    
 
     @objc func filterIncrease() {
         if filterBtnTapped == false {
-            searchResultCulturalCenter.sort { $0.address < $1.address }
-            searchResultHotel.sort { $0.address < $1.address }
-            searchRestaurant.sort { $0.address < $1.address }
+            switch segmentedController.selectedSegmentIndex {
+            case 0:
+                userSearchResults[0].touristSpots.sort { $0.address < $1.address }
+            case 1:
+                userSearchResults[0].hotels.sort { $0.address < $1.address }
+            case 2:
+                userSearchResults[0].restaurants.sort { $0.address < $1.address }
+            default:
+                break
+            }
             filterBtnTapped = true
         } else {
-            searchResultCulturalCenter.sort { $0.address > $1.address }
-            searchResultHotel.sort { $0.address > $1.address }
-            searchRestaurant.sort { $0.address > $1.address }
+            switch segmentedController.selectedSegmentIndex {
+            case 0:
+                userSearchResults[0].touristSpots.sort { $0.address > $1.address }
+            case 1:
+                userSearchResults[0].hotels.sort { $0.address > $1.address }
+            case 2:
+                userSearchResults[0].restaurants.sort { $0.address > $1.address }
+            default:
+                break
+            }
             filterBtnTapped = false
         }
         self.tableView.reloadData()
@@ -86,9 +148,16 @@ class SearchResultTableViewController: UITableViewController {
     
     
     @objc func itemShuffle() {
-        searchResultCulturalCenter.shuffle()
-        searchResultHotel.shuffle()
-        searchRestaurant.shuffle()
+        switch segmentedController.selectedSegmentIndex {
+        case 0:
+            userSearchResults[0].touristSpots.shuffle()
+        case 1:
+            userSearchResults[0].hotels.shuffle()
+        case 2:
+            userSearchResults[0].restaurants.shuffle()
+        default:
+            break
+        }
         self.tableView.reloadData()
     }
     
@@ -96,6 +165,10 @@ class SearchResultTableViewController: UITableViewController {
         self.tableView.reloadData()
     }
 
+    
+    //MARK: - Tab Bar
+    
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -106,48 +179,47 @@ class SearchResultTableViewController: UITableViewController {
       
         switch segmentedController.selectedSegmentIndex {
             case 0:
-                return searchResultCulturalCenter.count
+                return userSearchResults[0].touristSpots.count
             case 1:
-                return searchResultHotel.count
+                return userSearchResults[0].hotels.count
             case 2:
-                return searchRestaurant.count
+                return userSearchResults[0].restaurants.count
             default:
                 return 0
         }
+        
     }
-
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultTableViewCell", for: indexPath) as! SearchResultTableViewCell
         
-        
         switch segmentedController.selectedSegmentIndex {
             case 0:
-            cell.placeNameLbl.text = searchResultCulturalCenter[indexPath.row].name
-            cell.placeAddressLbL.text = searchResultCulturalCenter[indexPath.row].address
+            cell.placeNameLbl.text = userSearchResults[0].touristSpots[indexPath.row].name
+            cell.placeAddressLbL.text = userSearchResults[0].touristSpots[indexPath.row].address
             cell.placeImageView.image = UIImage(systemName: "house.and.flag.circle")
-            let place = searchResultCulturalCenter[indexPath.row]
-            let contain = savedPlace.contains {
+            let place = userSearchResults[0].touristSpots[indexPath.row]
+            let contain = userSavedPlaces[0].touristSpots.contains {
                 $0.name == place.name
             }
             cell.heart.isSelected = contain
             
             case 1:
-            cell.placeNameLbl.text = searchResultHotel[indexPath.row].name
-            cell.placeAddressLbL.text = searchResultHotel[indexPath.row].address
+            cell.placeNameLbl.text = userSearchResults[0].hotels[indexPath.row].name
+            cell.placeAddressLbL.text = userSearchResults[0].hotels[indexPath.row].address
             cell.placeImageView.image = UIImage(systemName: "bed.double.circle")
-            let hotel = searchResultHotel[indexPath.row]
-            let contain = searchResultHotel.contains {
+            let hotel = userSearchResults[0].hotels[indexPath.row]
+            let contain = userSavedPlaces[0].hotels.contains {
                 $0.name == hotel.name
             }
             cell.heart.isSelected = contain
             
             case 2:
-            cell.placeNameLbl.text = searchRestaurant[indexPath.row].name
-            cell.placeAddressLbL.text = searchRestaurant[indexPath.row].address
+            cell.placeNameLbl.text = userSearchResults[0].restaurants[indexPath.row].name
+            cell.placeAddressLbL.text = userSearchResults[0].restaurants[indexPath.row].address
             cell.placeImageView.image = UIImage(systemName: "fork.knife.circle")
-            let restaurant = searchRestaurant[indexPath.row]
-            let contain = searchRestaurant.contains {
+            let restaurant = userSearchResults[0].restaurants[indexPath.row]
+            let contain = userSavedPlaces[0].restaurants.contains {
                 $0.name == restaurant.name
             }
             cell.heart.isSelected = contain
@@ -155,7 +227,6 @@ class SearchResultTableViewController: UITableViewController {
             default:
             cell.placeNameLbl.text = ""
         }
-        
         
         return cell
     }

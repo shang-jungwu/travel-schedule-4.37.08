@@ -10,10 +10,10 @@ import UIKit
 class CustomSheetViewController: UIViewController {
 
     weak var scheduleVC: ScheduleTableViewController!
-    weak var collectionVC: CollectionTableViewController!
+//    weak var collectionVC: CollectionTableViewController!
        
-    @IBOutlet weak var placeName: UITextField!
-    @IBOutlet weak var placeAddress: UITextField!
+    @IBOutlet weak var placeNameTxt: UITextField!
+    @IBOutlet weak var placeAddressTxt: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,19 +28,28 @@ class CustomSheetViewController: UIViewController {
     }
 
     @IBAction func addCustomSchedule(_ sender: Any) {
-        if self.placeName.text! != "" {
+        if self.placeNameTxt.text! != "" && self.placeAddressTxt.text! != ""{
             let alert = UIAlertController(title: nil, message: "是否同步新增至我的收藏？", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "是", style: .default) { [self] alertAction in
-                scheduleVC.schedules[scheduleVC.addButtonTag].schedule.append(userSchedule(name: placeName.text!))
-                collectionVC.myCollections.append(userSchedule(name: placeName.text!))
-                scheduleVC.tableView.reloadData()
-                collectionVC.tableView.reloadData()
-                print("collectionController.myCollections:", collectionVC.myCollections)
+                scheduleVC.schedules[scheduleVC.addButtonTag].schedule.append(userSchedule(placeName: TainanPlaces(name: placeNameTxt.text!, openTime: nil, district: nil, address: placeAddressTxt.text!, tel: nil, lat: nil, long: nil)))
+                
+                let collectionVC = storyboard?.instantiateViewController(withIdentifier: "CollectionSheetVC") as! CollectionTableViewController
+                collectionVC.userSavedPlaces[0].customPlaces.append(TainanPlaces(name: placeNameTxt.text!, openTime: nil, district: nil, address: placeAddressTxt.text!, tel: nil, lat: nil, long: nil))
+                
+                let customPlaceData = try? JSONEncoder().encode(TainanPlaces(name: placeNameTxt.text!, openTime: nil, district: nil, address: placeAddressTxt.text!, tel: nil, lat: nil, long: nil).self)
+            if let customPlaceData {
+                UserDefaults.standard.setValue(customPlaceData, forKey: "customPlaces")
+            }
+                
+                //collectionVC.userSavedPlaces[0].customPlaces.append( TainanPlaces(name: placeNameTxt.text!, openTime: nil, district: nil, address: placeAddressTxt.text!, tel: nil, lat: nil, long: nil))
+                
+               
+                
                 self.dismiss(animated: true) // enter後收起頁面
 
             }
             let noAction = UIAlertAction(title: "否", style: .destructive) { [self] action in
-                scheduleVC.schedules[scheduleVC.addButtonTag].schedule.append(userSchedule(name: placeName.text!))
+                scheduleVC.schedules[scheduleVC.addButtonTag].schedule.append(userSchedule(placeName: TainanPlaces(name: placeNameTxt.text!, openTime: nil, district: nil, address: placeAddressTxt.text!, tel: nil, lat: nil, long: nil)))
                 scheduleVC.tableView.reloadData()
                 self.dismiss(animated: true) // enter後收起頁面
 

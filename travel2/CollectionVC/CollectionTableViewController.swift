@@ -10,16 +10,16 @@ import UniformTypeIdentifiers
 
 class CollectionTableViewController: UITableViewController {
 
+
     @IBOutlet weak var segmentedController: UISegmentedControl!
-    
-    //var cities = [String]()
+
     var myCollections = [userSchedule]()
     var userCollectionList = [Schedule]()
-
-    var collPlace = [CulturalCenterAndRestaurant]()
-    var collHotel = [Hotel]()
-    var collRestaurant = [CulturalCenterAndRestaurant]()
-    var customPlace = [CulturalCenterAndRestaurant]()
+    
+    var userSavedPlaces:[allData] = [allData(touristSpots: [TainanPlaces](), hotels: [TainanPlaces](), restaurants: [TainanPlaces](), customPlaces: [TainanPlaces]())]
+    
+    
+   // var searchVC: SearchResultTableViewController!
     
     
     @IBAction func categorySeg(_ sender: UISegmentedControl) {
@@ -28,58 +28,56 @@ class CollectionTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-               tableView.dragInteractionEnabled = true
-//        tableView.dragDelegate = self
-//        tableView.dropDelegate = self
-        // fetchCharacter()
-        navigationItem.title = "我的收藏 (\(myCollections.count))"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(dismissVC))
-        navigationController?.navigationBar.backgroundColor = UIColor(red: 162/255, green: 123/255, blue: 92/255, alpha: 1)
-        navigationItem.rightBarButtonItem?.isHidden = true
-
-        let customSchedule = storyboard?.instantiateViewController(withIdentifier: "CustomSheetViewController") as! CustomSheetViewController
-        customSchedule.collectionVC = self
+        tableView.dragInteractionEnabled = true
+        //tableView.dragDelegate = self
+        //tableView.dropDelegate = self
         
 
+        print("testCollection")
+        navigationController?.navigationBar.isHidden = false
+        navigationItem.title = "我的收藏"
+        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(dismissVC))
+        navigationItem.leftBarButtonItem =  UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(reloadVC))
+        navigationController?.navigationBar.backgroundColor = UIColor(red: 162/255, green: 123/255, blue: 92/255, alpha: 1)
+
+        
+//        let customSchedule = storyboard?.instantiateViewController(withIdentifier: "CustomSheetViewController") as! CustomSheetViewController
+//        customSchedule.collectionVC = self
+        
+        if let data = UserDefaults.standard.data(forKey: "touristSpots") {
+            userSavedPlaces[0].touristSpots = try! JSONDecoder().decode([TainanPlaces].self, from: data)
+        }
+        
+        if let data = UserDefaults.standard.data(forKey: "hotels") {
+            userSavedPlaces[0].hotels = try! JSONDecoder().decode([TainanPlaces].self, from: data)
+        }
+        if let data = UserDefaults.standard.data(forKey: "restaurants") {
+            userSavedPlaces[0].restaurants = try! JSONDecoder().decode([TainanPlaces].self, from: data)
+        }
+        if let data = UserDefaults.standard.data(forKey: "customPlaces") {
+            userSavedPlaces[0].customPlaces = try! JSONDecoder().decode([TainanPlaces].self, from: data)
+        }
+        tableView.reloadData()
     }
     
     @objc func dismissVC(){
         dismiss(animated: true)
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-        print("myCollections:", myCollections)
-
-        self.tableView.reloadData()
+    @objc func reloadVC(){
+        UserDefaults.standard.removeObject(forKey: "touristSpots")
+        tableView.reloadData()
     }
 
-//    func fetchCharacter() {
-//        let urlString =  "https://raw.githubusercontent.com/shang-jungwu/json/main/pokemon.json"
-//        if let url = URL(string: urlString){
-//            URLSession.shared.dataTask(with: url) { [self] data, response, error in
-//                if let data = data{
-//                    let decoder = JSONDecoder()
-//                    do {
-//                        self.cities = try decoder.decode([String].self, from: data)
-//                        self.cities.shuffle()
-//
-//                        for i in 0...(cities.count - 1) {
-//                            myCollections.append(userSchedule(name: cities[i]))
-//                        }
-//                        userCollectionList.append(Schedule(schedule: myCollections))
-//
-//                        DispatchQueue.main.async { [self] in
-//                            self.navigationItem.title = "我的收藏 (\(myCollections.count))"
-//                            self.tableView.reloadData()
-//                        }
-//                    } catch  {
-//                        print(error)
-//                    }
-//                }
-//            }.resume()
-//        }
-//    }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        refreshPage()
+        self.tableView.reloadData()
+        print("test3333")
+    }
+
+    func refreshPage() {
+        self.tableView.reloadData()
+    }
     
     // MARK: - Table view data source
 
@@ -90,31 +88,81 @@ class CollectionTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch segmentedController.selectedSegmentIndex {
             case 0:
-                return collPlace.count
+                return userSavedPlaces[0].touristSpots.count
             case 1:
-                return collHotel.count
+                return userSavedPlaces[0].hotels.count
             case 2:
-                return collRestaurant.count
+                return userSavedPlaces[0].restaurants.count
             case 3:
-                return customPlace.count
+                return userSavedPlaces[0].customPlaces.count
             default:
                 return 0
         }
+        
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "CollectionTableViewCell", for: indexPath) as! CollectionTableViewCell
-        cell.collectionLbl.text = collPlace[indexPath.row].name
-        cell.backgroundColor = .white
+        switch segmentedController.selectedSegmentIndex {
+        case 0:
+            cell.collectionPlaceNameLbl.text = userSavedPlaces[0].touristSpots[indexPath.row].name
+            cell.collectionPlaceImg.image = UIImage(systemName: "house.and.flag.circle")
+        case 1:
+            cell.collectionPlaceNameLbl.text = userSavedPlaces[0].hotels[indexPath.row].name
+            cell.collectionPlaceImg.image = UIImage(systemName: "bed.double.circle")
+        case 2:
+            cell.collectionPlaceNameLbl.text = userSavedPlaces[0].restaurants[indexPath.row].name
+            cell.collectionPlaceImg.image = UIImage(systemName: "fork.knife.circle")
+        case 3:
+            cell.collectionPlaceNameLbl.text = userSavedPlaces[0].customPlaces[indexPath.row].name
+        default:
+            cell.collectionPlaceNameLbl.text = ""
+        }
+        
+        cell.backgroundColor = UIColor(red: 240/255, green: 235/255, blue: 227/255, alpha: 1)
         return cell
     }
     
     // 滑動刪除
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        myCollections.remove(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .automatic)
+        switch segmentedController.selectedSegmentIndex {
+        case 0:
+            userSavedPlaces[0].touristSpots.remove(at: indexPath.row)
+            let touristSpotData = try? JSONEncoder().encode(userSavedPlaces[0].touristSpots)
+            if let touristSpotData {
+                UserDefaults.standard.set(touristSpotData, forKey: "touristSpots")
+            }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        case 1:
+            userSavedPlaces[0].hotels.remove(at: indexPath.row)
+            let hotelData = try? JSONEncoder().encode(userSavedPlaces[0].hotels)
+            if let hotelData {
+                UserDefaults.standard.set(hotelData, forKey: "hotels")
+            }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        case 2:
+            userSavedPlaces[0].restaurants.remove(at: indexPath.row)
+            let restaurantData = try? JSONEncoder().encode(userSavedPlaces[0].restaurants)
+            if let restaurantData {
+                UserDefaults.standard.set(restaurantData, forKey: "restaurants")
+            }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        case 3:
+            userSavedPlaces[0].customPlaces.remove(at: indexPath.row)
+            let customPlaceData = try? JSONEncoder().encode(userSavedPlaces[0].customPlaces)
+            if let customPlaceData {
+                UserDefaults.standard.set(customPlaceData, forKey: "customPlaces")
+            }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        default:
+            break
+        }
+        
+        
+  
+        
     }
     
     override func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
@@ -171,7 +219,22 @@ class CollectionTableViewController: UITableViewController {
 
 //extension CollectionTableViewController: UITableViewDragDelegate, UITableViewDropDelegate{
 //    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-//        let city = cities[indexPath.row]
+//        let place = collPlace[indexPath.row]
+//        let hotel = collHotel[indexPath.row]
+//        let restaurant = collRestaurant[indexPath.row]
+////
+////        switch segmentedController.selectedSegmentIndex {
+////        case 0:
+////
+////        case 1:
+////
+////        case 2:
+////
+////        default:
+////
+////        }
+//
+//
 //        let data = city.data(using: .utf8)
 //        let itemProvider = NSItemProvider(item: NSData(data: data!), typeIdentifier: UTType.plainText.identifier)
 //        let dragItem = UIDragItem(itemProvider: itemProvider)
