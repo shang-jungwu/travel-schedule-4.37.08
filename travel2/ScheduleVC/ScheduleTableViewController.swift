@@ -242,10 +242,11 @@ extension ScheduleTableViewController: UITableViewDragDelegate, UITableViewDropD
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
 
         let scheduleItem = schedules[indexPath.section].schedule[indexPath.row].placeName
-        let data = scheduleItem.name.data(using: .utf8)//scheduleItem.name.data(using: .utf8)
+        let data = scheduleItem.name.data(using: .utf8)
         let itemProvider = NSItemProvider(item: NSData(data: data!), typeIdentifier: UTType.plainText.identifier)
         let dragItem = UIDragItem(itemProvider: itemProvider)
         session.localContext = (scheduleItem, indexPath, tableView)
+        print(scheduleItem)
         return [dragItem]
 
     }
@@ -254,13 +255,14 @@ extension ScheduleTableViewController: UITableViewDragDelegate, UITableViewDropD
         if coordinator.session.hasItemsConforming(toTypeIdentifiers: [UTType.plainText.identifier as String]){
             coordinator.session.loadObjects(ofClass: NSString.self) { items in
                 
-                guard let string = items.first as? String else{ return }
-
+                guard let string = items.first as? String else { return }
+                print("string:", string)
                 switch (coordinator.items.first?.sourceIndexPath, coordinator.destinationIndexPath) {
                 //－－－－－－讓 cell 在 Schedule Table View 的任意 section 移動－－－－－－
                 case (.some(let sourceIndexPath), .some(let destinationIndexPath)):
                     if sourceIndexPath.section == destinationIndexPath.section {
                         let tmp = self.schedules[sourceIndexPath.section].schedule.remove(at: sourceIndexPath.row)
+                        
                         self.schedules[sourceIndexPath.section].schedule.insert(tmp, at: destinationIndexPath.row)
                         print(tmp)
                         self.tableView.reloadData()
@@ -274,13 +276,17 @@ extension ScheduleTableViewController: UITableViewDragDelegate, UITableViewDropD
                     break
                     
                 //－－－－－－從sheet移動項目到底面表格－－－－－－
-//                case (nil, .some(let destinationIndexPath)):
-//                    self.schedules[destinationIndexPath.section].schedule.insert(userSchedule(placeName: string), at: destinationIndexPath.row)
-//                    self.tableView.insertRows(at: [destinationIndexPath], with: .automatic)
-//                    self.tableView.performBatchUpdates(nil)
-//                    print("case2",self.schedules)
-//                    break
-//                    
+                case (nil, .some(let destinationIndexPath)):
+
+                    self.schedules[destinationIndexPath.section].schedule.insert(userSchedule(placeName: collectionItem), at: destinationIndexPath.row)
+                    
+//                    self.schedules[destinationIndexPath.section].schedule.insert(userSchedule(placeName: TainanPlaces(name: string, openTime: "", district: "", address: string, tel: "", lat: nil, long: nil)), at: destinationIndexPath.row)
+
+                    self.tableView.insertRows(at: [destinationIndexPath], with: .automatic)
+                    self.tableView.performBatchUpdates(nil)
+                    print("從sheet移動:",self.schedules)
+                    break
+                    
                 default: break
                     
                 }

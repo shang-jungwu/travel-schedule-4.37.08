@@ -7,16 +7,20 @@
 
 import UIKit
 
-class CustomSheetViewController: UIViewController {
 
+var arrCustomPlace = [TainanPlaces]()
+
+class CustomSheetViewController: UIViewController {
+    var customPlace: TainanPlaces!
     weak var scheduleVC: ScheduleTableViewController!
-//    weak var collectionVC: CollectionTableViewController!
-       
+        
     @IBOutlet weak var placeNameTxt: UITextField!
     @IBOutlet weak var placeAddressTxt: UITextField!
+    @IBOutlet weak var placeTelphoneTxT: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.backgroundColor = UIColor(red: 249/255, green: 197/255, blue: 85/255, alpha: 1)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(dismissVC))
@@ -31,25 +35,24 @@ class CustomSheetViewController: UIViewController {
         if self.placeNameTxt.text! != "" && self.placeAddressTxt.text! != ""{
             let alert = UIAlertController(title: nil, message: "是否同步新增至我的收藏？", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "是", style: .default) { [self] alertAction in
-                scheduleVC.schedules[scheduleVC.addButtonTag].schedule.append(userSchedule(placeName: TainanPlaces(name: placeNameTxt.text!, openTime: nil, district: nil, address: placeAddressTxt.text!, tel: nil, lat: nil, long: nil)))
                 
-                let collectionVC = storyboard?.instantiateViewController(withIdentifier: "CollectionSheetVC") as! CollectionTableViewController
-                collectionVC.userSavedPlaces[0].customPlaces.append(TainanPlaces(name: placeNameTxt.text!, openTime: nil, district: nil, address: placeAddressTxt.text!, tel: nil, lat: nil, long: nil))
+                customPlace = TainanPlaces(name: placeNameTxt.text!, openTime: nil, district: nil, address: placeAddressTxt.text!, tel: placeTelphoneTxT.text!, lat: nil, long: nil)
                 
-                let customPlaceData = try? JSONEncoder().encode(TainanPlaces(name: placeNameTxt.text!, openTime: nil, district: nil, address: placeAddressTxt.text!, tel: nil, lat: nil, long: nil).self)
+                scheduleVC.schedules[scheduleVC.addButtonTag].schedule.append(userSchedule(placeName: customPlace))
+                scheduleVC.tableView.reloadData()
+
+                arrCustomPlace.append(customPlace)
+                     
+                let customPlaceData = try? JSONEncoder().encode(arrCustomPlace.self)
             if let customPlaceData {
                 UserDefaults.standard.setValue(customPlaceData, forKey: "customPlaces")
             }
-                
-                //collectionVC.userSavedPlaces[0].customPlaces.append( TainanPlaces(name: placeNameTxt.text!, openTime: nil, district: nil, address: placeAddressTxt.text!, tel: nil, lat: nil, long: nil))
-                
-               
-                
+
                 self.dismiss(animated: true) // enter後收起頁面
 
             }
             let noAction = UIAlertAction(title: "否", style: .destructive) { [self] action in
-                scheduleVC.schedules[scheduleVC.addButtonTag].schedule.append(userSchedule(placeName: TainanPlaces(name: placeNameTxt.text!, openTime: nil, district: nil, address: placeAddressTxt.text!, tel: nil, lat: nil, long: nil)))
+                scheduleVC.schedules[scheduleVC.addButtonTag].schedule.append(userSchedule(placeName: TainanPlaces(name: placeNameTxt.text!, openTime: nil, district: nil, address: placeAddressTxt.text!, tel: placeTelphoneTxT.text!, lat: nil, long: nil)))
                 scheduleVC.tableView.reloadData()
                 self.dismiss(animated: true) // enter後收起頁面
 
@@ -65,10 +68,11 @@ class CustomSheetViewController: UIViewController {
             self.present(alert, animated: true)
         }
         
-        
-        
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        print("viewWillAppear 的 arrcustomplace", arrCustomPlace)
+    }
 
     /*
 

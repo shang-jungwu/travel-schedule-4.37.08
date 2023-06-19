@@ -8,9 +8,10 @@
 import UIKit
 import UniformTypeIdentifiers
 
+var collectionItem: TainanPlaces!
+
 class CollectionTableViewController: UITableViewController {
-
-
+    
     @IBOutlet weak var segmentedController: UISegmentedControl!
 
     var myCollections = [userSchedule]()
@@ -18,9 +19,8 @@ class CollectionTableViewController: UITableViewController {
     
     var userSavedPlaces:[allData] = [allData(touristSpots: [TainanPlaces](), hotels: [TainanPlaces](), restaurants: [TainanPlaces](), customPlaces: [TainanPlaces]())]
     
-    
-   // var searchVC: SearchResultTableViewController!
-    
+    var test: [TainanPlaces]!
+       
     
     @IBAction func categorySeg(_ sender: UISegmentedControl) {
         self.tableView.reloadData()
@@ -28,12 +28,11 @@ class CollectionTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dragInteractionEnabled = true
-        //tableView.dragDelegate = self
-        //tableView.dropDelegate = self
         
-
-        print("testCollection")
+        tableView.dragInteractionEnabled = true
+        tableView.dragDelegate = self
+        tableView.dropDelegate = self
+        
         navigationController?.navigationBar.isHidden = false
         navigationItem.title = "我的收藏"
         navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -41,10 +40,7 @@ class CollectionTableViewController: UITableViewController {
         navigationItem.leftBarButtonItem =  UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(reloadVC))
         navigationController?.navigationBar.backgroundColor = UIColor(red: 162/255, green: 123/255, blue: 92/255, alpha: 1)
 
-        
-//        let customSchedule = storyboard?.instantiateViewController(withIdentifier: "CustomSheetViewController") as! CustomSheetViewController
-//        customSchedule.collectionVC = self
-        
+                
         if let data = UserDefaults.standard.data(forKey: "touristSpots") {
             userSavedPlaces[0].touristSpots = try! JSONDecoder().decode([TainanPlaces].self, from: data)
         }
@@ -58,6 +54,7 @@ class CollectionTableViewController: UITableViewController {
         if let data = UserDefaults.standard.data(forKey: "customPlaces") {
             userSavedPlaces[0].customPlaces = try! JSONDecoder().decode([TainanPlaces].self, from: data)
         }
+       
         tableView.reloadData()
     }
     
@@ -66,18 +63,17 @@ class CollectionTableViewController: UITableViewController {
     }
     @objc func reloadVC(){
         UserDefaults.standard.removeObject(forKey: "touristSpots")
+        UserDefaults.standard.removeObject(forKey: "hotels")
+        UserDefaults.standard.removeObject(forKey: "restaurants")
+        UserDefaults.standard.removeObject(forKey: "customPlaces")
+        
         tableView.reloadData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        refreshPage()
         self.tableView.reloadData()
-        print("test3333")
     }
 
-    func refreshPage() {
-        self.tableView.reloadData()
-    }
     
     // MARK: - Table view data source
 
@@ -108,15 +104,20 @@ class CollectionTableViewController: UITableViewController {
         switch segmentedController.selectedSegmentIndex {
         case 0:
             cell.collectionPlaceNameLbl.text = userSavedPlaces[0].touristSpots[indexPath.row].name
+            cell.collectionPlaceAddressLbl.text = userSavedPlaces[0].touristSpots[indexPath.row].address
             cell.collectionPlaceImg.image = UIImage(systemName: "house.and.flag.circle")
         case 1:
             cell.collectionPlaceNameLbl.text = userSavedPlaces[0].hotels[indexPath.row].name
+            cell.collectionPlaceAddressLbl.text = userSavedPlaces[0].hotels[indexPath.row].address
             cell.collectionPlaceImg.image = UIImage(systemName: "bed.double.circle")
         case 2:
             cell.collectionPlaceNameLbl.text = userSavedPlaces[0].restaurants[indexPath.row].name
+            cell.collectionPlaceAddressLbl.text = userSavedPlaces[0].restaurants[indexPath.row].address
             cell.collectionPlaceImg.image = UIImage(systemName: "fork.knife.circle")
         case 3:
             cell.collectionPlaceNameLbl.text = userSavedPlaces[0].customPlaces[indexPath.row].name
+            cell.collectionPlaceAddressLbl.text = userSavedPlaces[0].customPlaces[indexPath.row].address
+            cell.collectionPlaceImg.image = UIImage(systemName: "moon.haze.circle")
         default:
             cell.collectionPlaceNameLbl.text = ""
         }
@@ -160,139 +161,89 @@ class CollectionTableViewController: UITableViewController {
             break
         }
         
-        
-  
-        
     }
     
     override func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
         "刪除"
     }
 
+}
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+extension CollectionTableViewController: UITableViewDragDelegate, UITableViewDropDelegate{
+    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+
+        //var collectionItem: TainanPlaces!
+        var data: Data?
+        switch segmentedController.selectedSegmentIndex {
+        case 0:
+            collectionItem = userSavedPlaces[0].touristSpots[indexPath.row]
+            data = collectionItem.name.data(using: .utf8)
+        case 1:
+            collectionItem = userSavedPlaces[0].hotels[indexPath.row]
+            data = collectionItem.name.data(using: .utf8)
+        case 2:
+            collectionItem = userSavedPlaces[0].restaurants[indexPath.row]
+            data = collectionItem.name.data(using: .utf8)
+        case 3:
+            collectionItem = userSavedPlaces[0].customPlaces[indexPath.row]
+            data = collectionItem.name.data(using: .utf8)
+        default:
+            break
+        }
+        let itemProvider = NSItemProvider(item: NSData(data: data!), typeIdentifier: UTType.plainText.identifier)
+        let dragItem = UIDragItem(itemProvider: itemProvider)
+        session.localContext = (collectionItem, indexPath, tableView)
+        print(collectionItem as Any)
+        return [dragItem]
+
     }
-    */
 
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+        if coordinator.session.hasItemsConforming(toTypeIdentifiers: [UTType.plainText.identifier as String]){
+            coordinator.session.loadObjects(ofClass: NSString.self) { [self] items in
+                guard items.first is String else{ return } // as?
+                switch (coordinator.items.first?.sourceIndexPath, coordinator.destinationIndexPath) {
+                case (.some(let sourceIndexPath), .some(let destinationIndexPath)):
+                    if sourceIndexPath.section == destinationIndexPath.section {
+                        
+                        var tmp: TainanPlaces!
+                        switch segmentedController.selectedSegmentIndex {
+                        case 0:
+                            tmp = userSavedPlaces[0].touristSpots.remove(at: sourceIndexPath.row)
+                            self.userSavedPlaces[0].touristSpots.insert(tmp, at: destinationIndexPath.row)
+                            
+                        case 1:
+                            tmp = userSavedPlaces[0].hotels.remove(at: sourceIndexPath.row)
+                            self.userSavedPlaces[0].hotels.insert(tmp, at: destinationIndexPath.row)
+                        case 2:
+                            tmp = userSavedPlaces[0].restaurants.remove(at: sourceIndexPath.row)
+                            self.userSavedPlaces[0].restaurants.insert(tmp, at: destinationIndexPath.row)
+                        case 3:
+                            tmp = userSavedPlaces[0].customPlaces.remove(at: sourceIndexPath.row)
+                            self.userSavedPlaces[0].customPlaces.insert(tmp, at: destinationIndexPath.row)
+                        default:
+                            
+                            break
+                        }
+
+                        print(tmp as Any)
+                        self.tableView.reloadData()
+                    }
+                    self.tableView.performBatchUpdates(nil)
+                    break
+
+                default: break
+
+                }
+
+            }
+        }
     }
-    */
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
+    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
+        return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
     }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 
-//extension CollectionTableViewController: UITableViewDragDelegate, UITableViewDropDelegate{
-//    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-//        let place = collPlace[indexPath.row]
-//        let hotel = collHotel[indexPath.row]
-//        let restaurant = collRestaurant[indexPath.row]
-////
-////        switch segmentedController.selectedSegmentIndex {
-////        case 0:
-////
-////        case 1:
-////
-////        case 2:
-////
-////        default:
-////
-////        }
-//
-//
-//        let data = city.data(using: .utf8)
-//        let itemProvider = NSItemProvider(item: NSData(data: data!), typeIdentifier: UTType.plainText.identifier)
-//        let dragItem = UIDragItem(itemProvider: itemProvider)
-//        session.localContext = (city, indexPath, tableView)
-//
-//        return [dragItem]
-//
-//    }
-//
-//    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
-//        if coordinator.session.hasItemsConforming(toTypeIdentifiers: [UTType.plainText.identifier as String]){
-//            coordinator.session.loadObjects(ofClass: NSString.self) { (items) in
-//                guard let string = items.first as? String else{ return }
-//                var updatedIndexPaths = [IndexPath]()
-//                switch (coordinator.items.first?.sourceIndexPath, coordinator.destinationIndexPath) {
-//                case (.some(let sourceIndexPath), .some(let destinationIndexPath)):
-//                    // Same Table View
-//                    if sourceIndexPath.row < destinationIndexPath.row {
-//                        updatedIndexPaths =  (sourceIndexPath.row...destinationIndexPath.row).map { IndexPath(row: $0, section: 0) }
-//                    } else if sourceIndexPath.row > destinationIndexPath.row {
-//                        updatedIndexPaths =  (destinationIndexPath.row...sourceIndexPath.row).map { IndexPath(row: $0, section: 0) }
-//                    }
-//                    self.tableView.beginUpdates()
-//                    self.cities.remove(at: sourceIndexPath.row)
-//                    self.cities.insert(string, at: destinationIndexPath.row)
-//                    self.tableView.reloadRows(at: updatedIndexPaths, with: .automatic)
-//                    self.tableView.endUpdates()
-//                    break
-//
-//                case (nil, .some(let destinationIndexPath)):
-//                    // Move data from a table to another table
-//                   // self.removeSourceTableData(localContext: coordinator.session.localDragSession?.localContext)
-//                    self.tableView.beginUpdates()
-//                    self.cities.insert(string, at: destinationIndexPath.row)
-//                    self.tableView.insertRows(at: [destinationIndexPath], with: .automatic)
-//                    self.tableView.endUpdates()
-//                    break
-//
-//
-//                case (nil, nil):
-//                    // Insert data from a table to another table
-//                    //self.removeSourceTableData(localContext: coordinator.session.localDragSession?.localContext)
-//                    self.tableView.beginUpdates()
-//                    self.cities.append(string)
-//                    self.tableView.insertRows(at: [IndexPath(row: self.cities.count - 1 , section: 0)], with: .automatic)
-//                    self.tableView.endUpdates()
-//                    break
-//
-//                default: break
-//
-//                }
-//
-//            }
-//        }
-//    }
-//
-//    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
-//        return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
-//    }
-//
-//}
+

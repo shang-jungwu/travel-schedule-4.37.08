@@ -12,6 +12,7 @@
 		214F99BF2A3AD33D008828F8 /* PlaceData..swift in Sources */ = {isa = PBXBuildFile; fileRef = 214F99BE2A3AD33D008828F8 /* PlaceData..swift */; };
 		21F0F6132A2730FB0056E76B /* SectionHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F0F6122A2730FB0056E76B /* SectionHeaderTableViewCell.swift */; };
 		21F12D1E2A3D7F28007BF7B1 /* tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F12D1D2A3D7F28007BF7B1 /* tab.swift */; };
+		21F12D442A404508007BF7B1 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F12D432A404508007BF7B1 /* DetailViewController.swift */; };
 		21FF846B2A1C829B00F9B2F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FF846A2A1C829B00F9B2F1 /* AppDelegate.swift */; };
 		21FF846D2A1C829B00F9B2F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FF846C2A1C829B00F9B2F1 /* SceneDelegate.swift */; };
 		21FF84722A1C829B00F9B2F1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21FF84702A1C829B00F9B2F1 /* Main.storyboard */; };
@@ -33,6 +34,7 @@
 		214F99BE2A3AD33D008828F8 /* PlaceData..swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceData..swift; sourceTree = "<group>"; };
 		21F0F6122A2730FB0056E76B /* SectionHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		21F12D1D2A3D7F28007BF7B1 /* tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tab.swift; sourceTree = "<group>"; };
+		21F12D432A404508007BF7B1 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		21FF84672A1C829B00F9B2F1 /* travel2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = travel2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21FF846A2A1C829B00F9B2F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		21FF846C2A1C829B00F9B2F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 				21FF846C2A1C829B00F9B2F1 /* SceneDelegate.swift */,
 				21FF84702A1C829B00F9B2F1 /* Main.storyboard */,
 				49956A942A2CABFA000F4830 /* CustomSheetViewController.swift */,
+				21F12D432A404508007BF7B1 /* DetailViewController.swift */,
 				21F12D1D2A3D7F28007BF7B1 /* tab.swift */,
 				21FF84822A1C835B00F9B2F1 /* ScheduleVC */,
 				21FF84832A1C836C00F9B2F1 /* CollectionVC */,
@@ -205,6 +208,7 @@
 				21FF84852A1C838F00F9B2F1 /* ScheduleTableViewCell.swift in Sources */,
 				21F12D1E2A3D7F28007BF7B1 /* tab.swift in Sources */,
 				21FF846D2A1C829B00F9B2F1 /* SceneDelegate.swift in Sources */,
+				21F12D442A404508007BF7B1 /* DetailViewController.swift in Sources */,
 				214F99BF2A3AD33D008828F8 /* PlaceData..swift in Sources */,
 				21FF847F2A1C833E00F9B2F1 /* ScheduleTableViewController.swift in Sources */,
 				214F99BB2A3849B3008828F8 /* SearchResultTableViewController.swift in Sources */,
