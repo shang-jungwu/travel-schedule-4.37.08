@@ -44,8 +44,8 @@ class CustomSheetViewController: UIViewController {
                 arrCustomPlace.append(customPlace)
                      
                 let customPlaceData = try? JSONEncoder().encode(arrCustomPlace.self)
-            if let customPlaceData {
-                UserDefaults.standard.setValue(customPlaceData, forKey: "customPlaces")
+            if let data = customPlaceData{
+                UserDefaults.standard.setValue(data, forKey: "customPlaces")
             }
 
                 self.dismiss(animated: true) // enter後收起頁面

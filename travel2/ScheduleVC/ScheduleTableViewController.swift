@@ -78,7 +78,6 @@ class ScheduleTableViewController: UITableViewController {
     // 選擇日期
     func selectDate() {
         let selectedDate = datePickerInAlertSheet.date
-        //let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
         let date = formatter.string(from: selectedDate)
         schedules.append(Schedule(date: date))
@@ -87,7 +86,6 @@ class ScheduleTableViewController: UITableViewController {
     
     // 更改日期 value change
     @IBAction func dateChange(_ sender: UIDatePicker) {
-        //let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
         schedules[sender.tag].date = formatter.string(from: sender.date)
         print(schedules[sender.tag])
@@ -159,8 +157,6 @@ class ScheduleTableViewController: UITableViewController {
         formatter.dateFormat = "HH:mm"
         cell.timePicker.date = formatter.date(from: schedules[indexPath.section].schedule[indexPath.row].time)!
         cell.backgroundColor = UIColor(red: 240/255, green: 235/255, blue: 227/255, alpha: 1)
-
-
         return cell
     }
     
@@ -183,7 +179,7 @@ class ScheduleTableViewController: UITableViewController {
 
         addScheduleButton = UIButton(type: .system)
         addScheduleButton.tag = section
-        addScheduleButton.frame = CGRect(x: cell.contentView.frame.maxX - 60, y: 0, width: 50, height: 50)
+        addScheduleButton.frame = CGRect(x: cell.contentView.frame.maxX - 50 - cell.contentView.frame.width * 0.1, y: 0, width: 50, height: 50)
        
         addScheduleButton.setImage(UIImage(systemName: "line.horizontal.3"), for: .normal)
         addScheduleButton.tintColor = .white
@@ -232,6 +228,12 @@ class ScheduleTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
         "刪除"
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let detailVC = segue.destination as! DetailViewController
+        detailVC.scheduleVC = self
+        detailVC.placeNameLbl.text = ""
     }
 
 

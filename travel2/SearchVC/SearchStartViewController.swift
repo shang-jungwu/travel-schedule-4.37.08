@@ -77,15 +77,11 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func deleteButton(_ sender: UIButton) {
-        switch sender.tag {
-        case 0:
+        if sender.tag == 0 {
             txtDistrict.text = ""
-        case 1:
+        } else {
             txtKeyWord.text = ""
-        default:
-            break
         }
-        
     }
     
     //MARK: - 自訂函式
@@ -107,6 +103,7 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
             }.resume()
         }
     }
+
     func fetchHotels(urlRawJson: String) {
         if let url = URL(string: urlRawJson) {
             URLSession.shared.dataTask(with: url) { data, response, error in

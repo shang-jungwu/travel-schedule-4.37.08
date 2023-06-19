@@ -37,7 +37,7 @@ class CollectionTableViewController: UITableViewController {
         navigationItem.title = "我的收藏"
         navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(dismissVC))
-        navigationItem.leftBarButtonItem =  UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(reloadVC))
+        navigationItem.leftBarButtonItem =  UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(moveToTrash))
         navigationController?.navigationBar.backgroundColor = UIColor(red: 162/255, green: 123/255, blue: 92/255, alpha: 1)
 
                 
@@ -61,12 +61,20 @@ class CollectionTableViewController: UITableViewController {
     @objc func dismissVC(){
         dismiss(animated: true)
     }
-    @objc func reloadVC(){
-        UserDefaults.standard.removeObject(forKey: "touristSpots")
-        UserDefaults.standard.removeObject(forKey: "hotels")
-        UserDefaults.standard.removeObject(forKey: "restaurants")
-        UserDefaults.standard.removeObject(forKey: "customPlaces")
-        
+
+    @objc func moveToTrash(){
+        switch segmentedController.selectedSegmentIndex {
+        case 0:
+            UserDefaults.standard.removeObject(forKey: "touristSpots")
+        case 1:
+            UserDefaults.standard.removeObject(forKey: "hotels")
+        case 2:
+            UserDefaults.standard.removeObject(forKey: "restaurants")
+        case 3:
+            UserDefaults.standard.removeObject(forKey: "customPlaces")
+        default:
+            break
+        }
         tableView.reloadData()
     }
 
@@ -76,7 +84,6 @@ class CollectionTableViewController: UITableViewController {
 
     
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -94,7 +101,6 @@ class CollectionTableViewController: UITableViewController {
             default:
                 return 0
         }
-        
     }
 
     
@@ -102,24 +108,24 @@ class CollectionTableViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "CollectionTableViewCell", for: indexPath) as! CollectionTableViewCell
         switch segmentedController.selectedSegmentIndex {
-        case 0:
-            cell.collectionPlaceNameLbl.text = userSavedPlaces[0].touristSpots[indexPath.row].name
-            cell.collectionPlaceAddressLbl.text = userSavedPlaces[0].touristSpots[indexPath.row].address
-            cell.collectionPlaceImg.image = UIImage(systemName: "house.and.flag.circle")
-        case 1:
-            cell.collectionPlaceNameLbl.text = userSavedPlaces[0].hotels[indexPath.row].name
-            cell.collectionPlaceAddressLbl.text = userSavedPlaces[0].hotels[indexPath.row].address
-            cell.collectionPlaceImg.image = UIImage(systemName: "bed.double.circle")
-        case 2:
-            cell.collectionPlaceNameLbl.text = userSavedPlaces[0].restaurants[indexPath.row].name
-            cell.collectionPlaceAddressLbl.text = userSavedPlaces[0].restaurants[indexPath.row].address
-            cell.collectionPlaceImg.image = UIImage(systemName: "fork.knife.circle")
-        case 3:
-            cell.collectionPlaceNameLbl.text = userSavedPlaces[0].customPlaces[indexPath.row].name
-            cell.collectionPlaceAddressLbl.text = userSavedPlaces[0].customPlaces[indexPath.row].address
-            cell.collectionPlaceImg.image = UIImage(systemName: "moon.haze.circle")
-        default:
-            cell.collectionPlaceNameLbl.text = ""
+            case 0:
+                cell.collectionPlaceNameLbl.text = userSavedPlaces[0].touristSpots[indexPath.row].name
+                cell.collectionPlaceAddressLbl.text = userSavedPlaces[0].touristSpots[indexPath.row].address
+                cell.collectionPlaceImg.image = UIImage(systemName: "house.and.flag.circle")
+            case 1:
+                cell.collectionPlaceNameLbl.text = userSavedPlaces[0].hotels[indexPath.row].name
+                cell.collectionPlaceAddressLbl.text = userSavedPlaces[0].hotels[indexPath.row].address
+                cell.collectionPlaceImg.image = UIImage(systemName: "bed.double.circle")
+            case 2:
+                cell.collectionPlaceNameLbl.text = userSavedPlaces[0].restaurants[indexPath.row].name
+                cell.collectionPlaceAddressLbl.text = userSavedPlaces[0].restaurants[indexPath.row].address
+                cell.collectionPlaceImg.image = UIImage(systemName: "fork.knife.circle")
+            case 3:
+                cell.collectionPlaceNameLbl.text = userSavedPlaces[0].customPlaces[indexPath.row].name
+                cell.collectionPlaceAddressLbl.text = userSavedPlaces[0].customPlaces[indexPath.row].address
+                cell.collectionPlaceImg.image = UIImage(systemName: "moon.haze.circle")
+            default:
+                break
         }
         
         cell.backgroundColor = UIColor(red: 240/255, green: 235/255, blue: 227/255, alpha: 1)
@@ -132,29 +138,29 @@ class CollectionTableViewController: UITableViewController {
         case 0:
             userSavedPlaces[0].touristSpots.remove(at: indexPath.row)
             let touristSpotData = try? JSONEncoder().encode(userSavedPlaces[0].touristSpots)
-            if let touristSpotData {
-                UserDefaults.standard.set(touristSpotData, forKey: "touristSpots")
+            if let data = touristSpotData {
+                UserDefaults.standard.set(data, forKey: "touristSpots")
             }
             tableView.deleteRows(at: [indexPath], with: .automatic)
         case 1:
             userSavedPlaces[0].hotels.remove(at: indexPath.row)
             let hotelData = try? JSONEncoder().encode(userSavedPlaces[0].hotels)
-            if let hotelData {
-                UserDefaults.standard.set(hotelData, forKey: "hotels")
+            if let data = hotelData {
+                UserDefaults.standard.set(data, forKey: "hotels")
             }
             tableView.deleteRows(at: [indexPath], with: .automatic)
         case 2:
             userSavedPlaces[0].restaurants.remove(at: indexPath.row)
             let restaurantData = try? JSONEncoder().encode(userSavedPlaces[0].restaurants)
-            if let restaurantData {
-                UserDefaults.standard.set(restaurantData, forKey: "restaurants")
+            if let data = restaurantData {
+                UserDefaults.standard.set(data, forKey: "restaurants")
             }
             tableView.deleteRows(at: [indexPath], with: .automatic)
         case 3:
             userSavedPlaces[0].customPlaces.remove(at: indexPath.row)
             let customPlaceData = try? JSONEncoder().encode(userSavedPlaces[0].customPlaces)
-            if let customPlaceData {
-                UserDefaults.standard.set(customPlaceData, forKey: "customPlaces")
+            if let data = customPlaceData {
+                UserDefaults.standard.set(data, forKey: "customPlaces")
             }
             tableView.deleteRows(at: [indexPath], with: .automatic)
         default:
