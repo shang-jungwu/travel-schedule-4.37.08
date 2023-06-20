@@ -250,6 +250,16 @@ extension CollectionTableViewController: UITableViewDragDelegate, UITableViewDro
         return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "collectionShowDetail" {
+            let detailVC = segue.destination as! DetailViewController
+            detailVC.collectionVC = self
+            detailVC.currentIndex = self.tableView.indexPathForSelectedRow!.row
+            detailVC.currentData = self.userSavedPlaces
+        }
+    }
+
+
 }
 
 

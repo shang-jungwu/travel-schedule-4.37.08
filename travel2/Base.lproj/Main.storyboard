@@ -170,7 +170,7 @@
                                     <outlet property="collectionPlaceAddressLbl" destination="eyI-Go-5bo" id="0tL-Vb-bFc"/>
                                     <outlet property="collectionPlaceImg" destination="xck-nL-mRW" id="VMK-Ho-B1a"/>
                                     <outlet property="collectionPlaceNameLbl" destination="Mst-V2-zXx" id="XjA-aU-fN2"/>
-                                    <segue destination="ixY-vn-opR" kind="show" id="rvy-D8-9YU"/>
+                                    <segue destination="ixY-vn-opR" kind="show" identifier="collectionShowDetail" id="rvy-D8-9YU"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -287,11 +287,11 @@
             <objects>
                 <viewController storyboardIdentifier=" DetailViewController" id="ixY-vn-opR" customClass="DetailViewController" customModule="travel2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Vjd-Ux-fmk">
-                        <rect key="frame" x="0.0" y="0.0" width="428" height="872"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo.artframe" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="su2-S2-eUp">
-                                <rect key="frame" x="114" y="31.666666666666657" width="200" height="197"/>
+                                <rect key="frame" x="114" y="31.66666666666665" width="200" height="197"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="5IQ-Tl-6dk"/>
                                     <constraint firstAttribute="width" constant="200" id="l6i-wF-nHs"/>
@@ -661,7 +661,7 @@
                                     <outlet property="placeAddressLbL" destination="10f-8x-2Kw" id="kaJ-Mf-b01"/>
                                     <outlet property="placeImageView" destination="3SO-CG-M1I" id="Ifp-1Y-tOa"/>
                                     <outlet property="placeNameLbl" destination="gab-eL-mFR" id="uEg-zV-dVL"/>
-                                    <segue destination="ixY-vn-opR" kind="show" id="KHp-Ef-OoV"/>
+                                    <segue destination="ixY-vn-opR" kind="show" identifier="searchShowDetail" id="KHp-Ef-OoV"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -758,7 +758,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="KHp-Ef-OoV"/>
+        <segue reference="rvy-D8-9YU"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="bed.double.circle.fill" catalog="system" width="128" height="121"/>

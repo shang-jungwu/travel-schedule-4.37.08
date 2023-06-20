@@ -14,6 +14,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var phoneLbl: UILabel!
     @IBOutlet weak var openTimeLbl: UILabel!
 
+  
     weak var searchResultVC: SearchResultTableViewController!
     weak var collectionVC: CollectionTableViewController!
     weak var scheduleVC: ScheduleTableViewController!
@@ -28,9 +29,6 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "詳細資訊"
-        
-
-        currentData = searchResultVC.userSearchResults
 
         switch searchResultVC.segmentedController.selectedSegmentIndex {
         case 0:
@@ -57,4 +55,8 @@ class DetailViewController: UIViewController {
             break
         }
     }
+
+
+
+
 }

@@ -271,9 +271,12 @@ class SearchResultTableViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let detailVC = segue.destination as! DetailViewController
-        detailVC.searchResultVC = self
-        detailVC.currentIndex = self.tableView.indexPathForSelectedRow!.row
+        if segue.identifier == "searchShowDetail" {
+            let detailVC = segue.destination as! DetailViewController
+            detailVC.searchResultVC = self
+            detailVC.currentIndex = self.tableView.indexPathForSelectedRow!.row
+            detailVC.currentData = self.userSearchResults
+        }
     }
 
     
