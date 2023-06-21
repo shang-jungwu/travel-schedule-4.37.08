@@ -73,6 +73,18 @@ class ScheduleTableViewController: UITableViewController {
             self.present(alert, animated: true)
    
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "scheduleShowDetail" {
+            let detailVC = segue.destination as! DetailViewController
+            detailVC.scheduleVC = self
+            detailVC.currentIndex = self.tableView.indexPathForSelectedRow!.row
+            detailVC.currentIndexSection = self.tableView.indexPathForSelectedRow!.section
+            detailVC.scheduleData = self.schedules
+            detailVC.segueID = segue.identifier!
+        }
+    }
+    
 
     //MARK: - 自訂函式
     // 選擇日期
@@ -230,11 +242,7 @@ class ScheduleTableViewController: UITableViewController {
         "刪除"
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let detailVC = segue.destination as! DetailViewController
-        detailVC.scheduleVC = self
-        detailVC.placeNameLbl.text = ""
-    }
+
 
 
 } // class ending

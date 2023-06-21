@@ -38,6 +38,7 @@ class CollectionTableViewController: UITableViewController {
         navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(dismissVC))
         navigationItem.leftBarButtonItem =  UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(moveToTrash))
+        navigationItem.leftBarButtonItem?.tintColor = .white
         navigationController?.navigationBar.backgroundColor = UIColor(red: 162/255, green: 123/255, blue: 92/255, alpha: 1)
 
                 
@@ -256,6 +257,7 @@ extension CollectionTableViewController: UITableViewDragDelegate, UITableViewDro
             detailVC.collectionVC = self
             detailVC.currentIndex = self.tableView.indexPathForSelectedRow!.row
             detailVC.currentData = self.userSavedPlaces
+            detailVC.segueID = segue.identifier!
         }
     }
 

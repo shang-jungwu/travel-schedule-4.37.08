@@ -13,6 +13,7 @@ class tab: UITabBarController {
                 if let selectedNavController = viewControllers?[selectedIndex] as? UINavigationController {
                     if let selectedViewController = selectedNavController.topViewController as? CollectionTableViewController {
                         selectedViewController.viewDidLoad()
+                        selectedViewController.navigationItem.rightBarButtonItem?.isHidden = true
                     }
                 }
             }

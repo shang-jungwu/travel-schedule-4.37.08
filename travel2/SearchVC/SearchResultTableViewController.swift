@@ -276,6 +276,7 @@ class SearchResultTableViewController: UITableViewController {
             detailVC.searchResultVC = self
             detailVC.currentIndex = self.tableView.indexPathForSelectedRow!.row
             detailVC.currentData = self.userSearchResults
+            detailVC.segueID = segue.identifier!
         }
     }
 
