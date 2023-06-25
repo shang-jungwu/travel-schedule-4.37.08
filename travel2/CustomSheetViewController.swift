@@ -74,22 +74,6 @@ class CustomSheetViewController: UIViewController {
         print("viewWillAppear 的 arrcustomplace", arrCustomPlace)
     }
 
-    /*
-
-     let alert = UIAlertController(title: nil, message: "是否同步新增至我的收藏？", preferredStyle: .alert)
-     let okAction = UIAlertAction(title: "是", style: .default) { [self] action in
-         let collectionController = storyboard?.instantiateViewController(withIdentifier: "CollectionSheetVC") as! CollectionTableViewController
-         collectionController.myCollections.append(<#T##newElement: Monster##Monster#>)
-         // to do 收藏
-     }
-     let noAction = UIAlertAction(title: "否", style: .default) { [self] action in
-         schedules.append(Schedule())
-
-     }
-     alert.addAction(okAction)
-     alert.addAction(noAction)
-
-     **/
 
     /*
     // MARK: - Navigation

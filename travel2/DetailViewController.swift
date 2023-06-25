@@ -13,15 +13,10 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var addressTxt: UITextField!
     @IBOutlet weak var phoneTxt: UITextField!
     @IBOutlet weak var openTimeTV: UITextView!
-    
-    
+
     @IBOutlet weak var buttonToMap: UIButton!
-    
-    
     @IBOutlet weak var buttonToStreetView: UIButton!
-    
-    
-    
+
     var segueID =  ""
     
     weak var searchResultVC: SearchResultTableViewController!
@@ -58,7 +53,7 @@ class DetailViewController: UIViewController {
     }
     
     
-    
+    //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "詳細資訊"
@@ -132,10 +127,6 @@ class DetailViewController: UIViewController {
         default:
             break
         }
-        
-        
-
-        
     }
     
     

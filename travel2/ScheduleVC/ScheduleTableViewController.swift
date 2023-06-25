@@ -70,7 +70,6 @@ class ScheduleTableViewController: UITableViewController {
             }))
             alert.addAction(UIAlertAction(title: "取消", style: .default))
             present(alert, animated: true)
-            print("長按開始")
         } else if recognizer.state == .ended {
             print("長按結束")
         }
@@ -131,7 +130,7 @@ class ScheduleTableViewController: UITableViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        print("消失")
+        // 切換分頁時自動儲存行程
         let data = try? JSONEncoder().encode(schedules)
         if let data = data {
             UserDefaults.standard.setValue(data, forKey: "userSchedule")

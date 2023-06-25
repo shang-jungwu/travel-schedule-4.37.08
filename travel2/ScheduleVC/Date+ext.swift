@@ -42,13 +42,4 @@ extension Date {
 
 }
 
-extension UIDatePicker {
-    func customDatepicker(bgColor: UIColor, fontColor: UIColor){
-    //datePicker的背景顏色
-    self.backgroundColor = bgColor
-    //設置datePicker的字體顏色
-    self.setValue(fontColor, forKey: "textColor")
-    //highlightsToday設為false，否則datePicker上的「今天」不會被改變字色self.setValue(false, forKey: "HighlightsToday")
-    }
-}
 

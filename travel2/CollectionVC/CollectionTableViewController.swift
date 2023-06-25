@@ -18,19 +18,14 @@ class CollectionTableViewController: UITableViewController {
     var userCollectionList = [Schedule]()
     
     var userSavedPlaces:[allData] = [allData(touristSpots: [TainanPlaces](), hotels: [TainanPlaces](), restaurants: [TainanPlaces](), customPlaces: [TainanPlaces]())]
-    
-    var test: [TainanPlaces]!
-       
-    
+
     @IBAction func categorySeg(_ sender: UISegmentedControl) {
         self.tableView.reloadData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
+
         tableView.dragInteractionEnabled = true
         tableView.dragDelegate = self
         tableView.dropDelegate = self
