@@ -13,6 +13,7 @@ var arrCustomPlace = [TainanPlaces]()
 class CustomSheetViewController: UIViewController {
     var customPlace: TainanPlaces!
     weak var scheduleVC: ScheduleTableViewController!
+    weak var tabMapVC: TabMapViewController!
         
     @IBOutlet weak var placeNameTxt: UITextField!
     @IBOutlet weak var placeAddressTxt: UITextField!

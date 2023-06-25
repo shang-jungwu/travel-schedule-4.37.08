@@ -29,7 +29,8 @@ class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationMa
     // 搜尋之地點圖標
     var searchMarker: GMSMarker!
 
-    
+    var customName:String?
+    var customAddress:String?
     
     
     override func viewDidLoad() {
@@ -131,7 +132,34 @@ class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationMa
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
 //        performSegue(withIdentifier: "showPano", sender: nil)
 //
-//        print("Show new view")
+
+//        let detailMapVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailMapViewController") as! DetailMapViewController
+//        
+//        detailMapVC.detailController = self
+//
+//        self.show(detailMapVC, sender: nil)
+        
+        presentCustomScheduleSheet()
+        
+        
+        
+    }
+    
+    func presentCustomScheduleSheet() {
+        let customScheduleController = storyboard?.instantiateViewController(withIdentifier: "CustomSheetViewController") as! CustomSheetViewController
+        customScheduleController.tabMapVC = self
+        let navigationController = UINavigationController(rootViewController: customScheduleController)
+        let sheetPresentationController = navigationController.sheetPresentationController
+        sheetPresentationController?.detents = [.medium()]
+        sheetPresentationController?.largestUndimmedDetentIdentifier = .medium
+        sheetPresentationController?.prefersGrabberVisible = true
+        sheetPresentationController?.preferredCornerRadius = 25
+        self.present(navigationController, animated: true)
+        
+      
+//        customScheduleController.placeNameTxt.text = customName
+//        customScheduleController.placeAddressTxt.text = customAddress
+        
     }
     
 //    func mapView(_ mapView: GMSMapView, markerInfoContents marker: GMSMarker) -> UIView? {
@@ -232,8 +260,13 @@ class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationMa
        searchMarker = GMSMarker()
         
        searchMarker.position =  cord2D
-       searchMarker.title = place.name
+       searchMarker.title = "按此加入收藏"
        searchMarker.snippet = place.formattedAddress
+        
+       customName = place.name
+       customAddress = place.formattedAddress
+        
+        
        
        let markerImage = UIImage(named: "icon_google_map")!
        let markerView = UIImageView(image: markerImage)
@@ -241,6 +274,7 @@ class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationMa
        searchMarker.map = self.mapView
        
        self.mapView.camera = GMSCameraPosition.camera(withTarget: cord2D, zoom: 15)
+        
     }
     
     func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
