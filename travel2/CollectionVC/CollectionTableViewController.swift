@@ -61,23 +61,29 @@ class CollectionTableViewController: UITableViewController {
     }
 
     @objc func moveToTrash(){
-        switch segmentedController.selectedSegmentIndex {
-        case 0:
-            UserDefaults.standard.removeObject(forKey: "touristSpots")
-        case 1:
-            UserDefaults.standard.removeObject(forKey: "hotels")
-        case 2:
-            UserDefaults.standard.removeObject(forKey: "restaurants")
-        case 3:
-            UserDefaults.standard.removeObject(forKey: "customPlaces")
-        default:
-            break
-        }
-        tableView.reloadData()
-    }
+        let alert = UIAlertController(title: "是否刪除本類別所有收藏？", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "全部刪除", style: .destructive, handler: { [self]_ in
+            switch segmentedController.selectedSegmentIndex {
+            case 0:
+                UserDefaults.standard.removeObject(forKey: "touristSpots")
+                userSavedPlaces[0].touristSpots.removeAll()
+            case 1:
+                UserDefaults.standard.removeObject(forKey: "hotels")
+                userSavedPlaces[0].hotels.removeAll()
+            case 2:
+                UserDefaults.standard.removeObject(forKey: "restaurants")
+                userSavedPlaces[0].restaurants.removeAll()
+            case 3:
+                UserDefaults.standard.removeObject(forKey: "customPlaces")
+                userSavedPlaces[0].customPlaces.removeAll()
+            default:
+                break
+            }
+            tableView.reloadData()
+        }))
+        alert.addAction(UIAlertAction(title: "取消", style: .default))
+        present(alert, animated: true)
 
-    override func viewWillAppear(_ animated: Bool) {
-        self.tableView.reloadData()
     }
 
     
