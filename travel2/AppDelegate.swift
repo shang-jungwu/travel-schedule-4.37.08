@@ -6,14 +6,21 @@
 //
 
 import UIKit
+import GoogleMaps
+import GooglePlaces
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    // Google Cloud的API金鑰(有免費次數與期限限制)
+    let apiKey = "AIzaSyBKQxJHLLYbb6mqpuj0PwD4lv3H2_AHHLk"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Google相關服務需要提供的API金鑰
+        GMSServices.provideAPIKey(apiKey)
+        GMSPlacesClient.provideAPIKey(apiKey)
         return true
     }
 

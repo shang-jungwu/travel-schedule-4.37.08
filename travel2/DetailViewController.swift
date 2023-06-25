@@ -14,6 +14,14 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var phoneTxt: UITextField!
     @IBOutlet weak var openTimeTV: UITextView!
     
+    
+    @IBOutlet weak var buttonToMap: UIButton!
+    
+    
+    @IBOutlet weak var buttonToStreetView: UIButton!
+    
+    
+    
     var segueID =  ""
     
     weak var searchResultVC: SearchResultTableViewController!
@@ -25,9 +33,31 @@ class DetailViewController: UIViewController {
     var currentData =  [allData]()
     var scheduleData =  [Schedule]()
     
-    @IBAction func navigateButton(_ sender: UIButton) {
+    @IBAction func toMap(_ sender: UIButton) {
+        
+        let detailMapVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailMapViewController") as! DetailMapViewController
+        
+        detailMapVC.detailController = self
+
+        self.show(detailMapVC, sender: nil)
+ 
+    }
+    
+    
+    @IBAction func toStreetView(_ sender: UIButton) {
+        
+        let streetVC = self.storyboard?.instantiateViewController(withIdentifier: "StreetViewController") as! StreetViewController
+        
+        streetVC.detailController = self
+        
+//        streetVC.hidesBottomBarWhenPushed = true
+//        self.navigationController?.pushViewController(streetVC, animated: true)
+
+        self.show(streetVC, sender: nil)
         
     }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,6 +137,12 @@ class DetailViewController: UIViewController {
 
         
     }
+    
+    
+    
+    
+    
+    
 
 
 

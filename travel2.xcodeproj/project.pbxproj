@@ -26,9 +26,14 @@
 		490918182A2C38A400FDD530 /* Date+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490918172A2C38A400FDD530 /* Date+ext.swift */; };
 		4963D35A2A27A190005874EC /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4963D3592A27A190005874EC /* SearchResultTableViewCell.swift */; };
 		49956A952A2CABFA000F4830 /* CustomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49956A942A2CABFA000F4830 /* CustomSheetViewController.swift */; };
+		754CADC42A45FB8B00823CE4 /* DetailMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754CADC32A45FB8B00823CE4 /* DetailMapViewController.swift */; };
+		754CADC62A45FBA500823CE4 /* TabMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754CADC52A45FBA500823CE4 /* TabMapViewController.swift */; };
+		7555F2772A47E65800BD9B70 /* StreetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555F2762A47E65800BD9B70 /* StreetViewController.swift */; };
+		D9285A7AED840020F6467CA4 /* Pods_travel2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9999CE1E8A8D910F785FFB67 /* Pods_travel2.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0379F582C7280EDFA92CD2AE /* Pods-travel2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travel2.release.xcconfig"; path = "Target Support Files/Pods-travel2/Pods-travel2.release.xcconfig"; sourceTree = "<group>"; };
 		214F99BA2A3849B3008828F8 /* SearchResultTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewController.swift; sourceTree = "<group>"; };
 		214F99BC2A3849DB008828F8 /* SearchStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStartViewController.swift; sourceTree = "<group>"; };
 		214F99BE2A3AD33D008828F8 /* PlaceData..swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceData..swift; sourceTree = "<group>"; };
@@ -50,6 +55,11 @@
 		490918172A2C38A400FDD530 /* Date+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+ext.swift"; sourceTree = "<group>"; };
 		4963D3592A27A190005874EC /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
 		49956A942A2CABFA000F4830 /* CustomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSheetViewController.swift; sourceTree = "<group>"; };
+		754CADC32A45FB8B00823CE4 /* DetailMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMapViewController.swift; sourceTree = "<group>"; };
+		754CADC52A45FBA500823CE4 /* TabMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabMapViewController.swift; sourceTree = "<group>"; };
+		7555F2762A47E65800BD9B70 /* StreetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreetViewController.swift; sourceTree = "<group>"; };
+		9999CE1E8A8D910F785FFB67 /* Pods_travel2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_travel2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8AF06BDCAEBD60C452F6C09 /* Pods-travel2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travel2.debug.xcconfig"; path = "Target Support Files/Pods-travel2/Pods-travel2.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,17 +67,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9285A7AED840020F6467CA4 /* Pods_travel2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04844DBD9C96289160E0EEEF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D8AF06BDCAEBD60C452F6C09 /* Pods-travel2.debug.xcconfig */,
+				0379F582C7280EDFA92CD2AE /* Pods-travel2.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		21FF845E2A1C829B00F9B2F1 = {
 			isa = PBXGroup;
 			children = (
 				21FF84692A1C829B00F9B2F1 /* travel2 */,
 				21FF84682A1C829B00F9B2F1 /* Products */,
+				04844DBD9C96289160E0EEEF /* Pods */,
+				2EB473CB3CD1572337F40A3C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -82,6 +104,7 @@
 		21FF84692A1C829B00F9B2F1 /* travel2 */ = {
 			isa = PBXGroup;
 			children = (
+				754CADC22A45FB6E00823CE4 /* Map */,
 				21FF846A2A1C829B00F9B2F1 /* AppDelegate.swift */,
 				21FF846C2A1C829B00F9B2F1 /* SceneDelegate.swift */,
 				21FF84702A1C829B00F9B2F1 /* Main.storyboard */,
@@ -130,6 +153,24 @@
 			path = SearchVC;
 			sourceTree = "<group>";
 		};
+		2EB473CB3CD1572337F40A3C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9999CE1E8A8D910F785FFB67 /* Pods_travel2.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		754CADC22A45FB6E00823CE4 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				754CADC32A45FB8B00823CE4 /* DetailMapViewController.swift */,
+				754CADC52A45FBA500823CE4 /* TabMapViewController.swift */,
+				7555F2762A47E65800BD9B70 /* StreetViewController.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -137,9 +178,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 21FF847B2A1C829C00F9B2F1 /* Build configuration list for PBXNativeTarget "travel2" */;
 			buildPhases = (
+				99B7131C867AAA81AF2D5060 /* [CP] Check Pods Manifest.lock */,
 				21FF84632A1C829B00F9B2F1 /* Sources */,
 				21FF84642A1C829B00F9B2F1 /* Frameworks */,
 				21FF84652A1C829B00F9B2F1 /* Resources */,
+				0BB007944EDA0C9BBE456784 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -196,6 +239,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0BB007944EDA0C9BBE456784 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-travel2/Pods-travel2-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-travel2/Pods-travel2-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-travel2/Pods-travel2-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		99B7131C867AAA81AF2D5060 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-travel2-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		21FF84632A1C829B00F9B2F1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -208,13 +293,16 @@
 				21FF84852A1C838F00F9B2F1 /* ScheduleTableViewCell.swift in Sources */,
 				21F12D1E2A3D7F28007BF7B1 /* tab.swift in Sources */,
 				21FF846D2A1C829B00F9B2F1 /* SceneDelegate.swift in Sources */,
+				754CADC62A45FBA500823CE4 /* TabMapViewController.swift in Sources */,
 				21F12D442A404508007BF7B1 /* DetailViewController.swift in Sources */,
 				214F99BF2A3AD33D008828F8 /* PlaceData..swift in Sources */,
 				21FF847F2A1C833E00F9B2F1 /* ScheduleTableViewController.swift in Sources */,
 				214F99BB2A3849B3008828F8 /* SearchResultTableViewController.swift in Sources */,
 				21FF84872A1C839900F9B2F1 /* CollectionTableViewCell.swift in Sources */,
 				490918182A2C38A400FDD530 /* Date+ext.swift in Sources */,
+				754CADC42A45FB8B00823CE4 /* DetailMapViewController.swift in Sources */,
 				21F0F6132A2730FB0056E76B /* SectionHeaderTableViewCell.swift in Sources */,
+				7555F2772A47E65800BD9B70 /* StreetViewController.swift in Sources */,
 				214F99BD2A3849DB008828F8 /* SearchStartViewController.swift in Sources */,
 				21FF84902A1EF97700F9B2F1 /* Board.swift in Sources */,
 			);
@@ -358,6 +446,7 @@
 		};
 		21FF847C2A1C829C00F9B2F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D8AF06BDCAEBD60C452F6C09 /* Pods-travel2.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -386,6 +475,7 @@
 		};
 		21FF847D2A1C829C00F9B2F1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0379F582C7280EDFA92CD2AE /* Pods-travel2.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
