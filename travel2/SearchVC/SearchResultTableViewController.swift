@@ -16,12 +16,9 @@ class SearchResultTableViewController: UITableViewController {
     var userSearchResults: [allData] = [allData(touristSpots: [TainanPlaces](), hotels: [TainanPlaces](), restaurants: [TainanPlaces](), customPlaces: [TainanPlaces]())]
     
     var userSavedPlaces: [allData] = [allData(touristSpots: [TainanPlaces](), hotels: [TainanPlaces](), restaurants: [TainanPlaces](), customPlaces: [TainanPlaces]())]
-    
-    @IBOutlet weak var heart: UIButton!
-       
+
     
     //MARK: - Target Action
-    
     @IBAction func categorySeg(_ sender: UISegmentedControl) {
         self.tableView.reloadData()
     }
@@ -50,7 +47,6 @@ class SearchResultTableViewController: UITableViewController {
                 }
                 tableView.reloadRows(at: [indexPath], with: .automatic)
             }
-            
 
         case 1:
             if let indexPath = indexPath {
@@ -71,7 +67,6 @@ class SearchResultTableViewController: UITableViewController {
                 }
                 tableView.reloadRows(at: [indexPath], with: .automatic)
             }
-            
 
         case 2:
             if let indexPath = indexPath {
@@ -178,7 +173,6 @@ class SearchResultTableViewController: UITableViewController {
             default:
                 return 0
         }
-        
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -189,6 +183,7 @@ class SearchResultTableViewController: UITableViewController {
             cell.placeNameLbl.text = userSearchResults[0].touristSpots[indexPath.row].name
             cell.placeAddressLbL.text = userSearchResults[0].touristSpots[indexPath.row].address
             cell.placeImageView.image = UIImage(systemName: "house.and.flag.circle")
+            cell.heart.isSelected = false
             let place = userSearchResults[0].touristSpots[indexPath.row]
             if let data = UserDefaults.standard.data(forKey: "touristSpots") {
                 if let heartDecode = try? JSONDecoder().decode([TainanPlaces].self, from: data) {
@@ -197,24 +192,15 @@ class SearchResultTableViewController: UITableViewController {
                             cell.heart.isSelected = true
                         }
                     }
-//                        if heartDecode.contains(where: { $0.name == place.name
-//                    }) {
-//                        cell.heart.isSelected = true
-//                    } else {
-//                        cell.heart.isSelected = false
-//                    }
                 }
             }
             self.tableView.reloadRows(at: [indexPath], with: .automatic)
-//            let contain = userSavedPlaces[0].touristSpots.contains {
-//                $0.name == place.name
-//            }
-            //cell.heart.isSelected = contain
-            
+
             case 1:
             cell.placeNameLbl.text = userSearchResults[0].hotels[indexPath.row].name
             cell.placeAddressLbL.text = userSearchResults[0].hotels[indexPath.row].address
             cell.placeImageView.image = UIImage(systemName: "bed.double.circle")
+            cell.heart.isSelected = false
             let hotel = userSearchResults[0].hotels[indexPath.row]
             if let data = UserDefaults.standard.data(forKey: "hotels") {
                 if let heartDecode = try? JSONDecoder().decode([TainanPlaces].self, from: data) {
@@ -223,24 +209,15 @@ class SearchResultTableViewController: UITableViewController {
                             cell.heart.isSelected = true
                         }
                     }
-//                    if heartDecode.contains(where: { $0.name == hotel.name
-//                    }) {
-//                        cell.heart.isSelected = true
-//                    } else {
-//                        cell.heart.isSelected = false
-//                    }
                 }
             }
             self.tableView.reloadRows(at: [indexPath], with: .automatic)
-//            let contain = userSavedPlaces[0].hotels.contains {
-//                $0.name == hotel.name
-//            }
-//            cell.heart.isSelected = contain
             
             case 2:
             cell.placeNameLbl.text = userSearchResults[0].restaurants[indexPath.row].name
             cell.placeAddressLbL.text = userSearchResults[0].restaurants[indexPath.row].address
             cell.placeImageView.image = UIImage(systemName: "fork.knife.circle")
+            cell.heart.isSelected = false
             let restaurant = userSearchResults[0].restaurants[indexPath.row]
             if let data = UserDefaults.standard.data(forKey: "restaurants") {
                 if let heartDecode = try? JSONDecoder().decode([TainanPlaces].self, from: data) {
@@ -249,24 +226,13 @@ class SearchResultTableViewController: UITableViewController {
                             cell.heart.isSelected = true
                         }
                     }
-//                    if heartDecode.contains(where: { $0.name == restaurant.name
-//                    }) {
-//                        cell.heart.isSelected = true
-//                    } else {
-//                        cell.heart.isSelected = false
-//                    }
                 }
             }
             self.tableView.reloadRows(at: [indexPath], with: .automatic)
-//            let contain = userSavedPlaces[0].restaurants.contains {
-//                $0.name == restaurant.name
-//            }
-//            cell.heart.isSelected = contain
-            
+
             default:
             cell.placeNameLbl.text = ""
         }
-        
         return cell
     }
     
@@ -281,4 +247,4 @@ class SearchResultTableViewController: UITableViewController {
     }
 
     
-}
+} // class ending

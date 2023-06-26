@@ -286,18 +286,18 @@
             <objects>
                 <viewController storyboardIdentifier=" DetailViewController" id="ixY-vn-opR" customClass="DetailViewController" customModule="travel2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Vjd-Ux-fmk">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo.artframe" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="su2-S2-eUp">
-                                <rect key="frame" x="107" y="119" width="200" height="197.5"/>
+                                <rect key="frame" x="107" y="31" width="200" height="197.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="5IQ-Tl-6dk"/>
                                     <constraint firstAttribute="width" constant="200" id="l6i-wF-nHs"/>
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="HkU-o4-LVS">
-                                <rect key="frame" x="41.5" y="348" width="331" height="285"/>
+                                <rect key="frame" x="41.5" y="260" width="331" height="285"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PlaceName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0KG-UR-ndu">
                                         <rect key="frame" x="0.0" y="0.0" width="107" height="24"/>
@@ -366,7 +366,7 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="22" translatesAutoresizingMaskIntoConstraints="NO" id="eMq-jN-lfA">
-                                <rect key="frame" x="322" y="168" width="53" height="84"/>
+                                <rect key="frame" x="322" y="80" width="53" height="84"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NJ9-LQ-y96">
                                         <rect key="frame" x="0.0" y="0.0" width="53" height="31"/>
@@ -717,8 +717,12 @@
                                                 </stackView>
                                             </subviews>
                                         </stackView>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BA1-pd-HaR">
-                                            <rect key="frame" x="367.5" y="21" width="26.5" height="25"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BA1-pd-HaR">
+                                            <rect key="frame" x="344" y="11" width="50" height="45"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="50" id="86d-vU-5AT"/>
+                                                <constraint firstAttribute="height" constant="45" id="cFz-OF-o0A"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                             <color key="tintColor" systemColor="systemRedColor"/>
                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -735,7 +739,7 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="MlA-cR-gVu" firstAttribute="centerY" secondItem="rs3-D6-FNE" secondAttribute="centerY" id="2tp-o1-7L8"/>
-                                        <constraint firstItem="BA1-pd-HaR" firstAttribute="top" secondItem="rs3-D6-FNE" secondAttribute="topMargin" constant="10" id="NQw-NP-X7Q"/>
+                                        <constraint firstItem="BA1-pd-HaR" firstAttribute="top" secondItem="rs3-D6-FNE" secondAttribute="topMargin" id="Gzn-CF-oJ7"/>
                                         <constraint firstItem="MlA-cR-gVu" firstAttribute="width" secondItem="rs3-D6-FNE" secondAttribute="width" multiplier="0.85" id="qkP-fq-xxL"/>
                                         <constraint firstItem="MlA-cR-gVu" firstAttribute="leading" secondItem="rs3-D6-FNE" secondAttribute="leading" constant="10" id="un8-qb-2uO"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="BA1-pd-HaR" secondAttribute="trailing" id="xNb-Ws-Inr"/>
@@ -762,7 +766,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Oz2-Vd-AJE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3965.8878504672894" y="410.79913606911452"/>
+            <point key="canvasLocation" x="3965.217391304348" y="410.49107142857139"/>
         </scene>
         <!--Schedule-->
         <scene sceneID="pkg-kT-Jal">
@@ -926,7 +930,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="4x8-7X-Nq4"/>
+        <segue reference="KHp-Ef-OoV"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="bed.double.circle.fill" catalog="system" width="128" height="121"/>
