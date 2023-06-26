@@ -108,7 +108,6 @@ class DetailViewController: UIViewController {
                 phoneTxt.text = currentData[0].restaurants[currentIndex].tel!
                 openTimeTV.text = currentData[0].restaurants[currentIndex].openTime!
             case 3:
-                //addressTxt.isUserInteractionEnabled = true
                 placeNameLbl.text = currentData[0].customPlaces[currentIndex].name
                 addressTxt.text = currentData[0].customPlaces[currentIndex].address
             default:

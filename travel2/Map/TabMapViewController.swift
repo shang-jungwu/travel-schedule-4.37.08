@@ -9,14 +9,14 @@ import UIKit
 import GoogleMaps
 import GooglePlaces
 
+var mapTapPlaceName = ""
+var mapTapPlaceAddress = ""
+
 class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationManagerDelegate, GMSAutocompleteViewControllerDelegate {
 
-    
     @IBOutlet weak var mapView: GMSMapView!
-    
     @IBOutlet weak var txtSearch: UITextField!
-    
-    
+
     @IBAction func searchLocation(_ sender: UIButton) {
         goToSearch()
     }
@@ -28,11 +28,9 @@ class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationMa
     var myLocationMgr: CLLocationManager!
     // 搜尋之地點圖標
     var searchMarker: GMSMarker!
-
     var customName:String?
     var customAddress:String?
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,8 +45,7 @@ class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationMa
         titleLabel.sizeToFit()
         navigationItem.titleView = titleLabel
         
-        
-        
+
         // 地圖右上方指南針(地圖方位在正北方時不會出現)
         mapView.settings.compassButton = true
         // 顯示使用者所在定位的小藍原點
@@ -59,9 +56,6 @@ class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationMa
         mapView.settings.zoomGestures = true
         // 是否顯示使用者所在定位
         mapView.isMyLocationEnabled = true
-        
-        
-        
 
 //        // 地圖畫面中心點座標(緯精度)及縮放比
 //        let myCamera = GMSCameraPosition.camera(withLatitude: 24.91939, longitude: 121.183671, zoom: 15.0)
@@ -113,9 +107,9 @@ class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationMa
         // ===============以上使用者位置相關===============
 
         
-        
-        
-        
+        mapTapPlaceName = ""
+        mapTapPlaceAddress = ""
+
         
     }
     
@@ -148,6 +142,7 @@ class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationMa
     func presentCustomScheduleSheet() {
         let customScheduleController = storyboard?.instantiateViewController(withIdentifier: "CustomSheetViewController") as! CustomSheetViewController
         customScheduleController.tabMapVC = self
+
         let navigationController = UINavigationController(rootViewController: customScheduleController)
         let sheetPresentationController = navigationController.sheetPresentationController
         sheetPresentationController?.detents = [.medium()]
@@ -183,20 +178,7 @@ class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationMa
 //
 //      return infoView
 //    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 //    // 利用CLLocationManagerDelegate更新定位地點
 //    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -239,10 +221,16 @@ class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationMa
     
     
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-         print("Place name: \(String(describing: place.name))")
-       dismiss(animated: true, completion: nil)
+        print("Place name: \(String(describing: place.name!))")
+        print("Place Address: \(String(describing: place.formattedAddress))")
+        DispatchQueue.main.async {
+            mapTapPlaceName = String(describing: place.name!)
+            mapTapPlaceAddress = String(describing: place.formattedAddress!)
+        }
+
+        dismiss(animated: true, completion: nil)
        
-       mapView.clear()
+        mapView.clear()
 //       self.txtSearch.text = place.name! + "\n按此重新輸入"
 
         labelResultName.text = "您搜尋的是：" + place.name!

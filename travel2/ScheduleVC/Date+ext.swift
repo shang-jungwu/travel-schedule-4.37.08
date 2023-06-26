@@ -8,24 +8,6 @@
 import Foundation
 import UIKit
 
-//extension Date {
-//    static func getYYYYMMDD(date: Date) -> Date {
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "yyyyMMdd"
-//        //let aDate = formatter.string(from: .init(timeIntervalSince1970: 0))
-//        let timeStamp = 1685858616 // 2023/06/04
-//        let timeInterval =  TimeInterval(timeStamp)
-//        let aDate = formatter.string(from: .init(timeIntervalSince1970: timeInterval))
-//        return formatter.date(from: aDate)!
-//    }
-//
-//    static func getHHmm(date: Date) -> Date {
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "HH:mm"
-//        let aTime = formatter.string(from: .init(timeIntervalSince1970: 1685858616))
-//        return formatter.date(from: aTime)!
-//    }
-//}
 
 extension Date {
     static func getYYYYMMDD(date: Date) -> String {
