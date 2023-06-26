@@ -254,6 +254,7 @@ class ScheduleTableViewController: UITableViewController {
             }),
             UIAction(title: "新增自訂目的地", handler: { [self] action in
                 self.addButtonTag = section
+                calledByID = "scheduleVC"
                 presentCustomScheduleSheet()
 
             }),

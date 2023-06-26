@@ -132,7 +132,7 @@ class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationMa
 //        detailMapVC.detailController = self
 //
 //        self.show(detailMapVC, sender: nil)
-        
+        calledByID = "TabMapViewController"
         presentCustomScheduleSheet()
         
         

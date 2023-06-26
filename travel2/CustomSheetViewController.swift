@@ -9,6 +9,7 @@ import UIKit
 
 
 var arrCustomPlace = [TainanPlaces]()
+var calledByID = ""
 
 class CustomSheetViewController: UIViewController {
     var customPlace: TainanPlaces!
@@ -26,10 +27,20 @@ class CustomSheetViewController: UIViewController {
         navigationController?.navigationBar.backgroundColor = UIColor(red: 249/255, green: 197/255, blue: 85/255, alpha: 1)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(dismissVC))
 
-        if  mapTapPlaceName != "", mapTapPlaceAddress != "" {
-            self.placeNameTxt.text! = mapTapPlaceName
-            self.placeAddressTxt.text! = mapTapPlaceAddress
+        switch calledByID {
+        case "TabMapViewController":
+            if  mapTapPlaceName != "", mapTapPlaceAddress != "" {
+                self.placeNameTxt.text! = mapTapPlaceName
+                self.placeAddressTxt.text! = mapTapPlaceAddress
+            }
+        case "scheduleVC":
+                self.placeNameTxt.text! = ""
+                self.placeAddressTxt.text! = ""
+
+        default:
+            break
         }
+
     }
 
 
@@ -48,11 +59,26 @@ class CustomSheetViewController: UIViewController {
             if let data = customPlaceData{
                 UserDefaults.standard.setValue(data, forKey: "customPlaces")
             }
-
-                self.dismiss(animated: true) // enter後收起頁面
+                self.dismiss(animated: true) // 點擊後收起頁面
 
             }
-            alert.addAction(okAction)
+            let noAction = UIAlertAction(title: "否", style: .destructive) { [self] action in
+                scheduleVC.schedules[scheduleVC.addButtonTag].schedule.append(userSchedule(placeName: TainanPlaces(name: placeNameTxt.text!, openTime: nil, district: nil, address: placeAddressTxt.text!, tel: placeTelphoneTxT.text!, lat: nil, long: nil)))
+                scheduleVC.tableView.reloadData()
+                self.dismiss(animated: true) // 點擊後收起頁面
+
+            }
+
+            switch calledByID {
+            case "TabMapViewController":
+                alert.addAction(okAction)
+            case "scheduleVC":
+                alert.addAction(noAction)
+                alert.addAction(okAction)
+            default:
+                break
+            }
+
             self.present(alert, animated: true)
             
         } else {
