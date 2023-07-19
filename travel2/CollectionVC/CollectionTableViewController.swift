@@ -13,16 +13,21 @@ var collectionItem: TainanPlaces!
 class CollectionTableViewController: UITableViewController {
     
     @IBOutlet weak var segmentedController: UISegmentedControl!
+    var parentVC: ScheduleTableViewController!
+    var parentVC_offsetY: CGFloat!
+    var calledByID: String!
 
     var myCollections = [userSchedule]()
     var userCollectionList = [Schedule]()
-    
+
+
     var userSavedPlaces:[allData] = [allData(touristSpots: [TainanPlaces](), hotels: [TainanPlaces](), restaurants: [TainanPlaces](), customPlaces: [TainanPlaces]())]
 
     @IBAction func categorySeg(_ sender: UISegmentedControl) {
         self.tableView.reloadData()
     }
-    
+
+    //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -54,10 +59,49 @@ class CollectionTableViewController: UITableViewController {
         }
        
         tableView.reloadData()
+
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(bottomSheetdismissed),
+            name: .bottomSheetDismissed,
+            object: nil)
+
+
     }
+
+
+    override func viewWillAppear(_ animated: Bool) {
+    
+        if calledByID != nil {
+            parentVC.view.frame = parentVC.view.frame.offsetBy(dx: 0, dy: parentVC_offsetY)
+        }
+
+
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        print("頁面完成呼叫")
+        
+    }
+
+    
+    @objc func bottomSheetdismissed() {
+        // 在這裡處理底部彈出窗口的呼叫
+        print("Bottom sheet dismissed")
+
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     
     @objc func dismissVC(){
         dismiss(animated: true)
+        NotificationCenter.default.post(name: .bottomSheetDismissed, object: nil)
+        parentVC_offsetY = 0
+        parentVC.view.frame.origin.y = 0
     }
 
     @objc func moveToTrash(){
@@ -203,7 +247,7 @@ extension CollectionTableViewController: UITableViewDragDelegate, UITableViewDro
         let itemProvider = NSItemProvider(item: NSData(data: data!), typeIdentifier: UTType.plainText.identifier)
         let dragItem = UIDragItem(itemProvider: itemProvider)
         session.localContext = (collectionItem, indexPath, tableView)
-        print(collectionItem as Any)
+        print(collectionItem! as Any)
         return [dragItem]
 
     }
@@ -236,7 +280,7 @@ extension CollectionTableViewController: UITableViewDragDelegate, UITableViewDro
                             break
                         }
 
-                        print(tmp as Any)
+                        //print(tmp as Any)
                         self.tableView.reloadData()
                     }
                     self.tableView.performBatchUpdates(nil)
@@ -267,4 +311,8 @@ extension CollectionTableViewController: UITableViewDragDelegate, UITableViewDro
 
 }
 
+extension Notification.Name {
+    static let bottomSheetDismissed = Notification.Name("BottomSheetDismissed")
+
+}
 

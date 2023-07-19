@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var placeNameLbl: UILabel!
     @IBOutlet weak var addressTxt: UITextField!
@@ -110,6 +110,8 @@ class DetailViewController: UIViewController {
             case 3:
                 placeNameLbl.text = currentData[0].customPlaces[currentIndex].name
                 addressTxt.text = currentData[0].customPlaces[currentIndex].address
+                phoneTxt.text = "未提供電話"
+                openTimeTV.text = "使用者自訂時間"
             default:
                 break
             }
@@ -126,15 +128,16 @@ class DetailViewController: UIViewController {
         default:
             break
         }
+
+        phoneTxt.delegate = self
+
     }
     
     
     
     
-    
-    
 
 
 
 
-}
+} // class ending

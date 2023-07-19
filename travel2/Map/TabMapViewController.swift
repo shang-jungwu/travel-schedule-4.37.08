@@ -9,10 +9,12 @@ import UIKit
 import GoogleMaps
 import GooglePlaces
 
-var mapTapPlaceName = ""
-var mapTapPlaceAddress = ""
 
 class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationManagerDelegate, GMSAutocompleteViewControllerDelegate {
+
+    var id = "TabMapViewController"
+    var mapTapPlaceName = ""
+    var mapTapPlaceAddress = ""
 
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var txtSearch: UITextField!
@@ -28,8 +30,7 @@ class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationMa
     var myLocationMgr: CLLocationManager!
     // 搜尋之地點圖標
     var searchMarker: GMSMarker!
-    var customName:String?
-    var customAddress:String?
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,9 +107,6 @@ class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationMa
         
         // ===============以上使用者位置相關===============
 
-        
-        mapTapPlaceName = ""
-        mapTapPlaceAddress = ""
 
         
     }
@@ -132,7 +130,7 @@ class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationMa
 //        detailMapVC.detailController = self
 //
 //        self.show(detailMapVC, sender: nil)
-        calledByID = "TabMapViewController"
+
         presentCustomScheduleSheet()
         
         
@@ -141,8 +139,9 @@ class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationMa
     
     func presentCustomScheduleSheet() {
         let customScheduleController = storyboard?.instantiateViewController(withIdentifier: "CustomSheetViewController") as! CustomSheetViewController
-        customScheduleController.tabMapVC = self
-
+        customScheduleController.calledByID = self.id
+        customScheduleController.mapTapPlaceName = self.mapTapPlaceName
+        customScheduleController.mapTapPlaceAddress = self.mapTapPlaceAddress
         let navigationController = UINavigationController(rootViewController: customScheduleController)
         let sheetPresentationController = navigationController.sheetPresentationController
         sheetPresentationController?.detents = [.medium()]
@@ -150,10 +149,6 @@ class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationMa
         sheetPresentationController?.prefersGrabberVisible = true
         sheetPresentationController?.preferredCornerRadius = 25
         self.present(navigationController, animated: true)
-        
-      
-//        customScheduleController.placeNameTxt.text = customName
-//        customScheduleController.placeAddressTxt.text = customAddress
         
     }
     
@@ -221,12 +216,11 @@ class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationMa
     
     
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+
+        mapTapPlaceName = String(describing: place.name!)
+        mapTapPlaceAddress = String(describing: place.formattedAddress!)
         print("Place name: \(String(describing: place.name!))")
-        print("Place Address: \(String(describing: place.formattedAddress))")
-        DispatchQueue.main.async {
-            mapTapPlaceName = String(describing: place.name!)
-            mapTapPlaceAddress = String(describing: place.formattedAddress!)
-        }
+        print("Place Address: \(String(describing: place.formattedAddress!))")
 
         dismiss(animated: true, completion: nil)
        
@@ -246,15 +240,9 @@ class TabMapViewController:  UIViewController, GMSMapViewDelegate,  CLLocationMa
        let cord2D = CLLocationCoordinate2D(latitude: (place.coordinate.latitude), longitude: (place.coordinate.longitude))
        
        searchMarker = GMSMarker()
-        
        searchMarker.position =  cord2D
        searchMarker.title = "按此加入收藏"
        searchMarker.snippet = place.formattedAddress
-        
-       customName = place.name
-       customAddress = place.formattedAddress
-        
-        
        
        let markerImage = UIImage(named: "icon_google_map")!
        let markerView = UIImageView(image: markerImage)
