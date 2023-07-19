@@ -91,8 +91,6 @@ class DetailMapViewController: UIViewController, GMSMapViewDelegate {
         }
         
         print(mySpotAddresses)
-        print("PPPPPPPPPPPPPPPPP")
-        
         
 
         thisAddress = detailController.addressTxt.text!
@@ -108,7 +106,6 @@ class DetailMapViewController: UIViewController, GMSMapViewDelegate {
                 let thisLatitude = thisLocation?.coordinate.latitude
                 let thisLongitude = thisLocation?.coordinate.longitude
                 print("Latitude: \(thisLatitude ?? 0), Longitude: \(thisLongitude ?? 0)")
-                print("AAAAAAAAA")
                 self.addThisMarker(thisLocation:thisLocation)
             }
         }
@@ -165,13 +162,10 @@ class DetailMapViewController: UIViewController, GMSMapViewDelegate {
 //
 //                    // 更換圖標的圖示(icon)
 //                    collectionMarker.icon = UIImage(named: "icon_spot")
-                
-               
-             
+
             }
             
         case "1":
-            print("SSSSS11111SSSSS")
             for i in 0 ..< manyAddresses.count{
 //                if let location = getLocation(locationName: manyLocations[i]){
 //                    let collectionMarker = GMSMarker()
@@ -210,7 +204,6 @@ class DetailMapViewController: UIViewController, GMSMapViewDelegate {
             }
             
         case "3":
-            print("SSSSS33333SSSSS")
             for i in 0 ..< manyAddresses.count{
 //                if let location = getLocation(locationName: manyLocations[i]){
 //                    let collectionMarker = GMSMarker()
@@ -262,8 +255,6 @@ class DetailMapViewController: UIViewController, GMSMapViewDelegate {
 //                    latitude = coordinate.latitude
 //                    longitude = coordinate.longitude
 
-                    
-                    
                     let collectionMarker = GMSMarker()
                     collectionMarker.position = CLLocationCoordinate2D(latitude: coordinate.latitude , longitude: coordinate.longitude)
                     
@@ -274,8 +265,7 @@ class DetailMapViewController: UIViewController, GMSMapViewDelegate {
                     
                     // 更換圖標的圖示(icon)
                     collectionMarker.icon = UIImage(named: icon)
-      
-                    
+
                 } else {
                     // 位置資訊為 nil
                     print("無法獲取有效的位置資訊")
@@ -287,17 +277,13 @@ class DetailMapViewController: UIViewController, GMSMapViewDelegate {
 
             
         }
-        
-        print("BBBBBBB")
+
 //        print(location.coordinate.latitude)
 //        print(location.coordinate.longitude)
 //        return (latitude, longitude)
     }
     
-    
-    
-    
-    
+
     // 點擊InfoWindow
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
 //        performSegue(withIdentifier: "showPano", sender: nil)

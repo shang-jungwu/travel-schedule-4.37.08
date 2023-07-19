@@ -26,6 +26,8 @@
 		490918182A2C38A400FDD530 /* Date+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490918172A2C38A400FDD530 /* Date+ext.swift */; };
 		4963D35A2A27A190005874EC /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4963D3592A27A190005874EC /* SearchResultTableViewCell.swift */; };
 		49956A952A2CABFA000F4830 /* CustomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49956A942A2CABFA000F4830 /* CustomSheetViewController.swift */; };
+		49A9E91C2A65532A006F07B7 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A9E91B2A65532A006F07B7 /* ContentViewController.swift */; };
+		49C263DD2A4ED5630041C52D /* FloatingButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C263DC2A4ED5630041C52D /* FloatingButtonView.swift */; };
 		754CADC42A45FB8B00823CE4 /* DetailMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754CADC32A45FB8B00823CE4 /* DetailMapViewController.swift */; };
 		754CADC62A45FBA500823CE4 /* TabMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754CADC52A45FBA500823CE4 /* TabMapViewController.swift */; };
 		7555F2772A47E65800BD9B70 /* StreetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555F2762A47E65800BD9B70 /* StreetViewController.swift */; };
@@ -55,6 +57,8 @@
 		490918172A2C38A400FDD530 /* Date+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+ext.swift"; sourceTree = "<group>"; };
 		4963D3592A27A190005874EC /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
 		49956A942A2CABFA000F4830 /* CustomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSheetViewController.swift; sourceTree = "<group>"; };
+		49A9E91B2A65532A006F07B7 /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
+		49C263DC2A4ED5630041C52D /* FloatingButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButtonView.swift; sourceTree = "<group>"; };
 		754CADC32A45FB8B00823CE4 /* DetailMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMapViewController.swift; sourceTree = "<group>"; };
 		754CADC52A45FBA500823CE4 /* TabMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabMapViewController.swift; sourceTree = "<group>"; };
 		7555F2762A47E65800BD9B70 /* StreetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreetViewController.swift; sourceTree = "<group>"; };
@@ -127,8 +131,10 @@
 				21FF847E2A1C833E00F9B2F1 /* ScheduleTableViewController.swift */,
 				21FF848F2A1EF97700F9B2F1 /* Board.swift */,
 				490918172A2C38A400FDD530 /* Date+ext.swift */,
+				49C263DC2A4ED5630041C52D /* FloatingButtonView.swift */,
 				21FF84842A1C838F00F9B2F1 /* ScheduleTableViewCell.swift */,
 				21F0F6122A2730FB0056E76B /* SectionHeaderTableViewCell.swift */,
+				49A9E91B2A65532A006F07B7 /* ContentViewController.swift */,
 			);
 			path = ScheduleVC;
 			sourceTree = "<group>";
@@ -299,11 +305,13 @@
 				21FF847F2A1C833E00F9B2F1 /* ScheduleTableViewController.swift in Sources */,
 				214F99BB2A3849B3008828F8 /* SearchResultTableViewController.swift in Sources */,
 				21FF84872A1C839900F9B2F1 /* CollectionTableViewCell.swift in Sources */,
+				49A9E91C2A65532A006F07B7 /* ContentViewController.swift in Sources */,
 				490918182A2C38A400FDD530 /* Date+ext.swift in Sources */,
 				754CADC42A45FB8B00823CE4 /* DetailMapViewController.swift in Sources */,
 				21F0F6132A2730FB0056E76B /* SectionHeaderTableViewCell.swift in Sources */,
 				7555F2772A47E65800BD9B70 /* StreetViewController.swift in Sources */,
 				214F99BD2A3849DB008828F8 /* SearchStartViewController.swift in Sources */,
+				49C263DD2A4ED5630041C52D /* FloatingButtonView.swift in Sources */,
 				21FF84902A1EF97700F9B2F1 /* Board.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

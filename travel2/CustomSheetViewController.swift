@@ -7,13 +7,16 @@
 
 import UIKit
 
-
-var arrCustomPlace = [TainanPlaces]()
-
 class CustomSheetViewController: UIViewController {
+
+    var calledByID = ""
+    var mapTapPlaceName = ""
+    var mapTapPlaceAddress = ""
+
     var customPlace: TainanPlaces!
+    var arrCustomPlace: [TainanPlaces]!
+
     weak var scheduleVC: ScheduleTableViewController!
-    weak var tabMapVC: TabMapViewController!
         
     @IBOutlet weak var placeNameTxt: UITextField!
     @IBOutlet weak var placeAddressTxt: UITextField!
@@ -25,6 +28,14 @@ class CustomSheetViewController: UIViewController {
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.backgroundColor = UIColor(red: 249/255, green: 197/255, blue: 85/255, alpha: 1)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(dismissVC))
+
+        self.placeNameTxt.text! = mapTapPlaceName
+        self.placeAddressTxt.text! = mapTapPlaceAddress
+
+        if let data = UserDefaults.standard.data(forKey: "customPlaces") {
+            arrCustomPlace = try! JSONDecoder().decode([TainanPlaces].self, from: data)
+        }
+
     }
 
 
@@ -33,73 +44,59 @@ class CustomSheetViewController: UIViewController {
     }
 
     @IBAction func addCustomSchedule(_ sender: Any) {
-        if self.placeNameTxt.text! != "" && self.placeAddressTxt.text! != ""{
-            let alert = UIAlertController(title: nil, message: "是否同步新增至我的收藏？", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "是", style: .default) { [self] alertAction in
-                
-                customPlace = TainanPlaces(name: placeNameTxt.text!, openTime: nil, district: nil, address: placeAddressTxt.text!, tel: placeTelphoneTxT.text!, lat: nil, long: nil)
-                
-                scheduleVC.schedules[scheduleVC.addButtonTag].schedule.append(userSchedule(placeName: customPlace))
-                scheduleVC.tableView.reloadData()
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
 
+        if self.placeNameTxt.text! != "" && self.placeAddressTxt.text! != ""{
+            // alert actions
+            let okAction = UIAlertAction(title: "是", style: .default) { [self] alertAction in
+                if calledByID == "scheduleVC" {
+                    scheduleVC.schedules[scheduleVC.addButtonTag].schedule.append(userSchedule(placeName: TainanPlaces(name: placeNameTxt.text!, openTime: nil, district: nil, address: placeAddressTxt.text!, tel: placeTelphoneTxT.text!, lat: nil, long: nil)))
+                    scheduleVC.tableView.reloadData()
+                }
+                customPlace = TainanPlaces(name: placeNameTxt.text!, openTime: nil, district: nil, address: placeAddressTxt.text!, tel: placeTelphoneTxT.text!, lat: nil, long: nil)
                 arrCustomPlace.append(customPlace)
-                     
                 let customPlaceData = try? JSONEncoder().encode(arrCustomPlace.self)
-            if let data = customPlaceData{
+            if let data = customPlaceData {
                 UserDefaults.standard.setValue(data, forKey: "customPlaces")
             }
-
-                self.dismiss(animated: true) // enter後收起頁面
-
+                self.dismiss(animated: true) // 點擊後收起頁面
             }
             let noAction = UIAlertAction(title: "否", style: .destructive) { [self] action in
                 scheduleVC.schedules[scheduleVC.addButtonTag].schedule.append(userSchedule(placeName: TainanPlaces(name: placeNameTxt.text!, openTime: nil, district: nil, address: placeAddressTxt.text!, tel: placeTelphoneTxT.text!, lat: nil, long: nil)))
                 scheduleVC.tableView.reloadData()
-                self.dismiss(animated: true) // enter後收起頁面
-
+                self.dismiss(animated: true) // 點擊後收起頁面
             }
-            alert.addAction(noAction)
-            alert.addAction(okAction)
-            self.present(alert, animated: true)
+
+            let cancelAction = UIAlertAction(title: "取消", style: .default)
+
+            switch calledByID {
+                case "TabMapViewController":
+                    alert.message = "新增至我的收藏？"
+                    alert.addAction(cancelAction)
+                    alert.addAction(okAction)
+
+                case "scheduleVC":
+                    alert.message = "同步新增至我的收藏？"
+                    alert.addAction(noAction)
+                    alert.addAction(okAction)
+
+                default:
+                    break
+            }
             
         } else {
-            let alert = UIAlertController(title: "狀態", message: "新增失敗", preferredStyle: .alert)
-            let action = UIAlertAction(title: "重新輸入", style: .destructive)
-            alert.addAction(action)
-            self.present(alert, animated: true)
+            alert.title = "狀態"
+            alert.message = "新增失敗"
+            let retypeAction = UIAlertAction(title: "重新輸入", style: .destructive)
+            alert.addAction(retypeAction)
         }
-        
+        self.present(alert, animated: true)
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        print("viewWillAppear 的 arrcustomplace", arrCustomPlace)
+
     }
 
-    /*
 
-     let alert = UIAlertController(title: nil, message: "是否同步新增至我的收藏？", preferredStyle: .alert)
-     let okAction = UIAlertAction(title: "是", style: .default) { [self] action in
-         let collectionController = storyboard?.instantiateViewController(withIdentifier: "CollectionSheetVC") as! CollectionTableViewController
-         collectionController.myCollections.append(<#T##newElement: Monster##Monster#>)
-         // to do 收藏
-     }
-     let noAction = UIAlertAction(title: "否", style: .default) { [self] action in
-         schedules.append(Schedule())
-
-     }
-     alert.addAction(okAction)
-     alert.addAction(noAction)
-
-     **/
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }

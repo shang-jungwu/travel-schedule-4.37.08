@@ -7,21 +7,16 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var placeNameLbl: UILabel!
     @IBOutlet weak var addressTxt: UITextField!
     @IBOutlet weak var phoneTxt: UITextField!
     @IBOutlet weak var openTimeTV: UITextView!
-    
-    
+
     @IBOutlet weak var buttonToMap: UIButton!
-    
-    
     @IBOutlet weak var buttonToStreetView: UIButton!
-    
-    
-    
+
     var segueID =  ""
     
     weak var searchResultVC: SearchResultTableViewController!
@@ -58,7 +53,7 @@ class DetailViewController: UIViewController {
     }
     
     
-    
+    //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "詳細資訊"
@@ -113,9 +108,10 @@ class DetailViewController: UIViewController {
                 phoneTxt.text = currentData[0].restaurants[currentIndex].tel!
                 openTimeTV.text = currentData[0].restaurants[currentIndex].openTime!
             case 3:
-                //addressTxt.isUserInteractionEnabled = true
                 placeNameLbl.text = currentData[0].customPlaces[currentIndex].name
                 addressTxt.text = currentData[0].customPlaces[currentIndex].address
+                phoneTxt.text = "未提供電話"
+                openTimeTV.text = "使用者自訂時間"
             default:
                 break
             }
@@ -132,19 +128,16 @@ class DetailViewController: UIViewController {
         default:
             break
         }
-        
-        
 
-        
+        phoneTxt.delegate = self
+
     }
     
     
     
     
-    
-    
 
 
 
 
-}
+} // class ending

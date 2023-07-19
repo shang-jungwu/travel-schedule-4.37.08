@@ -8,13 +8,22 @@
 import UIKit
 import UniformTypeIdentifiers
 
-class ScheduleTableViewController: UITableViewController {
+class ScheduleTableViewController: UITableViewController, FloatingButtonViewDelegate {
+
+    func btnViewAciton() {
+
+        print("測試浮動按鈕")
+    }
+
 
     lazy var schedules = [Schedule]() // 包含Date的
     lazy var userSchedules = [userSchedule]() // 每日細項
 
+    var id = "scheduleVC"
+
     var addScheduleButton: UIButton!
     var addButtonTag = 0
+    var collectionButtonTag = 0
     let datePickerInAlertSheet = UIDatePicker()
     var sectionDatePickerTag = 0
     let formatter = DateFormatter()
@@ -30,20 +39,20 @@ class ScheduleTableViewController: UITableViewController {
         tableView.dropDelegate = self
 
         // Nav
-        navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.backgroundColor = UIColor(red: 44/255, green: 54/255, blue: 57/255, alpha: 1)
+//        navigationController?.navigationBar.isHidden = false
+//        navigationController?.navigationBar.backgroundColor = UIColor(red: 44/255, green: 54/255, blue: 57/255, alpha: 1)
 
-        // 設定 Navigation Bar
-        navigationItem.title = "我的行程"
-        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.foregroundColor: UIColor.white]
-
-        // Nav rightBarButton
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "calendar.badge.plus"), style: .plain, target: self, action: #selector(addDate))
-        navigationItem.rightBarButtonItem?.tintColor = .white
-
-        // Nav lefttBarButton
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveSchedule))
-        navigationItem.leftBarButtonItem?.tintColor = .white
+//        // 設定 Navigation Bar
+//        navigationItem.title = "我的行程"
+//        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+//
+//        // Nav rightBarButton
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "calendar.badge.plus"), style: .plain, target: self, action: #selector(addDate))
+//        navigationItem.rightBarButtonItem?.tintColor = .white
+//
+//        // Nav lefttBarButton
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveSchedule))
+//        navigationItem.leftBarButtonItem?.tintColor = .white
 
         if let data = UserDefaults.standard.data(forKey: "userSchedule") {
             schedules = try! JSONDecoder().decode([Schedule].self, from: data)
@@ -57,7 +66,43 @@ class ScheduleTableViewController: UITableViewController {
         // 加入監聽手勢
         self.view.addGestureRecognizer(longPress)
 
+        let floatingButton = FloatingButtonView()
+        floatingButton.delegate = self
+        floatingButton.addFloatingButton(target: self.view)
+        floatingButton.addSubview(floatingButton.topButton)
+        floatingButton.addSubview(floatingButton.downButton)
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleBottomSheetCalled),
+            name: .bottomSheetCalled,
+            object: nil)
+
+       
+
     }
+
+    @objc func handleBottomSheetCalled() {
+        // 在這裡處理底部彈出窗口的呼叫
+        print("Bottom sheet called")
+//        let footerFrameY = tableView.rectForFooter(inSection:  collectionButtonTag).maxY
+//
+//
+//        if footerFrameY >= self.view.frame.height * 0.4 {
+//            let diff = footerFrameY - self.view.frame.height * 0.4
+//            //self.view.frame = self.view.frame.offsetBy(dx: 0, dy: -(diff + 50))
+//
+//            self.view.frame.origin.y = -(diff + 50)
+//            print("完成上移")
+//        }
+
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+
 
     @objc func longPress(recognizer: UILongPressGestureRecognizer) {
         recognizer.minimumPressDuration = 2.5
@@ -70,54 +115,53 @@ class ScheduleTableViewController: UITableViewController {
             }))
             alert.addAction(UIAlertAction(title: "取消", style: .default))
             present(alert, animated: true)
-            print("長按開始")
         } else if recognizer.state == .ended {
             print("長按結束")
         }
 
     }
 
-    @objc func saveSchedule(){
-        let data = try? JSONEncoder().encode(schedules)
-        if let data = data {
-            UserDefaults.standard.setValue(data, forKey: "userSchedule")
-        }
-        let alert = UIAlertController(title: "行程已儲存", message: nil, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
-
-    }
-
-    @objc func addDate() {
-        datePickerInAlertSheet.preferredDatePickerStyle = .inline
-        datePickerInAlertSheet.datePickerMode = .date
-        let alert = UIAlertController(title: "Choose a Date", message: nil, preferredStyle: .actionSheet)
-        alert.view.addSubview(datePickerInAlertSheet)
-
-        // date picker 定位
-        datePickerInAlertSheet.translatesAutoresizingMaskIntoConstraints = false
-        datePickerInAlertSheet.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: alert.view.frame.height * 0.05).isActive = true
-        datePickerInAlertSheet.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor).isActive = true
-        datePickerInAlertSheet.widthAnchor.constraint(equalToConstant: alert.view.frame.width * 0.85).isActive = true
-
-        let okAction = UIAlertAction(title: "新增", style: .default) { _ in
-            self.selectDate()
-            self.tableView.reloadData()
-        }
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel)
-        alert.addAction(okAction)
-        alert.addAction(cancelAction)
-
-        let height: NSLayoutConstraint = NSLayoutConstraint(item: alert.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: self.view.frame.height * 0.57)
-        alert.view.addConstraint(height)
-        // https://stackoverflow.com/questions/25780599/add-datepicker-in-uiactionsheet-using-swift
-        // for ipad only (crash without it)，同時必須註解掉 date picker 定位
-//        let popOverController = alert.popoverPresentationController
-//        popOverController!.barButtonItem = navigationItem.rightBarButtonItem
-
-            self.present(alert, animated: true)
-
-    }
+//    @objc func saveSchedule(){
+//        let data = try? JSONEncoder().encode(schedules)
+//        if let data = data {
+//            UserDefaults.standard.setValue(data, forKey: "userSchedule")
+//        }
+//        let alert = UIAlertController(title: "行程已儲存", message: nil, preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "OK", style: .default))
+//        present(alert, animated: true)
+//
+//    }
+//
+//    @objc func addDate() {
+//        datePickerInAlertSheet.preferredDatePickerStyle = .inline
+//        datePickerInAlertSheet.datePickerMode = .date
+//        let alert = UIAlertController(title: "Choose a Date", message: nil, preferredStyle: .actionSheet)
+//        alert.view.addSubview(datePickerInAlertSheet)
+//
+//        // date picker 定位
+//        datePickerInAlertSheet.translatesAutoresizingMaskIntoConstraints = false
+//        datePickerInAlertSheet.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: alert.view.frame.height * 0.05).isActive = true
+//        datePickerInAlertSheet.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor).isActive = true
+//        datePickerInAlertSheet.widthAnchor.constraint(equalToConstant: alert.view.frame.width * 0.85).isActive = true
+//
+//        let okAction = UIAlertAction(title: "新增", style: .default) { _ in
+//            self.selectDate()
+//            self.tableView.reloadData()
+//        }
+//        let cancelAction = UIAlertAction(title: "取消", style: .cancel)
+//        alert.addAction(okAction)
+//        alert.addAction(cancelAction)
+//
+//        let height: NSLayoutConstraint = NSLayoutConstraint(item: alert.view!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: self.view.frame.height * 0.57)
+//        alert.view.addConstraint(height)
+//        // https://stackoverflow.com/questions/25780599/add-datepicker-in-uiactionsheet-using-swift
+//        // for ipad only (crash without it)，同時必須註解掉 date picker 定位
+////        let popOverController = alert.popoverPresentationController
+////        popOverController!.barButtonItem = navigationItem.rightBarButtonItem
+//
+//            self.present(alert, animated: true)
+//
+//    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "scheduleShowDetail" {
@@ -131,7 +175,7 @@ class ScheduleTableViewController: UITableViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        print("消失")
+        // 切換分頁時自動儲存行程
         let data = try? JSONEncoder().encode(schedules)
         if let data = data {
             UserDefaults.standard.setValue(data, forKey: "userSchedule")
@@ -141,19 +185,21 @@ class ScheduleTableViewController: UITableViewController {
 
     //MARK: - 自訂函式
     // 選擇日期
-    func selectDate() {
-        let selectedDate = datePickerInAlertSheet.date
-        formatter.dateFormat = "yyyyMMdd"
-        let date = formatter.string(from: selectedDate)
-        schedules.append(Schedule(date: date))
-        self.tableView.reloadData()
-    }
+//    func selectDate() {
+//        let selectedDate = datePickerInAlertSheet.date
+//        formatter.dateFormat = "yyyyMMdd"
+//        let date = formatter.string(from: selectedDate)
+//        schedules.append(Schedule(date: date))
+//        self.tableView.reloadData()
+//    }
 
     // 更改日期 value change
     @IBAction func dateChange(_ sender: UIDatePicker) {
         formatter.dateFormat = "yyyyMMdd"
         schedules[sender.tag].date = formatter.string(from: sender.date)
-        print(schedules[sender.tag])
+        schedules.sort { date1, date2 in
+            date1.date < date2.date
+        }
         self.tableView.reloadData()
     }
 
@@ -172,26 +218,65 @@ class ScheduleTableViewController: UITableViewController {
     // 呼叫 bottom sheets
     func presentCollectionSheet() {
         let collectionController = storyboard?.instantiateViewController(identifier: "CollectionSheetVC") as! CollectionTableViewController
+        collectionController.parentVC = self
+        collectionController.calledByID = "aaaa"
         let navController = UINavigationController(rootViewController: collectionController)
         if let sheetPresentationController = navController.sheetPresentationController {
             sheetPresentationController.prefersGrabberVisible = true
+
             sheetPresentationController.largestUndimmedDetentIdentifier = .medium
-            sheetPresentationController.detents = [.medium()]
-            sheetPresentationController.preferredCornerRadius = 25
+            sheetPresentationController.detents = [.medium(), .large()]
+            // 有 .large() 時，以下語法可防止滑動表格的動作觸發 sheet 展開到.large()
+            sheetPresentationController.prefersScrollingExpandsWhenScrolledToEdge = false
+            sheetPresentationController.preferredCornerRadius = 10
         }
+
         self.present(navController, animated: true, completion: nil)
+        NotificationCenter.default.post(name: .bottomSheetCalled, object: nil)
+        
+        let footerFrameY = tableView.rectForFooter(inSection:  collectionButtonTag).maxY
+        print("footerFrameY:\(footerFrameY)")
+
+//        if  footerFrameY >= 306 && footerFrameY < 896 {
+//            collectionController.parentVC_offsetY = -(footerFrameY - 276)
+//            print("1")
+//        } else
+        if footerFrameY > 500 {
+            collectionController.parentVC_offsetY = -(UIScreen.main.bounds.height * 0.5 - 80)
+            if collectionButtonTag == schedules.count - 1 {
+                // 获取最后一个section的索引
+                let lastSection = tableView.numberOfSections - 1
+                // 获取最后一个row的索引
+                let lastRow = tableView.numberOfRows(inSection: lastSection) - 1
+
+                if lastSection >= 0 && lastRow >= 0 {
+                    // 构建要滚动的IndexPath
+                    let indexPath = IndexPath(row: lastRow, section: lastSection)
+                    // 滚动tableView
+                    print("滾動")
+                    tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+                }
+
+            }
+            print("2")
+        } else {
+            collectionController.parentVC_offsetY = 0
+            print("3")
+        }
+
     }
 
 
     func presentCustomScheduleSheet() {
         let customScheduleController = storyboard?.instantiateViewController(withIdentifier: "CustomSheetViewController") as! CustomSheetViewController
         customScheduleController.scheduleVC = self
+        customScheduleController.calledByID = self.id
         let navigationController = UINavigationController(rootViewController: customScheduleController)
         let sheetPresentationController = navigationController.sheetPresentationController
         sheetPresentationController?.detents = [.medium()]
         sheetPresentationController?.largestUndimmedDetentIdentifier = .medium
         sheetPresentationController?.prefersGrabberVisible = true
-        sheetPresentationController?.preferredCornerRadius = 25
+        sheetPresentationController?.preferredCornerRadius = 10
         self.present(navigationController, animated: true)
     }
 
@@ -242,21 +327,13 @@ class ScheduleTableViewController: UITableViewController {
         addScheduleButton.showsMenuAsPrimaryAction = true
         addScheduleButton.menu = UIMenu(children: [
             UIAction(title: "我的收藏", handler: { [self] action in
-
-                let headerFrameY = tableView.rectForHeader(inSection: section).maxY
-                if headerFrameY >= self.view.frame.height * 0.5 {
-
-                    self.view.frame.origin.y = -(self.view.frame.height * 0.5)
-                } else {
-                    self.view.frame.origin.y = 0
-                }
-
+                collectionButtonTag = section
                 presentCollectionSheet()
+
             }),
             UIAction(title: "新增自訂目的地", handler: { [self] action in
                 self.addButtonTag = section
                 presentCustomScheduleSheet()
-
             }),
             UIAction(title: "刪除所選日期", handler: { [self] action in
                 let alert = UIAlertController(title: "確定刪除所選日期？", message: nil, preferredStyle: .alert)
@@ -277,13 +354,15 @@ class ScheduleTableViewController: UITableViewController {
     }
 
 
-    // footer
+    // section footer
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = UIView()
+
         footerView.backgroundColor = UIColor(red: 240/255, green: 235/255, blue: 227/255, alpha: 1)
 
         return footerView
     }
+
 
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         20
@@ -324,7 +403,7 @@ extension ScheduleTableViewController: UITableViewDragDelegate, UITableViewDropD
         if coordinator.session.hasItemsConforming(toTypeIdentifiers: [UTType.plainText.identifier as String]){
             coordinator.session.loadObjects(ofClass: NSString.self) { items in
 
-                guard let string = items.first as? String else { return }
+                //guard let string = items.first as? String else { return }
                 switch (coordinator.items.first?.sourceIndexPath, coordinator.destinationIndexPath) {
                 //－－－－－－讓 cell 在 Schedule Table View 的任意 section 移動－－－－－－
                 case (.some(let sourceIndexPath), .some(let destinationIndexPath)):
@@ -336,7 +415,7 @@ extension ScheduleTableViewController: UITableViewDragDelegate, UITableViewDropD
                     } else {
                         let tmp = self.schedules[sourceIndexPath.section].schedule.remove(at: sourceIndexPath.row)
                         self.schedules[destinationIndexPath.section].schedule.insert(tmp, at: destinationIndexPath.row)
-                        print(tmp)
+                        // print(tmp)
                         self.tableView.reloadData()
                     }
                     self.tableView.performBatchUpdates(nil)
@@ -361,5 +440,10 @@ extension ScheduleTableViewController: UITableViewDragDelegate, UITableViewDropD
     func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
         return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
     }
+
+}
+
+extension Notification.Name {
+    static let bottomSheetCalled = Notification.Name("BottomSheetCalled")
 
 }

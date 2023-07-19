@@ -18,6 +18,7 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
     let districtsTainan = [
         "新營","鹽水","白河","柳營","後壁","東山","麻豆","下營","六甲","官田","大內","佳里","學甲","西港","七股","將軍","北門","新化","新市","善化","安定","山上","玉井","楠西","南化","左鎮","仁德","歸仁","關廟","龍崎","永康","東區","南區","中西區","北區","安南","安平"
     ]
+    
     // Data
     var allDataTainan:[allData] = [allData(touristSpots: [TainanPlaces](), hotels: [TainanPlaces](), restaurants: [TainanPlaces](), customPlaces: [TainanPlaces]())]
     
@@ -84,7 +85,7 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    //MARK: - 自訂函式
+    //MARK: - 自訂函式：load json data
     func fetchTouristSpots(urlRawJson: String) {
         if let url = URL(string: urlRawJson) {
             URLSession.shared.dataTask(with: url) { data, response, error in
@@ -160,19 +161,20 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
         pkvDistrict.delegate = self
         pkvDistrict.dataSource = self
         txtDistrict.inputView = pkvDistrict
-        
+
+        // 地區滾輪的 toolbar
         let toolBar = UIToolbar()
                 toolBar.barStyle = UIBarStyle.default
                 toolBar.isTranslucent = true
                 toolBar.tintColor = .systemBlue
                 toolBar.sizeToFit()
         
-        //加入 toolbar 按鈕跟中間的空白
+        // 加入 toolbar 按鈕跟中間的空白
         let doneButton = UIBarButtonItem(title: "確認", style: .plain, target: self, action: #selector(submit))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let cancelButton = UIBarButtonItem(title: "取消", style: .plain, target: self, action: #selector(cancel))
         toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-        //設定 toolBar 可以使用
+        // 設定 toolBar 可以使用
         toolBar.isUserInteractionEnabled = true
         txtDistrict.inputAccessoryView = toolBar
     }
@@ -180,7 +182,6 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
     @objc func submit() {
         let selectedRow = pkvDistrict.selectedRow(inComponent: 1)
         txtDistrict.text = districtsTainan[selectedRow]
-        
         self.txtDistrict.resignFirstResponder()
     }
 
@@ -188,6 +189,8 @@ class SearchStartViewController: UIViewController, UITextFieldDelegate {
         self.txtDistrict.resignFirstResponder()
     }
 
+
+//MARK: - UITextField Delegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
